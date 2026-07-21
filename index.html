@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Wi-Fi Calling and Texting — Free Calls, Texts & a Private Number</title>
+  <meta name="description" content="Wi-Fi Calling and Texting gives you a private phone number and free app-to-app calling and messaging over any Wi-Fi or data connection — no extra SIM, no carrier plan.">
+  <link rel="icon" href="app-icon.png" type="image/png">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<!-- ===================== NAV ===================== -->
+<header class="nav">
+  <div class="wrap nav-inner">
+    <a class="brand" href="index.html" aria-label="Wi-Fi Calling and Texting home">
+      <span class="appicon" role="img" aria-label="App icon"></span>
+      <span class="name">Wi-Fi Calling &amp; Texting</span>
+    </a>
+    <nav class="nav-links" aria-label="Primary">
+      <a href="index.html#features">Features</a>
+      <a href="index.html#how">How it works</a>
+      <a href="privacy.html">Privacy</a>
+      <a href="terms.html">Terms</a>
+      <a href="index.html#contact">Contact</a>
+    </nav>
+    <div class="nav-right">
+      <button class="theme-btn" id="themeToggle" aria-label="Toggle light or dark theme" title="Toggle theme">
+        <svg id="themeIcon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg>
+      </button>
+      <a class="btn btn-primary nav-cta" href="https://apps.apple.com/app/id6781677176" target="_blank" rel="noopener">Get the app</a>
+      <button class="nav-toggle" id="navToggle" aria-label="Open menu" aria-expanded="false" aria-controls="mobileMenu">
+        <svg id="navToggleIcon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
+      </button>
+    </div>
+  </div>
+  <nav class="mobile-menu" id="mobileMenu" aria-label="Mobile navigation">
+    <a href="index.html#features">Features</a>
+    <a href="index.html#how">How it works</a>
+    <a href="privacy.html">Privacy</a>
+    <a href="terms.html">Terms</a>
+    <a href="index.html#contact">Contact</a>
+  </nav>
+</header>
+
+<!-- ===================== HERO ===================== -->
+<a id="top"></a>
+<section class="hero">
+  <canvas id="signal" aria-hidden="true"></canvas>
+  <div class="wrap hero-inner">
+    <span class="appicon" role="img" aria-label="Wi-Fi Calling and Texting app icon"></span>
+    <h1>Free calls and texts, over any Wi-Fi.</h1>
+    <p class="lede">
+      Wi-Fi Calling and Texting gives you a private phone number and free app-to-app
+      calling and messaging on any Wi-Fi or data connection — no extra SIM, no carrier plan.
+    </p>
+    <div class="hero-actions">
+      <a class="btn btn-primary" href="https://apps.apple.com/app/id6781677176" target="_blank" rel="noopener">
+        <svg width="17" height="17" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M16.4 12.9c0-2.3 1.9-3.4 2-3.5-1.1-1.6-2.8-1.8-3.4-1.8-1.4-.1-2.8.9-3.5.9-.7 0-1.9-.9-3.1-.8-1.6 0-3 .9-3.8 2.4-1.6 2.8-.4 7 1.2 9.3.8 1.1 1.7 2.4 2.9 2.3 1.2-.1 1.6-.8 3-.8s1.8.8 3 .7c1.2 0 2-1.1 2.8-2.3.9-1.3 1.2-2.6 1.3-2.7-.1 0-2.4-1-2.4-3.6zM14.2 5.9c.6-.8 1.1-1.9.9-3-1 0-2.2.7-2.9 1.5-.6.7-1.2 1.8-1 2.9 1.1.1 2.3-.6 3-1.4z"/></svg>
+        Download on iOS
+      </a>
+      <a class="btn btn-outline" href="index.html#features">See features</a>
+    </div>
+    <div class="trust">
+      <span><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg> Private second number</span>
+      <span><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg> Encrypted, secure sessions</span>
+      <span><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg> Works on Wi-Fi &amp; data</span>
+    </div>
+  </div>
+  <div class="hero-wave" aria-hidden="true">
+    <svg viewBox="0 0 1440 70" preserveAspectRatio="none"><path d="M0,40 C240,72 480,72 720,44 C960,16 1200,16 1440,44 L1440,70 L0,70 Z"/></svg>
+  </div>
+</section>
+
+<main>
+<!-- ===================== FEATURES ===================== -->
+<section class="band" id="features">
+  <div class="wrap">
+    <div class="sec-head">
+      <span class="label">Features</span>
+      <h2>One app for calling and texting.</h2>
+      <p>Everything you need to stay in touch — a real number, free calls, and messaging that just works.</p>
+    </div>
+    <div class="feature-grid">
+      <div class="fcard">
+        <span class="ic" aria-hidden="true"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6 19.8 19.8 0 0 1-3.1-8.7A2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1.9.3 1.8.6 2.7a2 2 0 0 1-.5 2.1L8.1 9.9a16 16 0 0 0 6 6l1.4-1.1a2 2 0 0 1 2.1-.5c.9.3 1.8.5 2.7.6a2 2 0 0 1 1.7 2z"/></svg></span>
+        <h3>Free app-to-app calls</h3>
+        <p>Call and be called by other users for free over any Wi-Fi or data connection — crystal-clear, wherever you are.</p>
+      </div>
+      <div class="fcard">
+        <span class="ic" aria-hidden="true"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="2" width="14" height="20" rx="2.5"/><path d="M11 18h2"/></svg></span>
+        <h3>Your private number</h3>
+        <p>Get a dedicated virtual phone number to share and keep your personal line private. Reachable without a second SIM.</p>
+      </div>
+      <div class="fcard">
+        <span class="ic" aria-hidden="true"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.5a8.4 8.4 0 0 1-9 8.4 8.9 8.9 0 0 1-4-.9L3 20l1-4a8.4 8.4 0 0 1-1-4A8.4 8.4 0 0 1 11.5 3h.5a8.4 8.4 0 0 1 9 8v.5z"/></svg></span>
+        <h3>Text &amp; group chat</h3>
+        <p>Send messages, share photos, and stay in touch with one-to-one and group conversations — all in one place.</p>
+      </div>
+      <div class="fcard">
+        <span class="ic" aria-hidden="true"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3a9 9 0 0 0-9 9v5a2 2 0 0 0 2 2h1v-6H5v-1a7 7 0 0 1 14 0v1h-1v6h1a2 2 0 0 0 2-2v-5a9 9 0 0 0-9-9z"/></svg></span>
+        <h3>Private &amp; secure</h3>
+        <p>Encrypted sessions, clear permissions, and full control over your data — including deleting your account any time.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== HOW IT WORKS ===================== -->
+<section class="band alt" id="how">
+  <div class="wrap">
+    <div class="sec-head">
+      <span class="label">How it works</span>
+      <h2>Up and running in minutes.</h2>
+    </div>
+    <div class="steps">
+      <div class="step">
+        <div class="num">1</div>
+        <h3>Download the app</h3>
+        <p>Install Wi-Fi Calling and Texting from the App Store and create your account in seconds.</p>
+      </div>
+      <div class="step">
+        <div class="num">2</div>
+        <h3>Get your number</h3>
+        <p>Pick up a private virtual phone number that's yours to call and text from.</p>
+      </div>
+      <div class="step">
+        <div class="num">3</div>
+        <h3>Call &amp; text anywhere</h3>
+        <p>Connect over any Wi-Fi or data — free between users, wherever you both are.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== CONTACT ===================== -->
+<section class="band" id="contact">
+  <div class="wrap">
+    <div class="sec-head">
+      <span class="label">Contact Us</span>
+      <h2>We're here to help.</h2>
+      <p>Questions, feedback, or something not working? Send us a message and we'll get back to you.</p>
+    </div>
+    <div class="contact-grid">
+      <div class="ccard">
+        <h3>Send us a message</h3>
+        <p>Fill in the form below and it goes straight to our support team. We usually reply within a day.</p>
+        <form id="contactForm" novalidate>
+          <!-- Honeypot: hidden from people, irresistible to bots. Must stay empty.
+               Named hp_check, not website/url/email: browser autofill matches on field
+               name and label text, and a filled trap silently discards a real message.
+               readonly stops autofill and password managers writing to it; a bot posting
+               straight to send.php never sees it. -->
+          <div class="hp" aria-hidden="true">
+            <input type="text" name="hp_check" tabindex="-1" autocomplete="off" readonly>
+          </div>
+          <div class="field-row">
+            <label class="field">
+              <span class="flabel">Name</span>
+              <input type="text" name="name" autocomplete="name" placeholder="Your name" required>
+            </label>
+            <label class="field">
+              <span class="flabel">Email</span>
+              <input type="email" name="email" autocomplete="email" placeholder="you@example.com" required>
+            </label>
+          </div>
+          <label class="field">
+            <span class="flabel">Subject</span>
+            <input type="text" name="subject" placeholder="How can we help?" required>
+          </label>
+          <label class="field">
+            <span class="flabel">Message</span>
+            <textarea name="message" rows="5" placeholder="Tell us what's going on…" required></textarea>
+          </label>
+          <button type="submit" class="btn btn-primary">
+            Send message
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 2 11 13M22 2l-7 20-4-9-9-4 20-7z"/></svg>
+          </button>
+          <p class="form-note" id="formNote" role="status" aria-live="polite">We'll only use your email to reply to this message.</p>
+        </form>
+      </div>
+    </div>
+  </div>
+</section>
+</main>
+
+<!-- ===================== FOOTER ===================== -->
+<footer class="site">
+  <div class="wrap">
+    <div class="foot-top">
+      <div class="foot-brand">
+        <div class="fb-head">
+          <span class="appicon" role="img" aria-label="App icon"></span>
+          <span class="fb-name">Wi-Fi Calling &amp; Texting</span>
+        </div>
+        <p>A private phone number with free app-to-app calling and texting over any Wi-Fi or data connection.</p>
+      </div>
+      <div class="foot-col">
+        <h4>Product</h4>
+        <a href="index.html#features">Features</a>
+        <a href="index.html#how">How it works</a>
+        <a href="https://apps.apple.com/app/id6781677176" target="_blank" rel="noopener">Download on iOS</a>
+      </div>
+      <div class="foot-col">
+        <h4>Legal &amp; Support</h4>
+        <a href="privacy.html">Privacy Policy</a>
+        <a href="terms.html">Terms of Use</a>
+        <a href="index.html#contact">Contact Us</a>
+      </div>
+    </div>
+    <div class="foot-bottom">
+      <div>© 2026. All rights reserved.</div>
+      <div><a href="privacy.html">Privacy</a> · <a href="terms.html">Terms</a> · <a href="index.html#contact">Contact</a></div>
+    </div>
+  </div>
+</footer>
+
+<script src="script.js"></script>
+</body>
+</html>
