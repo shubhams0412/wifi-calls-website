@@ -86,7 +86,7 @@ export function EditProfileView() {
   );
   return (
     <>
-      <TopBar title="Edit profile" rootBack back="settings/account" />
+      <TopBar title="Edit profile" back="settings/account" />
       <div className="scroll">
         <div className="content narrow">
           <div className="center" style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 10 }}>
@@ -113,7 +113,7 @@ export function DevicesView() {
   const others = d.devices.some((x) => !x.current);
   return (
     <>
-      <TopBar title="Devices" rootBack back="settings/account" />
+      <TopBar title="Devices" back="settings/account" />
       <div className="scroll">
         <div className="content narrow">
           {d.devices.length ? d.devices.map((x) => (

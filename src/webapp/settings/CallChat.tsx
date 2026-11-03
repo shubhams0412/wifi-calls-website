@@ -111,7 +111,7 @@ export function VoicemailSettingsView() {
   );
   return (
     <>
-      <TopBar title="Voicemail" rootBack back="settings/call" />
+      <TopBar title="Voicemail" back="settings/call" />
       <div className="scroll">
         <div className="content narrow">
           <div className="card pad row-lite">
@@ -160,7 +160,7 @@ export function BlockedView() {
 
   return (
     <>
-      <TopBar title="Blocked numbers" rootBack back="settings/call"
+      <TopBar title="Blocked numbers" back="settings/call"
         right={<button className="icon-btn" onClick={blockContact} title="Block a contact" aria-label="Block a contact"><Icon name="contactPlus" /></button>} />
       <div className="scroll">
         <div className="content narrow">
@@ -287,7 +287,7 @@ export function ChatBackgroundView() {
 
   return (
     <>
-      <TopBar title="Chat Background" rootBack back="settings/chat" />
+      <TopBar title="Chat Background" back="settings/chat" />
       <div className="scroll">
         <div className="content narrow">
           <div className="group">
