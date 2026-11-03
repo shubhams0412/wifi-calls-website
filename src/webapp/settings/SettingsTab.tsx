@@ -12,6 +12,7 @@ import { confirmDialog, openBuyNumber, openPaywall, shareText } from '../ui';
 import { Avatar, Placeholder, Toggle } from '../components/ui';
 import { SplitView, useDarkMode } from '../components/Shell';
 import { RecordingsView } from '../calls/Recordings';
+import { SubscriptionView } from '../flows/Paywall';
 import { AccountView, DeleteAccountView, DevicesView, EditProfileView } from './Account';
 import { CoinsView, UsageView } from './Wallet';
 import { BlockedView, CallSettingsView, ChatBackgroundView, ChatSettingsView, VoicemailSettingsView } from './CallChat';
@@ -90,7 +91,7 @@ function ListPane() {
           </Section>
           <Section title="Account">
             <Item href="settings/account" icon="user" color="primary" label="Account Settings" />
-            <Item onClick={openPaywall} icon="crown" color="warning" label="Subscription" val={<span className="chip soft" style={{ padding: '3px 10px' }}>{tierLabel}</span>} />
+            <Item href="settings/subscription" icon="crown" color="warning" label="Subscription" val={<span className="chip soft" style={{ padding: '3px 10px' }}>{tierLabel}</span>} />
             <Item onClick={() => shareText(inviteText())} icon="userPlus" color="accent" label="Invite Friends" noChev />
           </Section>
           <Section title="Help & Legal">
@@ -130,6 +131,7 @@ export default function SettingsTab({ rest }: { rest: string[] }) {
     case 'delete': detail = <DeleteAccountView />; break;
     case 'coins': detail = <CoinsView />; break;
     case 'usage': detail = <UsageView />; break;
+    case 'subscription': detail = <SubscriptionView />; break;
     case 'call': detail = b === 'voicemail' ? <VoicemailGate /> : b === 'blocked' ? <BlockedView /> : <CallSettingsView />; break;
     case 'chat': detail = b === 'background' ? <ChatBackgroundView /> : <ChatSettingsView />; break;
     case 'recordings': detail = <RecordingsView />; break;

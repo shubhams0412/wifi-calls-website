@@ -8,7 +8,7 @@ import { Icon } from '../icons';
 import { APP_NAME, cx } from '../format';
 import { mutate, useData } from '../store';
 import { alertDialog, closePaywall, toast } from '../ui';
-import { Spinner } from '../components/ui';
+import { Spinner, TopBar } from '../components/ui';
 
 export type TierView = 'pro' | 'lite';
 interface Plan { id: string; label: string; price: string; desc: string; badge?: [string, string] }
@@ -125,6 +125,44 @@ export function BuyArea({ o }: { o: Offer }) {
         <a className="chip" href="/terms" target="_blank" rel="noopener">Terms</a>
         <a className="chip" href="/privacy" target="_blank" rel="noopener">Privacy</a>
         <button className="chip" onClick={() => alertDialog('Nothing to Restore', "We couldn't find a previous subscription on this Apple ID.")}>Restore</button>
+      </div>
+    </>
+  );
+}
+
+/** Settings → Subscription: the same offer, shown inside the settings detail panel. */
+export function SubscriptionView() {
+  const o = useOffer((tier) => toast(`Welcome to ${tier === 'pro' ? 'Pro' : 'Lite'}!`));
+  const pro = o.tier === 'pro';
+  return (
+    <>
+      <TopBar title="Subscription" rootBack back="settings" />
+      <div className="scroll">
+        <div className="content sub-view">
+          <div className="sub-head">
+            <span className="chip soft" style={{ letterSpacing: '.06em' }}><Icon name="sparkles" /> {APP_NAME} <Swap pro={pro}>{['Pro', 'Lite']}</Swap></span>
+            <h2><Swap pro={pro}>{['Unlock everything with Pro', 'Start with the essentials']}</Swap></h2>
+            <p className="muted"><Swap pro={pro}>{['Every feature, unlimited — calls, broadcasts, voicemail, recording and more.', 'The essentials to stay connected. Upgrade to Pro anytime.']}</Swap></p>
+          </div>
+          <div className="sub-grid">
+            <div className="sub-col">
+              <TierToggle o={o} />
+              <PlanList o={o} />
+              <div className="buy-panel"><BuyArea o={o} /></div>
+            </div>
+            <div className="sub-col">
+              <div className="card pad">
+                <div className="feat-h"><Icon name="checklist" /> What&apos;s included</div>
+                <FeatureList pro={pro} />
+              </div>
+              <div className="trust3">
+                <div className="card"><Icon name="shieldCheck" /><span>Apple-secure</span></div>
+                <div className="card"><Icon name="xCircle" /><span>Cancel anytime</span></div>
+                <div className="card"><Icon name="heartBolt" /><span>1M+ users</span></div>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
     </>
   );

@@ -25,10 +25,22 @@ export const useUI = create<UIStore>()(() => ({ toasts: [], sheets: [], call: nu
 
 let seq = 0;
 
+const toastTimers = new Map<string, ReturnType<typeof setTimeout>>();
+const TOAST_MS = 2800, MAX_TOASTS = 3;
+
+/** Show a short message. Repeating the same message (e.g. tapping a button several times) keeps a
+    single toast and restarts its timer; at most three different toasts are shown at once. */
 export function toast(text: string) {
-  const id = ++seq;
-  useUI.setState((s) => ({ toasts: [...s.toasts, { id, text }] }));
-  setTimeout(() => useUI.setState((s) => ({ toasts: s.toasts.filter((t) => t.id !== id) })), 2800);
+  const prev = toastTimers.get(text);
+  if (prev) clearTimeout(prev);
+  if (!useUI.getState().toasts.some((t) => t.text === text)) {
+    const id = ++seq;
+    useUI.setState((s) => ({ toasts: [...s.toasts, { id, text }].slice(-MAX_TOASTS) }));
+  }
+  toastTimers.set(text, setTimeout(() => {
+    toastTimers.delete(text);
+    useUI.setState((s) => ({ toasts: s.toasts.filter((t) => t.text !== text) }));
+  }, TOAST_MS));
 }
 
 /** Push a sheet (bottom sheet on phones, centred modal on desktop). The node owns its own state. */

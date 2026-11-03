@@ -44,3 +44,16 @@
 /* Call-info button in Recents: a full "info in a circle" glyph instead of a bare "i". */
 .wa-root .info-btn { width: 28px; height: 28px; border-radius: 50%; display: grid; place-items: center; font-size: 22px; color: var(--primary); opacity: .85; transition: opacity .15s, transform .12s; }
 .wa-root .info-btn:hover { opacity: 1; transform: scale(1.06); }
+
+/* Settings → Subscription (in the detail panel) */
+.wa-root .content.sub-view { max-width: 980px; }
+.wa-root .sub-head { display: flex; flex-direction: column; align-items: flex-start; gap: 8px; }
+.wa-root .sub-head h2 { margin: 0; font-size: 26px; font-weight: 800; letter-spacing: -0.015em; }
+.wa-root .sub-head h2 .swap, .wa-root .sub-head p .swap { display: grid; }
+.wa-root .sub-head p { margin: 0; }
+.wa-root .sub-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(330px, 1fr)); gap: 18px; align-items: start; }
+.wa-root .sub-col { display: flex; flex-direction: column; gap: 14px; }
+.wa-root .sub-view .buy-panel { box-shadow: none; background: var(--card); }
+
+/* Recordings / voicemail: the equalizer only shows while audio plays — idle it looked like a "•••" button. */
+.wa-root [data-player]:not(.playing) .eq { display: none; }
