@@ -1,0 +1,69 @@
+/* Laptop scaling for the web app.
+   The UI is designed for ~1440×900+. On smaller laptop screens (e.g. 1366×768, where the browser
+   leaves ~617px of height) everything is scaled down proportionally with `zoom`, so screens fit
+   without page scrolling. --z is the scale; anything sized from the viewport height divides by it
+   so it still fills the real screen. Phones (≤900px wide) are untouched. */
+
+.wa-root { --z: 1; }
+
+@media (min-width: 901px) and (max-width: 1440px), (min-width: 901px) and (max-height: 820px) {
+  .wa-root { --z: .9; }
+}
+@media (min-width: 901px) and (max-height: 700px) {
+  .wa-root { --z: .84; }
+}
+
+@media (min-width: 901px) {
+  .wa-root { zoom: var(--z); height: calc(100dvh / var(--z)); }
+  .wa-root .fx-brand { height: calc(100dvh / var(--z)); }
+  .wa-root .sheet { max-height: min(720px, calc(90dvh / var(--z))); }
+}
+
+/* Add coins sheet: two columns on desktop (amount + packs | included + buy), one column on phones. */
+.wa-root .coins-grid > .cg-col { display: flex; flex-direction: column; gap: 12px; }
+@media (min-width: 901px) {
+  .wa-root .coins-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; align-items: start; }
+  .wa-root .sheet.wide:has(.coins-grid) { width: min(820px, 100%); }
+}
+
+/* Short laptop screens: compact detail screens and the paywall pop-up so they fit without scrolling. */
+@media (min-width: 901px) and (max-height: 820px) {
+  .wa-root .content { padding: 12px 20px 20px; gap: 12px; }
+  .wa-root .hero-card { padding: 16px; gap: 6px; }
+  .wa-root .hero-card .rings { width: 104px; height: 104px; }
+  .wa-root .hero-card .rings::before { inset: 9px; }
+  .wa-root .hero-card .avatar.s88 { --s: 72px; }
+  .wa-root .hero-card h2 { font-size: 20px !important; }
+  .wa-root .act-tile { padding: 11px 8px; gap: 6px; }
+  .wa-root .act-tile span { width: 40px; height: 40px; font-size: 17px; }
+  .wa-root .card.pad { padding: 14px; }
+  .wa-root .info-row { padding: 5px 0; }
+  .wa-root .group .item { min-height: 50px; padding: 10px 16px; }
+  .wa-root .mem-row { min-height: 52px; padding: 4px 0; }
+  .wa-root .qb-acts { margin-top: 2px; }
+  .wa-root .avatar.s110 { --s: 88px; }
+
+  .wa-root .paywall-modal .flow { padding: 18px 20px; }
+  .wa-root .paywall-modal .offer { gap: 20px; }
+  .wa-root .paywall-modal .offer-l, .wa-root .paywall-modal .offer-r { gap: 12px; }
+  .wa-root .paywall-modal .pulse-hero.sm { width: 76px; height: 76px; }
+  .wa-root .paywall-modal .pulse-hero.sm i:nth-child(1) { width: 76px; height: 76px; }
+  .wa-root .paywall-modal .pulse-hero.sm i:nth-child(2) { width: 62px; height: 62px; }
+  .wa-root .paywall-modal .pulse-hero.sm .core { width: 50px; height: 50px; font-size: 20px; }
+  .wa-root .paywall-modal h1 { font-size: 23px !important; }
+  .wa-root .paywall-modal .plans { gap: 12px; }
+  .wa-root .paywall-modal .plan { padding: 12px 16px; }
+  .wa-root .paywall-modal .feat { padding: 4px 0; }
+  .wa-root .paywall-modal .trust3 .card { padding: 10px 8px; }
+  .wa-root .paywall-modal .buy-panel { padding: 12px; gap: 8px; }
+
+  .wa-root .coins-grid .balance { padding: 14px 16px; gap: 6px; }
+  .wa-root .coins-grid .get-row b { font-size: 32px; }
+  .wa-root .coins-grid .pack { padding: 11px 14px; }
+  .wa-root .coins-grid .feat { padding: 4px 0; }
+}
+@media (min-width: 901px) and (max-height: 700px) {
+  .wa-root .content { padding: 10px 20px 12px; gap: 10px; }
+  .wa-root .hero-card { padding: 14px 16px; }
+  .wa-root .mem-row { min-height: 48px; }
+}

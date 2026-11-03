@@ -1,0 +1,4 @@
+/* Document-level basics shared by the website and the web app. Everything else is scoped. */
+html, body { margin: 0; padding: 0; }
+html, body { height: 100%; }
+.wa-root { height: 100vh; height: 100dvh; overflow: hidden; }

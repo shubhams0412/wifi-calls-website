@@ -1,0 +1,8 @@
+# Never upload these to Vercel (it installs and builds itself).
+node_modules
+.next
+out
+.env
+.env*.local
+*.tsbuildinfo
+smtp-config.php

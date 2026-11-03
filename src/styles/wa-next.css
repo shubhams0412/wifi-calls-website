@@ -1,0 +1,46 @@
+/* Adjustments for the Next.js port (links where the vanilla build used buttons, etc.). */
+.wa-root .seg a { height: 34px; border-radius: 9px; font-weight: 600; font-size: 14px; color: var(--text-2); display: grid; place-items: center; text-decoration: none; }
+.wa-root .seg a.on { background: var(--card); color: var(--text); box-shadow: 0 2px 6px rgba(26,18,51,0.10); }
+.wa-root .tabbar a { display: flex; flex-direction: column; align-items: center; gap: 2px; font-size: 10px; font-weight: 600; color: var(--text-3); padding: 4px 0; position: relative; text-decoration: none; }
+.wa-root .tabbar a .icon { font-size: 22px; }
+.wa-root .tabbar a.active { color: var(--primary); }
+.wa-root .shell-boot { height: 100%; display: grid; place-items: center; }
+.wa-root .dialog-sheet { width: min(360px, calc(100% - 32px)); }
+@media (max-width: 820px) {
+  .wa-root .tabbar a .icon { font-size: 22px; }
+}
+.wa-root .flow-scroll { height: 100%; overflow-y: auto; }
+/* Sheets scroll as a whole; their sections must keep their natural height. */
+.wa-root .sheet-body > * { flex-shrink: 0; }
+/* Linked cards in the sidebar keep the text colour. */
+.wa-root a.me, .wa-root a.navitem { color: var(--text); text-decoration: none; }
+.wa-root a.navitem { color: var(--text-2); }
+.wa-root a.navitem.active { color: var(--primary); }
+/* Dial: the number field shrinks its font for long numbers instead of reserving space on the right. */
+.wa-root .dial-num .num { padding-right: 0; }
+
+/* ---- dark mode polish ---- */
+:root[data-theme="dark"] { color-scheme: dark; }
+/* Shadows barely show on dark surfaces — a hairline edge gives cards and rows their shape. */
+:root[data-theme="dark"] .wa-root .row,
+:root[data-theme="dark"] .wa-root .group,
+:root[data-theme="dark"] .wa-root .card:not(.flat) { box-shadow: 0 0 0 1px rgba(255,255,255,0.06), 0 6px 16px rgba(0,0,0,0.22); }
+:root[data-theme="dark"] .wa-root .row.active { box-shadow: 0 0 0 1px color-mix(in srgb, var(--primary) 45%, transparent); }
+:root[data-theme="dark"] .wa-root .sidebar { background: #211A39; border-right-color: var(--hairline); }
+:root[data-theme="dark"] .wa-root .navitem.active { background: #3A2E63; color: #E3D9FF; }
+:root[data-theme="dark"] .wa-root .seg button.on, :root[data-theme="dark"] .wa-root .seg a.on { background: #463A73; color: #fff; box-shadow: none; }
+:root[data-theme="dark"] .wa-root .msg.in .bubble { background: #2F2750; }
+/* Thin, low-contrast scrollbars that match the theme. */
+.wa-root * { scrollbar-width: thin; scrollbar-color: color-mix(in srgb, var(--text-3) 45%, transparent) transparent; }
+
+/* ---- clearer action icons ----
+   Row action chips (call / video / chat / message): bigger, stronger tint, full-colour icon;
+   on hover they fill with their colour and the icon turns white. */
+.wa-root .circle-ic.s32 { width: 36px; height: 36px; font-size: 16px; background: color-mix(in srgb, var(--c) 16%, transparent); color: var(--c); transition: background .15s, color .15s, transform .12s; }
+.wa-root button.circle-ic.s32:hover, .wa-root a.circle-ic.s32:hover { background: var(--c); color: #fff; }
+.wa-root button.circle-ic.s32:active, .wa-root a.circle-ic.s32:active { transform: scale(.94); }
+.wa-root .row-acts { gap: 10px; }
+:root[data-theme="dark"] .wa-root .circle-ic.s32 { background: color-mix(in srgb, var(--c) 24%, transparent); }
+/* Call-info button in Recents: a full "info in a circle" glyph instead of a bare "i". */
+.wa-root .info-btn { width: 28px; height: 28px; border-radius: 50%; display: grid; place-items: center; font-size: 22px; color: var(--primary); opacity: .85; transition: opacity .15s, transform .12s; }
+.wa-root .info-btn:hover { opacity: 1; transform: scale(1.06); }

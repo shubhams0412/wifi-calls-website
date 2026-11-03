@@ -1,0 +1,173 @@
+'use client';
+
+/* PaywallDetailed — the offer screen (Pro/Lite plans). Split into pieces so the first-launch flow can
+   place the plan picker in its form column and the feature list in its brand panel, while the
+   mid-session cover (PaywallModal) keeps the classic two-column layout. */
+import { useState } from 'react';
+import { Icon } from '../icons';
+import { APP_NAME, cx } from '../format';
+import { mutate, useData } from '../store';
+import { alertDialog, closePaywall, toast } from '../ui';
+import { Spinner } from '../components/ui';
+
+export type TierView = 'pro' | 'lite';
+interface Plan { id: string; label: string; price: string; desc: string; badge?: [string, string] }
+
+const PLANS: Record<TierView, Plan[]> = {
+  pro: [
+    { id: 'weekly', label: 'Pro - Weekly', price: '$6.99/week', desc: 'Billed weekly · cancel anytime', badge: ['MOST POPULAR', '#5B2C9F'] },
+    { id: 'monthly', label: 'Pro - Monthly', price: '$19.99/month', desc: 'Billed monthly · cancel anytime', badge: ['SAVE', '#16A34A'] },
+    { id: 'yearly', label: 'Pro - Yearly', price: '$89.99/year', desc: 'Billed yearly · cancel anytime', badge: ['BEST VALUE', '#F59E0B'] },
+  ],
+  lite: [
+    { id: 'weekly', label: 'Lite - Weekly', price: '$3.99/week', desc: 'Billed weekly · cancel anytime' },
+    { id: 'monthly', label: 'Lite - Monthly', price: '$9.99/month', desc: 'Billed monthly · cancel anytime' },
+    { id: 'yearly', label: 'Lite - Yearly', price: '$49.99/year', desc: 'Billed yearly · cancel anytime', badge: ['BEST VALUE', '#F59E0B'] },
+  ],
+};
+export const FEATURES: [string, boolean][] = [
+  ['Chat and video calls', true], ['App-to-SMS messaging', true], ['Unlimited app-to-app calls', true], ['Broadcast messages', false],
+  ['Call recording', false], ['Voicemail with custom greeting', false], ['Call forwarding', false], ['Group calls', false], ['Anonymous caller ID', false],
+];
+
+/** Renders both tier variants in the same grid cell and shows one, so switching Pro ↔ Lite
+    never changes the block's height (no layout jump). */
+export function Swap({ pro, children: [proNode, liteNode] }: { pro: boolean; children: [React.ReactNode, React.ReactNode] }) {
+  return (
+    <span className="swap">
+      <span className={cx(pro && 'on')} aria-hidden={!pro}>{proNode}</span>
+      <span className={cx(!pro && 'on')} aria-hidden={pro}>{liteNode}</span>
+    </span>
+  );
+}
+
+/** Shared selection + purchase state. `onBought` runs after the (simulated) purchase. */
+export function useOffer(onBought: (tier: TierView) => void) {
+  const d = useData();
+  const [tier, setTier] = useState<TierView>('pro');
+  const [plan, setPlan] = useState('weekly');
+  const [busy, setBusy] = useState(false);
+  const purchase = () => {
+    setBusy(true);
+    setTimeout(() => { mutate((x) => { x.tier = tier; }); onBought(tier); }, 900);
+  };
+  return { tier, setTier: (t: TierView) => { setTier(t); setPlan('weekly'); }, plan, setPlan, busy, purchase, owned: d.tier === tier, current: d.tier };
+}
+type Offer = ReturnType<typeof useOffer>;
+
+export function TierToggle({ o }: { o: Offer }) {
+  const cur = (t: TierView) => (o.current === t ? ' • Current' : '');
+  return (
+    <div className="tier-toggle" data-tier={o.tier}>
+      <span className="thumb" />
+      <button data-t="pro" onClick={() => o.setTier('pro')}><Icon name="antenna" /> Pro{cur('pro')}</button>
+      <button data-t="lite" onClick={() => o.setTier('lite')}><Icon name="radioDot" /> Lite{cur('lite')}</button>
+    </div>
+  );
+}
+
+export function PlanList({ o }: { o: Offer }) {
+  return (
+    <div className="plans">
+      {PLANS[o.tier].map((p) => {
+        const on = o.plan === p.id;
+        return (
+          <button key={p.id} className={cx('plan', on && 'on')} onClick={() => o.setPlan(p.id)}>
+            {p.badge && <span className="plan-badge" style={{ background: p.badge[1] }}>{p.badge[0]}</span>}
+            <span className="radio">{on && <Icon name="check" />}</span>
+            <span style={{ flex: 1, textAlign: 'left' }}><span className="pl">{p.label}</span><span className="pd">{p.desc}</span></span>
+            <span className="pp">{p.price}</span>
+          </button>
+        );
+      })}
+    </div>
+  );
+}
+
+export function FeatureList({ pro, className }: { pro: boolean; className?: string }) {
+  return (
+    <div className={className}>
+      {FEATURES.map(([label, lite]) => {
+        const ok = pro || lite;
+        return <div key={label} className={cx('feat', !ok && 'off')}><i><Icon name={ok ? 'check' : 'x'} /></i><span>{label}</span></div>;
+      })}
+    </div>
+  );
+}
+
+export function BuyArea({ o }: { o: Offer }) {
+  const pro = o.tier === 'pro';
+  // Both states are always rendered in one grid cell (only the right one is visible/interactive),
+  // so switching tiers never changes this block's height.
+  return (
+    <>
+      <div className="buy-swap">
+        <div className={cx('bs', o.owned && 'on')} aria-hidden={!o.owned} inert={!o.owned}>
+          <div className="card pad row-lite" style={{ boxShadow: 'none', border: '1px solid var(--hairline)' }}>
+            <span style={{ color: 'var(--success)', fontSize: 26 }}><Icon name="seal" /></span>
+            <div>
+              <div style={{ fontWeight: 700 }}>You&apos;re all set</div>
+              <div className="tiny muted"><Swap pro={pro}>{['Subscribed to Pro - every feature unlocked.', 'Subscribed to Lite - upgrade to Pro for the full lineup.']}</Swap></div>
+            </div>
+          </div>
+          <button className="btn block" disabled style={{ background: 'var(--field)', color: 'var(--text-3)' }}>You&apos;re on <Swap pro={pro}>{['Pro', 'Lite']}</Swap></button>
+        </div>
+        <div className={cx('bs', !o.owned && 'on')} aria-hidden={o.owned} inert={o.owned}>
+          <button className="btn btn-primary block pulse fx-cta" onClick={o.purchase} disabled={o.busy}>
+            {o.busy ? <><Spinner white /> Processing…</> : <><span>Try <Swap pro={pro}>{['Pro', 'Lite']}</Swap> free for 3 Days</span><Icon name="arrowR" /></>}
+          </button>
+          <p className="tiny faint center" style={{ margin: 0 }}>
+            Auto-renews until cancelled - cancel anytime in Settings &gt; Apple ID &gt; Subscriptions before the trial ends.
+          </p>
+        </div>
+      </div>
+      <div className="foot-chips">
+        <a className="chip" href="/terms" target="_blank" rel="noopener">Terms</a>
+        <a className="chip" href="/privacy" target="_blank" rel="noopener">Privacy</a>
+        <button className="chip" onClick={() => alertDialog('Nothing to Restore', "We couldn't find a previous subscription on this Apple ID.")}>Restore</button>
+      </div>
+    </>
+  );
+}
+
+/** Mid-session paywall: opens straight on the offer screen, with a close X. */
+export function PaywallModal() {
+  const o = useOffer((tier) => { closePaywall(); toast(`Welcome to ${tier === 'pro' ? 'Pro' : 'Lite'}!`); });
+  const pro = o.tier === 'pro';
+  return (
+    <div className="paywall-modal">
+      <div className="flow pay detailed modal">
+        <div className="orbs"><i /><i /></div>
+        <div className="flow-card wide offer">
+          <div className="offer-close">
+            <button className="circle-btn" onClick={closePaywall} aria-label="Close"><Icon name="x" /></button>
+          </div>
+          <div className="offer-l">
+            <span className="chip soft" style={{ alignSelf: 'center', letterSpacing: '.06em' }}><Icon name="sparkles" /> {APP_NAME} <Swap pro={pro}>{['Pro', 'Lite']}</Swap></span>
+            <div className="pulse-hero sm"><i /><i /><div className="core"><Icon name={pro ? 'antenna' : 'radioDot'} /></div></div>
+            <h1 className="center" style={{ fontSize: 26, margin: 0, fontWeight: 700 }}>
+              <Swap pro={pro}>{['Unlock WiFi Calling & Texting Pro', 'Start with WiFi Calling & Texting Lite']}</Swap>
+            </h1>
+            <p className="sub center">
+              <Swap pro={pro}>{['Every feature, unlimited - calls, broadcasts, voicemail, recording and more.', 'The essentials to stay connected. Upgrade to Pro anytime.']}</Swap>
+            </p>
+            <TierToggle o={o} />
+            <PlanList o={o} />
+          </div>
+          <div className="offer-r">
+            <div className="card pad">
+              <div className="feat-h"><Icon name="checklist" /> What&apos;s included</div>
+              <FeatureList pro={pro} />
+            </div>
+            <div className="trust3">
+              <div className="card"><Icon name="shieldCheck" /><span>Apple-secure</span></div>
+              <div className="card"><Icon name="xCircle" /><span>Cancel anytime</span></div>
+              <div className="card"><Icon name="heartBolt" /><span>1M+ users</span></div>
+            </div>
+            <div className="buy-panel"><BuyArea o={o} /></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}

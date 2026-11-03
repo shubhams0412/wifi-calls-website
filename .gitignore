@@ -1,0 +1,16 @@
+# dependencies / build
+node_modules/
+.next/
+out/
+*.tsbuildinfo
+next-env.d.ts
+
+# env + secrets (never commit)
+.env
+.env*.local
+smtp-config.php
+
+# OS / editor
+.DS_Store
+.vercel
+.env*
