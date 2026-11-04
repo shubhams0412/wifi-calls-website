@@ -161,9 +161,12 @@ export function Composer({ onSend, disabled, autoFocus }: { onSend: (m: { body?:
   const ta = useRef<HTMLTextAreaElement>(null);
   const file = useRef<HTMLInputElement>(null);
   useEffect(() => { if (autoFocus && window.innerWidth > 820) ta.current?.focus(); }, [autoFocus]);
+  // The box grows with its text through CSS (field-sizing: content, min 40px, max 120px).
+  // Fallback for browsers without it; skipped while hidden, when scrollHeight would be 0.
   useEffect(() => {
-    const el = ta.current; if (!el) return;
-    el.style.height = 'auto'; el.style.height = Math.min(120, el.scrollHeight) + 'px';
+    const el = ta.current; if (!el || CSS.supports('field-sizing', 'content')) return;
+    el.style.height = 'auto';
+    if (el.scrollHeight > 0) el.style.height = Math.min(120, Math.max(40, el.scrollHeight)) + 'px';
   }, [text]);
   const submit = (e?: React.FormEvent) => {
     e?.preventDefault();
