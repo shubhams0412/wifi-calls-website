@@ -7,9 +7,11 @@
    shown before sign-up, and the duplicate "Welcome" sign-in screen is folded into the phone step. */
 import { useRouter } from 'next/navigation';
 import { useEffect, useRef, useState, type ReactNode } from 'react';
-import { AVAILABLE } from '../data';
 import { Icon, IconName } from '../icons';
 import { APP_NAME, cx, digits, fmtPhone, fmtTyping, longDate } from '../format';
+import { wc } from '../api';
+import { confirmCode, sendCode } from '../firebase';
+import { applyProfile, loadCredit, loadProfile, startPolling, syncAll } from '../sync';
 import { country, friends, getData, mutate, useData } from '../store';
 import { alertDialog, toast } from '../ui';
 import { Spinner } from '../components/ui';
@@ -233,13 +235,16 @@ function PhoneStep() {
     if (n < 7) return toast('Phone number is too short.');
     if (n > 15) return toast('Phone number is too long.');
     setBusy(true);
-    setTimeout(() => forward({ auth: 'otp', otp: '', resend: 30 }), 700);
+    sendCode(c.dial + phone, 'fx-recaptcha')
+      .then(() => forward({ auth: 'otp', otp: '', resend: 30 }))
+      .catch((e: Error) => { setBusy(false); alertDialog('Couldn’t send the code', e.message); });
   };
 
   return (
     <Frame stage={2} frac={1 / 3} stepKey="phone" artKey="sms" art={<ArtSms />} onBack={backFromAccount}
       actions={<><Cta label="Send verification code" onClick={send} disabled={!ok} busy={busy ? 'Sending code…' : undefined} /><Legal /></>}>
-      <StepHead eyebrow="Sign in or create an account" title="What's your phone number?" sub="We'll text you a 6-digit code to verify it's you." />
+      <StepHead eyebrow="Sign in or create an account" title="What's your phone number?" sub="We'll text you a 6-digit code to verify it's you. Already use the iPhone app? Use the same number." />
+      <div id="fx-recaptcha" />
       <div className="fx-field">
         <span className="fx-label">Phone number</span>
         <div className="fx-phone">
@@ -276,11 +281,28 @@ function OtpStep() {
     if (value.length !== 6) return toast('Enter the 6-digit code.');
     if (busy) return;
     setBusy(true);
-    setTimeout(() => {
-      mutate((x) => { x.user.phone = c.dial + phone; x.user.country = c.code; });
-      const u = getData().user;
-      if (u.first && u.last && u.username) goSetup(); else forward({ auth: 'details' });
-    }, 800);
+    (async () => {
+      try {
+        const idToken = await confirmCode(value);
+        const r = await wc<Parameters<typeof applyProfile>[0]>('session', { idToken });
+        if (!r.ok) throw new Error(r.message || 'Sign-in failed. Please try again.');
+        mutate((x) => { x.user.phone = c.dial + phone; x.user.country = c.code; });
+        applyProfile(r.data ?? {});
+        await Promise.all([loadProfile(), loadCredit()]);
+        const u = getData().user;
+        if (u.first && u.last && u.username) goSetup(); else forward({ auth: 'details' });
+      } catch (e) {
+        setBusy(false);
+        setFlow({ otp: '' });
+        alertDialog('Couldn’t verify the code', (e as Error).message);
+      }
+    })();
+  };
+  const resendCode = () => {
+    setFlow({ resend: 30 });
+    sendCode(c.dial + phone, 'fx-recaptcha')
+      .then(() => { toast('Code sent again'); inputRef.current?.focus(); })
+      .catch((e: Error) => alertDialog('Couldn’t send the code', e.message));
   };
 
   return (
@@ -296,9 +318,9 @@ function OtpStep() {
       <div className="fx-resend">
         {resend > 0
           ? <span>Didn&apos;t get it? Resend in <b className="mono">0:{String(resend).padStart(2, '0')}</b></span>
-          : <span>Didn&apos;t get it? <button className="link-btn" onClick={() => { setFlow({ resend: 30 }); toast('Code sent again'); inputRef.current?.focus(); }}>Resend code</button></span>}
+          : <span>Didn&apos;t get it? <button className="link-btn" onClick={resendCode}>Resend code</button></span>}
       </div>
-      <p className="fx-demo">Demo: any 6 digits work.</p>
+      <div id="fx-recaptcha" />
     </Frame>
   );
 }
@@ -322,7 +344,11 @@ function DetailsStep() {
     if (u.username.length < 3) return toast('Username must be at least 3 characters.');
     if (!/^[A-Za-z0-9._-]+$/.test(u.username)) return toast("Username can only contain letters, numbers, '.', '_' or '-'.");
     setBusy(true);
-    setTimeout(goSetup, 600);
+    wc('updateProfile', { first_name: u.first, last_name: u.last, username: u.username }).then((r) => {
+      if (r.ok) return goSetup();
+      setBusy(false);
+      alertDialog('Couldn’t save your profile', /USERNAME|username/.test(r.message) && /exist|taken/i.test(r.message) ? 'That username is taken. Try another one.' : r.message || 'Please try again.');
+    });
   };
   const onEnter = (e: React.KeyboardEvent) => { if (e.key === 'Enter' && valid && !busy) finish(); };
 
@@ -355,6 +381,8 @@ function Account() {
 
 /* ================= 4 · Get set up ================= */
 function goSetup() {
+  syncAll();
+  startPolling();
   forward({ setup: 'access' });
   mutate((x) => { x.stage = x.permsDone ? 'main' : 'perms'; });
 }
@@ -411,11 +439,28 @@ function NumberStep() {
   const [cc, setCc] = useState<'US' | 'CA'>('US');
   const [sel, setSel] = useState<string | null>(null);
   const [busy, setBusy] = useState(false);
-  const list = AVAILABLE[cc].slice(0, 5);
-  const claim = () => {
-    if (!sel) return;
+  const [list, setList] = useState<{ phoneNumber: string; friendlyName: string }[] | null>(null);
+  const [error, setError] = useState('');
+
+  useEffect(() => {
+    let live = true;
+    setList(null); setError(''); setSel(null);
+    wc<{ phoneNumber: string; friendlyName: string }[]>('fetchNumbers', { country_code: cc }).then((r) => {
+      if (!live) return;
+      if (r.ok && Array.isArray(r.data)) setList(r.data.slice(0, 5));
+      else { setList([]); setError(r.message || 'Couldn’t load numbers. Please try again.'); }
+    });
+    return () => { live = false; };
+  }, [cc]);
+
+  const chosen = list?.find((x) => x.phoneNumber === sel);
+  const claim = async () => {
+    if (!chosen) return;
     setBusy(true);
-    setTimeout(() => { mutate((x) => { x.number = '+' + sel; }); forward({ setup: 'done' }); }, 900);
+    const r = await wc('purchaseNumber', { phone_number: chosen.phoneNumber, friendly_name: chosen.friendlyName });
+    if (!r.ok) { setBusy(false); return alertDialog('Couldn’t claim this number', r.message || 'Please pick another number.'); }
+    await loadProfile();
+    forward({ setup: 'done' });
   };
   return (
     <Frame stage={3} frac={2 / 3} stepKey="number" artKey={'num' + (sel || '')}
@@ -424,17 +469,20 @@ function NumberStep() {
       actions={<Cta label={sel ? `Claim ${fmtPhone(sel)}` : 'Choose a number'} onClick={claim} disabled={!sel} busy={busy ? 'Claiming…' : undefined} />}>
       <StepHead eyebrow="Your private line" title="Pick your new number" sub="Make calls, send SMS, keep your real number private." />
       <div className="seg" style={{ margin: 0 }}>
-        <button className={cx(cc === 'US' && 'on')} onClick={() => { setCc('US'); setSel(null); }}>🇺🇸  USA</button>
-        <button className={cx(cc === 'CA' && 'on')} onClick={() => { setCc('CA'); setSel(null); }}>🇨🇦  Canada</button>
+        <button className={cx(cc === 'US' && 'on')} onClick={() => setCc('US')}>🇺🇸  USA</button>
+        <button className={cx(cc === 'CA' && 'on')} onClick={() => setCc('CA')}>🇨🇦  Canada</button>
       </div>
       <div className="fx-numbers" role="radiogroup" aria-label="Available numbers">
-        {list.map(([num, city, region]) => (
-          <button key={num} role="radio" aria-checked={sel === num} className={cx('fx-num', sel === num && 'on')} onClick={() => setSel(num)}>
-            <span className="radio">{sel === num && <Icon name="check" />}</span>
-            <span className="nn mono">{fmtPhone(num)}</span>
-            <span className="nc">{city}, {region}</span>
-          </button>
-        ))}
+        {list === null ? <div className="center" style={{ padding: 24 }}><Spinner /></div>
+          : error ? <p className="fx-hint">{error}</p>
+          : list.length === 0 ? <p className="fx-hint">No numbers are available in this country right now. Try the other one, or pick a number later in Settings.</p>
+          : list.map((n) => (
+            <button key={n.phoneNumber} role="radio" aria-checked={sel === n.phoneNumber} className={cx('fx-num', sel === n.phoneNumber && 'on')} onClick={() => setSel(n.phoneNumber)}>
+              <span className="radio">{sel === n.phoneNumber && <Icon name="check" />}</span>
+              <span className="nn mono">{fmtPhone(n.phoneNumber)}</span>
+              <span className="nc">{n.friendlyName}</span>
+            </button>
+          ))}
       </div>
     </Frame>
   );
@@ -448,7 +496,7 @@ function DoneStep() {
     router.push('/app/dial');
   };
   const items: [IconName, string, string][] = [
-    ['crown', 'Plan', d.tier === 'pro' ? 'Pro · 3-day free trial' : d.tier === 'lite' ? 'Lite · 3-day free trial' : 'Free'],
+    ['crown', 'Plan', d.tier === 'pro' ? 'Pro' : d.tier === 'lite' ? 'Lite' : 'Free · subscribe in the iPhone app'],
     ['phone', 'Your number', d.number ? fmtPhone(d.number) : 'Pick one anytime in Settings'],
     ['users', 'Friends on the app', `${friends(d).length} of your contacts`],
   ];

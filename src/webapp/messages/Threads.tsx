@@ -2,6 +2,8 @@
 
 /* SMS thread, New Message, app-to-app chat thread + their menus. */
 import { useEffect, useState } from 'react';
+import { wc } from '../api';
+import { loadConversation, setBlocked } from '../sync';
 import { fmtPhone, fmtTyping, digits } from '../format';
 import { Icon } from '../icons';
 import { contactById, contactByPhone, country, getData, isBlocked, mutate, nameFor, useData } from '../store';
@@ -11,19 +13,37 @@ import { openContactPicker, openCountryPicker } from '../components/pickers';
 import { Bubbles, Composer, fakeReply, fontPx, pushMsg, setOpenChat, ThreadBody, ThreadKind, useTyping } from './shared';
 
 /* ---------------- block / unblock / delete ---------------- */
-export function blockNumber(phone: string) {
-  mutate((d) => { d.blocked.push({ phone, name: contactByPhone(d, phone)?.name ?? '' }); });
+type BlockedRow = { blocked_id: string; blocked_number: string; blocked_name?: string };
+export async function blockNumber(phone: string) {
+  const r = await wc<BlockedRow[]>('block', { blocked_number: phone, blocked_name: contactByPhone(getData(), phone)?.name ?? '' });
+  if (!r.ok) return toast(r.message || 'Couldn’t block this number. Please try again.');
+  if (Array.isArray(r.data)) setBlocked(r.data);
   toast('Number blocked');
 }
-export function unblockNumber(phone: string) {
+export async function unblockNumber(phone: string) {
   const p = digits(phone).slice(-10);
-  mutate((d) => { d.blocked = d.blocked.filter((b) => digits(b.phone).slice(-10) !== p); });
+  const entry = getData().blocked.find((b) => digits(b.phone).slice(-10) === p);
+  if (!entry?.id) return;
+  const r = await wc<BlockedRow[]>('unblock', { blocked_id: entry.id });
+  // The backend answers 400 when the list becomes empty.
+  if (!r.ok && !(r.code === 400 && getData().blocked.length === 1)) return toast(r.message || 'Couldn’t unblock this number. Please try again.');
+  setBlocked(Array.isArray(r.data) ? r.data : []);
   toast('Number unblocked');
 }
 export async function deleteThread(kind: ThreadKind, id: string) {
   closeSheet();
   const ok = await confirmDialog({ title: 'Delete conversation?', message: 'This removes all messages in this thread.', ok: 'Delete', danger: true });
   if (!ok) return;
+  const d0 = getData();
+  if (kind === 'sms') {
+    const t = d0.sms.find((x) => x.id === id);
+    const r = t ? await wc('clearSms', { to_number: t.phone }) : null;
+    if (r && !r.ok) return toast(r.message || 'Couldn’t delete the conversation. Please try again.');
+  }
+  if (kind === 'broadcast') {
+    const r = await wc('deleteBroadcast', { broadcast_id: id }, undefined, 'DELETE');
+    if (!r.ok) return toast(r.message || 'Couldn’t delete the broadcast. Please try again.');
+  }
   mutate((d) => {
     if (kind === 'sms') d.sms = d.sms.filter((t) => t.id !== id);
     if (kind === 'chat') d.chats = d.chats.filter((t) => t.id !== id);
@@ -72,10 +92,20 @@ function useMarkRead(kind: 'sms' | 'chat', id: string, unread: number | undefine
   }, [kind, id, unread]);
 }
 
+/** Loads a conversation when it opens and checks for new messages every few seconds. */
+function useConversation(phone: string | undefined) {
+  useEffect(() => {
+    if (!phone) return;
+    loadConversation(phone);
+    const timer = setInterval(() => { if (document.visibilityState === 'visible') loadConversation(phone); }, 5000);
+    return () => clearInterval(timer);
+  }, [phone]);
+}
+
 export function SmsThreadView({ id }: { id: string }) {
   const d = useData();
   const t = d.sms.find((x) => x.id === id);
-  useMarkRead('sms', id, t?.unread);
+  useConversation(t?.phone);
   if (!t) return <Placeholder icon="message" title="Conversation not found" />;
   const name = t.name || nameFor(d, t.phone, '') || fmtPhone(t.phone);
   const blocked = isBlocked(d, t.phone);
@@ -116,7 +146,7 @@ export function NewSmsView() {
     const p10 = digits(full).slice(-10);
     let t = getData().sms.find((x) => digits(x.phone).slice(-10) === p10);
     if (!t) {
-      t = { id: 's' + Date.now().toString(36), phone: full, name: contactByPhone(getData(), full)?.name || '', unread: 0, messages: [] };
+      t = { id: 's' + digits(full), phone: '+' + digits(full), name: contactByPhone(getData(), full)?.name || '', unread: 0, messages: [], full: true };
       const nt = t;
       mutate((dd) => { dd.sms.unshift(nt); });
     }

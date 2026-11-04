@@ -3,7 +3,9 @@
 /* My Recordings (Settings → My Recordings): Pro toggle + expandable recording cards. */
 import { mmss, when } from '../format';
 import { Icon } from '../icons';
-import { isPro, mutate, nameFor, useData } from '../store';
+import { useEffect } from 'react';
+import { isPro, nameFor, useData } from '../store';
+import { loadRecordings, persist } from '../sync';
 import { openPaywall } from '../ui';
 import { selectTrack, stopPlayer, usePlayer } from '../player';
 import { Empty, PlayButton, PlayerCard, ScrubBar, Toggle, TopBar } from '../components/ui';
@@ -16,7 +18,7 @@ export function RecordingsView() {
   const openId = usePlayer((p) => p.id);
 
   const toggleCard = (id: string, dur: number) => { if (openId === id) stopPlayer(); else selectTrack(id, dur); };
-  const del = (id: string) => { stopPlayer(); mutate((x) => { x.recordings = x.recordings.filter((r) => r.id !== id); }); };
+  useEffect(() => { loadRecordings(); }, []);
 
   return (
     <>
@@ -29,7 +31,7 @@ export function RecordingsView() {
               <div style={{ fontWeight: 600 }}>Call recording {!pro && <span className="pro-pill"><Icon name="lock" /> PRO</span>}</div>
               <div className="tiny muted" style={{ fontSize: 13 }}>Automatically record every outgoing call.</div>
             </div>
-            {pro && <Toggle checked={d.settings.recording} label="Call recording" onChange={(v) => mutate((x) => { x.settings.recording = v; })} />}
+            {pro && <Toggle checked={d.settings.recording} label="Call recording" onChange={(v) => persist('recordingSetting', { is_call_record: v }, (x) => { x.settings.recording = v; })} />}
           </div>
           {d.recordings.length ? d.recordings.map((r) => {
             const name = r.name || nameFor(d, r.phone);
@@ -50,9 +52,6 @@ export function RecordingsView() {
                   <div className="row-lite" style={{ marginTop: 12, paddingTop: 12, borderTop: '1px solid var(--hairline)' }}>
                     <PlayButton id={r.id} dur={r.dur} solid />
                     <div style={{ flex: 1 }}><ScrubBar id={r.id} dur={r.dur} /></div>
-                  </div>
-                  <div style={{ textAlign: 'right', marginTop: 6 }}>
-                    <button className="link-btn tiny" style={{ color: 'var(--danger)' }} onClick={() => del(r.id)}><Icon name="trash" /> Delete</button>
                   </div>
                 </div>
               </PlayerCard>

@@ -1,4 +1,5 @@
 'use client';
+import { blockNumber as blockApi, unblockNumber as unblockApi } from '../messages/Threads';
 
 /* Contact detail screens: UserInfoView (phone contact / unsaved number), QbInfoView (app user)
    and the shared ProfileHero card. */
@@ -35,15 +36,9 @@ function InfoRow({ icon, label, value, mono }: { icon: IconName; label: string; 
   );
 }
 
-export function blockNumber(phone: string, name = '') {
-  mutate((d) => { d.blocked.push({ phone, name }); });
-  toast('Number blocked');
-}
-export function unblockNumber(phone: string) {
-  const p = phone.replace(/\D/g, '').slice(-10);
-  mutate((d) => { d.blocked = d.blocked.filter((b) => b.phone.replace(/\D/g, '').slice(-10) !== p); });
-  toast('Number unblocked');
-}
+/** Block list changes are saved on the backend (see messages/Threads.tsx). */
+export function blockNumber(phone: string, _name = '') { void _name; return blockApi(phone); }
+export function unblockNumber(phone: string) { return unblockApi(phone); }
 
 /** UserInfoView — a phone contact or unsaved number. */
 export function UserInfoView({ contact, back, extra, title }: { contact: { id?: string; name: string; phone: string }; back: string; extra?: ReactNode; title?: string }) {

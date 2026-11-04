@@ -6,8 +6,12 @@
 import { useState } from 'react';
 import { Icon } from '../icons';
 import { APP_NAME, cx } from '../format';
-import { mutate, useData } from '../store';
+import { getData, useData } from '../store';
+import { loadCredit } from '../sync';
 import { alertDialog, closePaywall, toast } from '../ui';
+
+/** Subscriptions are sold by Apple only (the backend checks App Store receipts). */
+export const APP_STORE_URL = 'https://apps.apple.com/app/id6781677176';
 import { Spinner, TopBar } from '../components/ui';
 
 export type TierView = 'pro' | 'lite';
@@ -41,15 +45,16 @@ export function Swap({ pro, children: [proNode, liteNode] }: { pro: boolean; chi
   );
 }
 
-/** Shared selection + purchase state. `onBought` runs after the (simulated) purchase. */
+/** Shared selection state. "Buying" opens the App Store (subscriptions are Apple-only), then
+    `onBought` runs so the flow can continue; the plan shows on the web once the backend has it. */
 export function useOffer(onBought: (tier: TierView) => void) {
   const d = useData();
   const [tier, setTier] = useState<TierView>('pro');
   const [plan, setPlan] = useState('weekly');
   const [busy, setBusy] = useState(false);
   const purchase = () => {
-    setBusy(true);
-    setTimeout(() => { mutate((x) => { x.tier = tier; }); onBought(tier); }, 900);
+    window.open(APP_STORE_URL, '_blank', 'noopener');
+    onBought(tier);
   };
   return { tier, setTier: (t: TierView) => { setTier(t); setPlan('weekly'); }, plan, setPlan, busy, purchase, owned: d.tier === tier, current: d.tier };
 }
@@ -95,6 +100,16 @@ export function FeatureList({ pro, className }: { pro: boolean; className?: stri
   );
 }
 
+/** Re-reads the plan from the backend (e.g. after subscribing on the iPhone). */
+async function restore() {
+  if (!getData().user.id) return alertDialog('Sign in first', 'Sign in with the phone number you used in the iPhone app, and your plan comes with you.');
+  const r = await loadCredit();
+  if (!r.ok) return alertDialog('Couldn’t check your plan', r.message || 'Please try again.');
+  const tier = r.data && (r.data as { entitlements?: { pro?: boolean; lite?: boolean } }).entitlements;
+  if (tier?.pro || tier?.lite) toast(`Your ${tier.pro ? 'Pro' : 'Lite'} plan is active.`);
+  else alertDialog('No subscription found', 'Subscribe in the iPhone app with this phone number, then tap Restore again.');
+}
+
 export function BuyArea({ o }: { o: Offer }) {
   const pro = o.tier === 'pro';
   // Both states are always rendered in one grid cell (only the right one is visible/interactive),
@@ -114,17 +129,17 @@ export function BuyArea({ o }: { o: Offer }) {
         </div>
         <div className={cx('bs', !o.owned && 'on')} aria-hidden={o.owned} inert={o.owned}>
           <button className="btn btn-primary block pulse fx-cta" onClick={o.purchase} disabled={o.busy}>
-            {o.busy ? <><Spinner white /> Processing…</> : <><span>Try <Swap pro={pro}>{['Pro', 'Lite']}</Swap> free for 3 Days</span><Icon name="arrowR" /></>}
+            {o.busy ? <><Spinner white /> Processing…</> : <><span>Get <Swap pro={pro}>{['Pro', 'Lite']}</Swap> in the iPhone app</span><Icon name="arrowUpRight" /></>}
           </button>
           <p className="tiny faint center" style={{ margin: 0 }}>
-            Auto-renews until cancelled - cancel anytime in Settings &gt; Apple ID &gt; Subscriptions before the trial ends.
+            Subscriptions are handled by Apple. Subscribe in the iPhone app, then use the same phone number here - your plan works on the web too.
           </p>
         </div>
       </div>
       <div className="foot-chips">
         <a className="chip" href="/terms" target="_blank" rel="noopener">Terms</a>
         <a className="chip" href="/privacy" target="_blank" rel="noopener">Privacy</a>
-        <button className="chip" onClick={() => alertDialog('Nothing to Restore', "We couldn't find a previous subscription on this Apple ID.")}>Restore</button>
+        <button className="chip" onClick={restore}>Restore</button>
       </div>
     </>
   );
@@ -132,7 +147,7 @@ export function BuyArea({ o }: { o: Offer }) {
 
 /** Settings → Subscription: the same offer, shown inside the settings detail panel. */
 export function SubscriptionView() {
-  const o = useOffer((tier) => toast(`Welcome to ${tier === 'pro' ? 'Pro' : 'Lite'}!`));
+  const o = useOffer(() => toast('Subscribe in the iPhone app, then tap Restore here.'));
   const pro = o.tier === 'pro';
   return (
     <>
@@ -170,7 +185,7 @@ export function SubscriptionView() {
 
 /** Mid-session paywall: opens straight on the offer screen, with a close X. */
 export function PaywallModal() {
-  const o = useOffer((tier) => { closePaywall(); toast(`Welcome to ${tier === 'pro' ? 'Pro' : 'Lite'}!`); });
+  const o = useOffer(() => { closePaywall(); toast('Subscribe in the iPhone app, then tap Restore in Settings → Subscription.'); });
   const pro = o.tier === 'pro';
   return (
     <div className="paywall-modal">

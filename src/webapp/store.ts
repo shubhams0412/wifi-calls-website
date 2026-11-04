@@ -87,7 +87,7 @@ export function ensureSmsWith(phone: string, name = ''): string {
   const p = digits(phone).slice(-10);
   const existing = getData().sms.find((t) => digits(t.phone).slice(-10) === p);
   if (existing) return existing.id;
-  const t: SmsThread = { id: 's' + uid(), phone, name, unread: 0, messages: [], created: Date.now() };
+  const t: SmsThread = { id: 's' + digits(phone), phone: '+' + digits(phone), name, unread: 0, messages: [], created: Date.now(), full: true };
   mutate((d) => { d.sms.unshift(t); });
   return t.id;
 }

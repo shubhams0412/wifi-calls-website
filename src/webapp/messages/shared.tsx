@@ -1,13 +1,15 @@
 'use client';
 
 /* Shared thread pieces: bubbles, composer, send logic, fake chat replies, image viewer. */
+import { wc } from '../api';
+import { loadCredit, mapMessage, type SmsMessage } from '../sync';
 import { Fragment, useEffect, useRef, useState, type ReactNode } from 'react';
 import { create } from 'zustand';
-import { AppData, Broadcast, Message, uid } from '../data';
+import { AppData, Message, uid } from '../data';
 import { clock, cx, dayLabel, sameDay } from '../format';
 import { Icon } from '../icons';
 import { getData, mutate } from '../store';
-import { closeSheet, openSheet, toast } from '../ui';
+import { alertDialog, closeSheet, openSheet, toast } from '../ui';
 import { Avatar, SheetHead } from '../components/ui';
 
 export type ThreadKind = 'sms' | 'chat' | 'broadcast';
@@ -194,7 +196,40 @@ export function Composer({ onSend, disabled, autoFocus }: { onSend: (m: { body?:
 }
 
 /* ---------------- sending ---------------- */
-/** Append an outgoing message (signature for SMS/broadcast, coin cost), then mark it sent. */
+/** A data: URL (from the photo picker) → a file for upload. */
+function dataUrlToBlob(url: string): Blob {
+  const [head, b64] = url.split(',');
+  const type = /data:([^;]+)/.exec(head)?.[1] ?? 'image/jpeg';
+  const bin = atob(b64);
+  const bytes = new Uint8Array(bin.length);
+  for (let i = 0; i < bin.length; i++) bytes[i] = bin.charCodeAt(i);
+  return new Blob([bytes], { type });
+}
+
+/** Sends an SMS through the backend; the bubble shows "sending" until it answers. */
+async function sendSms(threadId: string, m: Message) {
+  const d = getData();
+  const t = d.sms.find((x) => x.id === threadId);
+  if (!t || !d.number) return;
+  const files = m.image ? { media: dataUrlToBlob(m.image) } : undefined;
+  const r = await wc<{ conversion?: SmsMessage[] }>('sendSms', {
+    body: m.body, to_number: t.phone, from_number: d.number, to_username: t.name || undefined, is_media_attached: m.image ? '1' : '0',
+  }, files);
+  mutate((dd) => {
+    const tt = dd.sms.find((x) => x.id === threadId);
+    const i = tt?.messages.findIndex((x) => x.id === m.id) ?? -1;
+    if (!tt || i < 0) return;
+    const sent = r.ok ? r.data?.conversion?.map(mapMessage).at(-1) : undefined;
+    tt.messages[i] = sent ? { ...sent, image: sent.image ?? m.image } : { ...m, status: r.ok ? 'sent' : 'failed' };
+  });
+  if (!r.ok) {
+    const msg = r.code === 409 ? 'You don’t have enough coins to send this message. Add coins in the iPhone app.' : r.message || 'Please try again.';
+    alertDialog('Message not sent', msg);
+  }
+  loadCredit();
+}
+
+/** Append an outgoing message (with the signature for SMS/broadcast) and send it. */
 export function pushMsg(kind: ThreadKind, id: string, msg: { body?: string; image?: string | null }) {
   let body = msg.body || '';
   const sig = getData().settings.signature;
@@ -202,15 +237,26 @@ export function pushMsg(kind: ThreadKind, id: string, msg: { body?: string; imag
   const m: Message = { id: 'm' + uid(), out: true, body, image: msg.image ?? null, at: Date.now(), status: 'sending' };
   mutate((d) => {
     const t = findThread(d, kind, id);
-    if (!t) return;
-    t.messages.push(m);
-    if (kind === 'sms') d.coins = Math.max(0, +(d.coins - 1).toFixed(2));
-    if (kind === 'broadcast') d.coins = Math.max(0, +(d.coins - (t as Broadcast).recipients.length).toFixed(2));
+    if (t) t.messages.push(m);
   });
+  if (kind === 'sms') return void sendSms(id, m);
+  if (kind === 'broadcast') return void sendBroadcast(id, m);
+  // App-to-app chat isn't connected yet (it runs on QuickBlox, coming with calling).
   setTimeout(() => mutate((d) => {
     const mm = findThread(d, kind, id)?.messages.find((x) => x.id === m.id);
     if (mm) mm.status = 'sent';
   }), 500);
+}
+
+async function sendBroadcast(id: string, m: Message) {
+  const files = m.image ? { media: dataUrlToBlob(m.image) } : undefined;
+  const r = await wc('sendBroadcast', { body: m.body, broadcast_id: id, is_media_attached: m.image ? '1' : '0' }, files);
+  mutate((d) => {
+    const mm = findThread(d, 'broadcast', id)?.messages.find((x) => x.id === m.id);
+    if (mm) mm.status = r.ok ? 'sent' : 'failed';
+  });
+  if (!r.ok) alertDialog('Broadcast not sent', r.code === 409 ? 'You don’t have enough coins for every recipient. Add coins in the iPhone app.' : r.message || 'Please try again.');
+  loadCredit();
 }
 
 /* ---------------- fake chat replies ---------------- */

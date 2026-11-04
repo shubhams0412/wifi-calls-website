@@ -1,11 +1,14 @@
 'use client';
 
 /* Coins (balance + history), Add coins sheet, per-minute rates sheet, Usage. */
-import { useState } from 'react';
-import { RATES, UsageMonth } from '../data';
+import { useEffect, useState } from 'react';
+import { COUNTRIES, UsageMonth } from '../data';
+import { wc } from '../api';
+import { loadCredit, loadUsage } from '../sync';
+import { APP_STORE_URL } from '../flows/Paywall';
 import { APP_NAME, cx, purchaseDate } from '../format';
 import { Icon, IconName } from '../icons';
-import { mutate, useData } from '../store';
+import { useData } from '../store';
 import { closeSheet, openSheet, toast } from '../ui';
 import { Empty, SheetHead, Spinner, TopBar } from '../components/ui';
 import { tint } from './parts';
@@ -15,11 +18,40 @@ const PACKS = [
   { coins: 500, price: '$9.99', badge: 'Best value', save: 'Save 77%' },
 ];
 
+type Rate = { name: string; code: string; flag: string; call: number | null; sms: number | null };
+type PriceRow = { country?: string; countryCode?: string; credit?: number | string };
+
+/** Coin rates from the backend (getCreditPricing), merged by country. */
+function useRates() {
+  const [rates, setRates] = useState<Rate[] | null>(null);
+  const [error, setError] = useState('');
+  useEffect(() => {
+    wc<{ call?: PriceRow[]; sms?: PriceRow[] }>('pricing', undefined, undefined, 'GET').then((r) => {
+      if (!r.ok || !r.data) { setError(r.message || 'Couldn’t load the rates.'); setRates([]); return; }
+      const byKey = new Map<string, Rate>();
+      const add = (row: PriceRow, kind: 'call' | 'sms') => {
+        const code = String(row.countryCode ?? '').toUpperCase();
+        const name = row.country || code;
+        const key = (code || name).toLowerCase();
+        const c = COUNTRIES.find((x) => x.code === code || x.dial === '+' + code.replace(/\D/g, '') || x.name.toLowerCase() === name.toLowerCase());
+        const item = byKey.get(key) ?? { name: c?.name ?? name, code: code || c?.code || '', flag: c?.flag ?? '🌐', call: null, sms: null };
+        item[kind] = Number(row.credit ?? 0);
+        byKey.set(key, item);
+      };
+      r.data.call?.forEach((x) => add(x, 'call'));
+      r.data.sms?.forEach((x) => add(x, 'sms'));
+      setRates([...byKey.values()].sort((a, b) => a.name.localeCompare(b.name)));
+    });
+  }, []);
+  return { rates, error };
+}
+
 function RatesSheet() {
   const [mode, setMode] = useState<'call' | 'sms'>('call');
   const [q, setQ] = useState('');
+  const { rates, error } = useRates();
   const s = q.trim().toLowerCase();
-  const items = RATES.filter((r) => !s || r.name.toLowerCase().includes(s) || r.code.toLowerCase().includes(s));
+  const items = (rates ?? []).filter((r) => (mode === 'call' ? r.call : r.sms) != null && (!s || r.name.toLowerCase().includes(s) || r.code.toLowerCase().includes(s)));
   return (
     <>
       <SheetHead title="Call & SMS Rates" sub="Coin cost by country for calls & SMS" />
@@ -29,7 +61,7 @@ function RatesSheet() {
           <button className={cx(mode === 'sms' && 'on')} onClick={() => setMode('sms')}>SMS</button>
         </div>
         <div className="search"><Icon name="search" /><input placeholder="Search by country or code" value={q} onChange={(e) => setQ(e.target.value)} /></div>
-        {items.length ? (
+        {rates === null ? <div className="center" style={{ padding: 24 }}><Spinner /></div> : error ? <Empty icon="globe" title="Rates unavailable" sub={error} /> : items.length ? (
           <div className="list" style={{ padding: 0 }}>
             {items.map((r) => (
               <div className="row country-row" key={r.code}>
@@ -49,7 +81,7 @@ function RatesSheet() {
 function AddCoinsSheet() {
   const coins = useData().coins;
   const [sel, setSel] = useState(1);
-  const [busy, setBusy] = useState(false);
+  const busy = false;
   const p = PACKS[sel];
   const benefits: [string, string][] = [
     ['Call & text any US number', 'Spend coins on voice calls and SMS to any number in the US.'],
@@ -57,13 +89,11 @@ function AddCoinsSheet() {
     ['Top-up is instant', 'Your balance updates the moment your purchase confirms.'],
     ['No subscription', 'A one-time top-up — add more only when you want to.'],
   ];
+  // Coins are bought through Apple in the iPhone app; the balance here updates from the backend.
   const buy = () => {
-    setBusy(true);
-    setTimeout(() => {
-      mutate((d) => { d.coins = +(d.coins + p.coins).toFixed(2); d.purchases.push({ coins: p.coins, at: Date.now() }); });
-      closeSheet();
-      toast(`+${p.coins} coins added`);
-    }, 900);
+    window.open(APP_STORE_URL, '_blank', 'noopener');
+    closeSheet();
+    toast('Buy coins in the iPhone app. Your balance updates here automatically.');
   };
   return (
     <>
@@ -110,8 +140,9 @@ function AddCoinsSheet() {
           <button className="chip soft" style={{ marginTop: 8 }} onClick={() => openSheet(<RatesSheet />)}><Icon name="infoCircle" /> See per-minute charges</button>
         </div>
         <button className="btn btn-primary block" disabled={busy} onClick={buy}>
-          {busy ? <><Spinner white /> Processing…</> : <>Buy {p.coins} coins <Icon name="arrowR" /></>}
+          {busy ? <><Spinner white /> Processing…</> : <>Buy {p.coins} coins in the iPhone app <Icon name="arrowUpRight" /></>}
         </button>
+        <p className="tiny faint center" style={{ margin: 0 }}>Coins are sold through Apple in the iPhone app, and work here too.</p>
         <div className="foot-chips">
           <a className="chip" href="/terms" target="_blank" rel="noopener">Terms</a>
           <a className="chip" href="/privacy" target="_blank" rel="noopener">Privacy Policy</a>
@@ -124,6 +155,7 @@ function AddCoinsSheet() {
 
 export function CoinsView() {
   const d = useData();
+  useEffect(() => { loadCredit(); }, []);
   const hist = [...d.purchases].sort((a, b) => b.at - a.at);
   return (
     <>
@@ -158,6 +190,7 @@ export function CoinsView() {
 
 export function UsageView() {
   const d = useData();
+  useEffect(() => { loadUsage(); }, []);
   const block = (title: string, m: UsageMonth) => {
     const row = (icon: IconName, color: string, label: string, v: string) => (
       <div className="item" key={label}>

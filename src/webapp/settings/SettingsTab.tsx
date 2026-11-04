@@ -1,6 +1,7 @@
 'use client';
 
 /* Settings tab: list pane (SettingsView) + every subscreen as the detail pane. */
+import { signOut } from '../sync';
 import { setFlow } from '../flows/flowState';
 import Link from 'next/link';
 import { usePathname, useRouter } from 'next/navigation';
@@ -53,12 +54,7 @@ function ListPane() {
   const logout = async () => {
     if (!(await confirmDialog({ title: 'Log out?', ok: 'Log out', danger: true }))) return;
     setFlow({ auth: 'phone', otp: '', phone: '', dir: 1 });
-    mutate((x) => { x.user = { ...x.user, phone: '', country: 'US' }; x.stage = 'auth'; });
-    router.push('/app');
-  };
-  const resetDemo = async () => {
-    if (!(await confirmDialog({ title: 'Reset demo data?', message: "This clears everything you've done in the web app and starts again from onboarding.", ok: 'Reset', danger: true }))) return;
-    useApp.getState().reset();
+    await signOut();
     router.push('/app');
   };
 
@@ -106,7 +102,6 @@ function ListPane() {
               <span className="tile-ic" style={tint('accent')}><Icon name="moon" /></span><span className="lbl">Dark mode</span>
               <Toggle checked={dark} onChange={toggleDark} label="Dark mode" />
             </div>
-            <Item onClick={resetDemo} icon="history" color="warning" label="Reset demo data" sub="Start again from onboarding with fresh sample data." noChev />
           </Section>
           <button className="btn block logout" onClick={logout}><Icon name="logout" /> Log out</button>
           <Link className="link-btn center" style={{ color: 'var(--danger)', padding: 10 }} href="/app/settings/delete"><Icon name="trash" /> Delete Account</Link>

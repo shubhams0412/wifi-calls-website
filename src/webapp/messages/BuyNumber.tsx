@@ -2,19 +2,32 @@
 
 /* Buy Number (BuyNumberView): pick a US/Canada number. Rendered by Overlays when ui.buyNumberOpen. */
 import { useEffect, useState } from 'react';
-import { AVAILABLE } from '../data';
 import { fmtPhone } from '../format';
 import { Icon } from '../icons';
-import { country, getData, mutate } from '../store';
-import { closeBuyNumber, openPaywall } from '../ui';
+import { country, getData } from '../store';
+import { alertDialog, closeBuyNumber, openPaywall } from '../ui';
+import { wc } from '../api';
+import { loadProfile } from '../sync';
 import { Empty, Seg, Spinner } from '../components/ui';
 
 export function BuyNumberSheet() {
   const [cc, setCc] = useState<'US' | 'CA'>('US');
   const [busy, setBusy] = useState<string | null>(null);
   const [done, setDone] = useState<string | null>(null);
-  const nums = AVAILABLE[cc];
+  const [nums, setNums] = useState<{ phoneNumber: string; friendlyName: string }[] | null>(null);
+  const [error, setError] = useState('');
   const c = country(cc);
+
+  useEffect(() => {
+    let live = true;
+    setNums(null); setError('');
+    wc<{ phoneNumber: string; friendlyName: string }[]>('fetchNumbers', { country_code: cc }).then((r) => {
+      if (!live) return;
+      if (r.ok && Array.isArray(r.data)) setNums(r.data);
+      else { setNums([]); setError(r.message || ''); }
+    });
+    return () => { live = false; };
+  }, [cc]);
 
   useEffect(() => {
     if (!done) return;
@@ -22,14 +35,15 @@ export function BuyNumberSheet() {
     return () => clearTimeout(t);
   }, [done]);
 
-  const buy = (n: string) => {
+  const buy = async (n: string, friendly: string) => {
     if (busy) return;
     if (getData().tier === 'none') { closeBuyNumber(); openPaywall(); return; }
     setBusy(n);
-    setTimeout(() => {
-      mutate((d) => { d.number = '+' + n; });
-      setDone('+' + n);
-    }, 900);
+    const r = await wc('purchaseNumber', { phone_number: n, friendly_name: friendly });
+    setBusy(null);
+    if (!r.ok) return alertDialog('Couldn’t get this number', r.code === 403 ? 'Your plan doesn’t include a number. Subscribe in the iPhone app.' : r.message || 'Please pick another number.');
+    await loadProfile();
+    setDone(n);
   };
 
   if (done) {
@@ -60,25 +74,25 @@ export function BuyNumberSheet() {
         <Seg style={{ margin: 0 }} items={[{ value: 'US', label: '🇺🇸  USA' }, { value: 'CA', label: '🇨🇦  CANADA' }]} value={cc} onChange={(v) => setCc(v as 'US' | 'CA')} />
         <div className="row-between">
           <span className="group-title" style={{ margin: 0, padding: 0 }}>Available numbers</span>
-          <span className="chip soft">{nums.length}</span>
+          <span className="chip soft">{nums?.length ?? 0}</span>
         </div>
-        {nums.length ? (
+        {nums === null ? <div className="center" style={{ padding: 24 }}><Spinner /></div> : nums.length ? (
           <div className="list" style={{ padding: 0 }}>
-            {nums.map(([n, city, region]) => (
-              <button key={n} className="row num-row" onClick={() => buy(n)} disabled={!!busy && busy !== n}>
+            {nums.map(({ phoneNumber: n, friendlyName }) => (
+              <button key={n} className="row num-row" onClick={() => buy(n, friendlyName)} disabled={!!busy && busy !== n}>
                 <span className="flag-c">{c.flag}</span>
                 <div className="body">
                   <div className="mono" style={{ fontSize: 17, fontWeight: 600 }}>{fmtPhone(n)}</div>
                   <div className="s">
                     <span className="pill-tag"><Icon name="check" /> Voice</span> <span className="pill-tag"><Icon name="check" /> SMS</span>{' '}
-                    <span className="faint tiny">{city}, {region}</span>
+                    <span className="faint tiny">{friendlyName}</span>
                   </div>
                 </div>
                 <span className="grad-circle" style={{ width: 36, height: 36, fontSize: 15 }}>{busy === n ? <Spinner white /> : <Icon name="arrowR" />}</span>
               </button>
             ))}
           </div>
-        ) : <Empty icon="phonePlus" title="No numbers available" sub="Try a different country, or check back in a few minutes." />}
+        ) : <Empty icon="phonePlus" title="No numbers available" sub={error || 'Try a different country, or check back in a few minutes.'} />}
       </div>
     </>
   );

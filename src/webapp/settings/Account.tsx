@@ -3,11 +3,13 @@
 /* Account, Edit profile, Devices, Delete account. */
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
-import { useState } from 'react';
-import { fmtPhone, initial, when } from '../format';
+import { useEffect, useState } from 'react';
+import { fmtPhone, initial } from '../format';
 import { Icon, IconName } from '../icons';
-import { displayName, mutate, useApp, useData } from '../store';
-import { confirmDialog, go, toast } from '../ui';
+import { displayName, useData } from '../store';
+import { wc } from '../api';
+import { applyProfile, loadDevices, loadProfile, signOut, signOutLocal } from '../sync';
+import { alertDialog, confirmDialog, go, toast } from '../ui';
 import { Avatar, Empty, Spinner, TopBar } from '../components/ui';
 import { tint } from './parts';
 
@@ -26,10 +28,13 @@ function ActCard({ href, onClick, icon, color, title, sub, trail }: { href?: str
   return href ? <Link className="card pad row-lite act-card" href={'/app/' + href}>{inner}</Link> : <button className="card pad row-lite act-card" onClick={onClick}>{inner}</button>;
 }
 
-const signOutOthers = async (title: string, message: string, ok: string) => {
-  if (!(await confirmDialog({ title, message, ok, danger: true }))) return;
-  mutate((d) => { d.devices = d.devices.filter((x) => x.current); });
-  toast('Signed out of other devices');
+/** The backend ends every session at once, this browser's included. */
+const signOutEverywhere = async () => {
+  if (!(await confirmDialog({ title: 'Log out of all devices?', message: 'You’ll be signed out everywhere, including here and on your iPhone. You can sign in again with your phone number.', ok: 'Log out', danger: true }))) return;
+  const r = await wc('logoutAll');
+  if (!r.ok && r.code !== 401) return alertDialog('Couldn’t log out', r.message || 'Please try again.');
+  await signOut().catch(() => signOutLocal());
+  toast('Logged out of all devices');
 };
 
 export function AccountView() {
@@ -47,7 +52,7 @@ export function AccountView() {
             <span className="chip mono" style={{ fontSize: 15 }}><span style={{ color: 'var(--success)' }}><Icon name="phone" /></span> {fmtPhone(u.phone) || '—'}</span>
           </div>
           <ActCard href="settings/account/devices" icon="iphone" color="primary" title="My Devices" sub="Manage every device signed in to your account" trail="chevR" />
-          <ActCard onClick={() => signOutOthers('Log out from all other devices?', 'This device will stay signed in.', 'Log out')} icon="logout" color="danger" title="Sign out elsewhere" sub="Keep this device signed in, end every other session" trail="arrowR" />
+          <ActCard onClick={signOutEverywhere} icon="logout" color="danger" title="Log out everywhere" sub="End every session, this one included" trail="arrowR" />
           <ActCard href="settings/delete" icon="trash" color="danger" title="Delete account" sub="Permanently delete your account and all its data" trail="chevR" />
         </div>
       </div>
@@ -67,12 +72,16 @@ export function EditProfileView() {
     if (!f.first) return toast('First name must not be blank');
     if (!f.last) return toast('Last name must not be blank');
     if (!f.username) return toast('Username must not be blank');
+    if (f.username.length < 3 || !/^[A-Za-z0-9._-]+$/.test(f.username)) return toast("Username: 3+ letters, numbers, '.', '_' or '-'");
     setSaving(true);
-    setTimeout(() => {
-      mutate((x) => { x.user.first = f.first; x.user.last = f.last; x.user.username = f.username; });
+    wc('updateProfile', { first_name: f.first, last_name: f.last, username: f.username }).then(async (r) => {
+      setSaving(false);
+      if (!r.ok) return alertDialog('Couldn’t save your profile', /exist|taken/i.test(r.message) ? 'That username is taken. Try another one.' : r.message || 'Please try again.');
+      applyProfile({ user_info: { ...{ first_name: f.first, last_name: f.last, username: f.username }, user_number: u.phone } });
+      await loadProfile();
       toast('Profile updated');
       go('settings/account');
-    }, 500);
+    });
   };
   const field = (k: keyof typeof f, label: string, icon: IconName, ph: string, auto?: boolean) => (
     <label className="field">
@@ -110,7 +119,8 @@ export function EditProfileView() {
 export function DevicesView() {
   const d = useData();
   const icon: Record<string, IconName> = { ios: 'iphone', android: 'iphone', web: 'desktop' };
-  const others = d.devices.some((x) => !x.current);
+  const [loading, setLoading] = useState(true);
+  useEffect(() => { loadDevices().finally(() => setLoading(false)); }, []);
   return (
     <>
       <TopBar title="Devices" back="settings/account" />
@@ -120,15 +130,13 @@ export function DevicesView() {
             <div className="card flat pad row-lite" key={x.id}>
               <span className="grad-circle" style={{ width: 40, height: 40, background: 'var(--primary)' }}><Icon name={icon[x.type] || 'phone'} /></span>
               <div style={{ flex: 1 }}>
-                <div style={{ fontWeight: 600 }}>{x.name}{x.current && <> <span className="chip" style={{ background: 'var(--success)', color: '#fff', fontSize: 10, padding: '2px 8px' }}>Current</span></>}</div>
-                <div className="tiny muted">{(x.type === 'web' ? 'Web · ' : 'iOS ') + x.os}</div>
-                <div className="tiny faint" style={{ fontSize: 11 }}>{x.current ? 'Active now' : 'Last seen ' + when(x.seen)}</div>
+                <div style={{ fontWeight: 600 }}>{x.name}</div>
+                <div className="tiny muted">{x.type === 'web' ? 'Web browser' : x.type === 'ios' ? 'iPhone app' : 'Android app'}</div>
               </div>
             </div>
-          )) : <Empty icon="devices" title="No active devices" />}
-          {others && (
-            <button className="btn btn-outline block" style={{ color: 'var(--danger)' }}
-              onClick={() => signOutOthers('Sign out other devices?', "You'll stay signed in on this device.", 'Sign Out')}>Sign out other devices</button>
+          )) : loading ? <div className="center" style={{ padding: 24 }}><Spinner /></div> : <Empty icon="devices" title="No active devices" />}
+          {d.devices.length > 1 && (
+            <button className="btn btn-outline block" style={{ color: 'var(--danger)' }} onClick={signOutEverywhere}>Log out of all devices</button>
           )}
         </div>
       </div>
@@ -145,7 +153,10 @@ export function DeleteAccountView() {
   ];
   const del = async () => {
     if (!(await confirmDialog({ title: 'Delete account?', message: 'This permanently deletes your account and all associated data. This can’t be undone.', ok: 'Delete', danger: true }))) return;
-    useApp.getState().reset();
+    const r = await wc('deleteAccount', undefined, undefined, 'GET');
+    if (!r.ok) return alertDialog('Couldn’t delete your account', r.message || 'Please try again.');
+    await signOut();
+    toast('Your account has been deleted.');
     router.push('/app');
   };
   return (

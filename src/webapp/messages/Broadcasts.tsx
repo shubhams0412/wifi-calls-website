@@ -2,11 +2,13 @@
 
 /* Broadcast list, compose and thread (BroadcastListView / BroadcastComposeView). */
 import Link from 'next/link';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
+import { wc } from '../api';
+import { loadBroadcastMessages, loadBroadcasts } from '../sync';
 import { AppData, Broadcast } from '../data';
 import { cx, fmtPhone, when } from '../format';
 import { Icon } from '../icons';
-import { canSendSms, go, openBuyNumber, requirePro, toast } from '../ui';
+import { alertDialog, canSendSms, go, openBuyNumber, requirePro, toast } from '../ui';
 import { contactById, getData, lastMsg, mutate, useData } from '../store';
 import { Avatar, Empty, Placeholder, Spinner, TopBar } from '../components/ui';
 import { openContactPicker } from '../components/pickers';
@@ -14,6 +16,7 @@ import { Bubbles, Composer, fontPx, Preview, pushMsg, ThreadBody } from './share
 import { deleteThread } from './Threads';
 
 export function recipientsName(d: AppData, b: Broadcast) {
+  if (b.title) return b.title;
   const n = (b.recipients || []).map((id) => contactById(d, id)?.name.split(' ')[0] ?? '').filter(Boolean);
   return n.length ? n.join(', ') : 'Broadcast';
 }
@@ -26,6 +29,7 @@ export function newBroadcast() {
 
 export function BroadcastPane({ activeId }: { activeId?: string }) {
   const d = useData();
+  useEffect(() => { loadBroadcasts(); }, []);
   return (
     <>
       <div className="topbar">
@@ -61,14 +65,20 @@ export function BroadcastCompose() {
   const ok = recipients.length > 0 && !!text.trim();
   const send = () => {
     if (!canSendSms()) return;
+    const people = recipients.map((id) => contactById(d, id)).filter((c): c is NonNullable<typeof c> => !!c);
+    if (!d.number) return toast('Get a number first to send broadcasts.');
     setBusy(true);
-    setTimeout(() => {
-      const b: Broadcast = { id: 'b' + Date.now().toString(36), recipients, messages: [] };
+    wc<{ broadcast?: { id: string | number; receipants_name?: string } }>('createBroadcast', {
+      to_numbers: people.map((c) => c.phone).join(','), from_number: d.number, to_username: people.map((c) => c.name).join(','),
+    }).then((r) => {
+      setBusy(false);
+      const id = r.data?.broadcast?.id;
+      if (!r.ok || id == null) return alertDialog('Couldn’t create the broadcast', r.code === 403 ? 'Broadcasts are a Pro feature. Upgrade in the iPhone app.' : r.message || 'Please try again.');
+      const b: Broadcast = { id: String(id), recipients, title: r.data?.broadcast?.receipants_name, messages: [] };
       mutate((dd) => { dd.broadcasts.unshift(b); });
       pushMsg('broadcast', b.id, { body: text.trim() });
-      toast('Broadcast sent');
       go('messages/broadcasts/' + b.id);
-    }, 700);
+    });
   };
   return (
     <>
@@ -122,6 +132,7 @@ export function BroadcastCompose() {
 
 export function BroadcastThread({ id }: { id: string }) {
   const d = useData();
+  useEffect(() => { loadBroadcastMessages(id); }, [id]);
   const b = d.broadcasts.find((x) => x.id === id);
   if (!b) return <Placeholder icon="megaphone" title="Broadcast not found" />;
   const name = recipientsName(d, b);

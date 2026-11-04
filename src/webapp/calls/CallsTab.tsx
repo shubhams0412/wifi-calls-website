@@ -2,13 +2,15 @@
 
 /* Calls tab: Recents | Voicemail (list pane) with call info / voicemail detail (detail pane). */
 import Link from 'next/link';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
+import { wc } from '../api';
+import { loadVoicemailThread } from '../sync';
 import { CallLog } from '../data';
 import { cx, dur as fmtDur, fmtPhone, mmss, when } from '../format';
 import { Icon, IconName } from '../icons';
 import { contactByPhone, getData, mutate, nameFor, useData } from '../store';
-import { confirmDialog, go, placePhoneCall, startCall } from '../ui';
-import { Avatar, Empty, Placeholder, PlayButton, PlayerCard, ScrubBar, TopBar } from '../components/ui';
+import { confirmDialog, go, placePhoneCall, startCall, toast } from '../ui';
+import { Avatar, Empty, Placeholder, PlayButton, PlayerCard, ScrubBar, Spinner, TopBar } from '../components/ui';
 import { SplitView } from '../components/Shell';
 import { ProfileHero, UserInfoView } from '../contacts/UserInfo';
 
@@ -32,11 +34,19 @@ function redial(c: CallLog) {
   placePhoneCall(c.phone, c.name);
 }
 
+async function deleteCall(id: string) {
+  const r = await wc('clearCallLog', { id });
+  if (!r.ok) return toast(r.message || 'Couldn’t delete this call. Please try again.');
+  mutate((x) => { x.calls = x.calls.filter((k) => k.id !== id); });
+}
+
 function Recents({ filter, setFilter, current }: { filter: 'all' | 'missed'; setFilter: (f: 'all' | 'missed') => void; current?: string }) {
   const d = useData();
   const items = [...d.calls].sort((a, b) => b.at - a.at).filter((c) => filter === 'all' || isMissed(c));
   const clear = async () => {
     if (await confirmDialog({ title: 'Clear all call history?', ok: 'Clear', danger: true })) {
+      const r = await wc('clearCallLogs');
+      if (!r.ok) return toast(r.message || 'Couldn’t clear call history. Please try again.');
       mutate((x) => { x.calls = []; });
       go('calls');
     }
@@ -75,7 +85,7 @@ function Recents({ filter, setFilter, current }: { filter: 'all' | 'missed'; set
                   </Link>
                 </div>
                 <button className="row-del" aria-label="Delete" title="Delete"
-                  onClick={(e) => { e.stopPropagation(); mutate((x) => { x.calls = x.calls.filter((k) => k.id !== c.id); }); }}>
+                  onClick={(e) => { e.stopPropagation(); deleteCall(c.id); }}>
                   <Icon name="trash" />
                 </button>
               </div>
@@ -120,11 +130,19 @@ function VoicemailList({ current }: { current?: string }) {
 function VoicemailDetail({ id }: { id: string }) {
   const d = useData();
   const v = d.voicemails.find((x) => x.id === id);
+  const [loading, setLoading] = useState(true);
+  useEffect(() => {
+    if (!v) return;
+    setLoading(true);
+    loadVoicemailThread(v.phone, v.name).finally(() => setLoading(false));
+  }, [v?.phone]); // eslint-disable-line react-hooks/exhaustive-deps
   if (!v) return <Placeholder icon="mic" title="Voicemail not found" />;
   const name = nameFor(d, v.phone);
   const hasName = !!contactByPhone(d, v.phone);
   const del = async () => {
     if (!(await confirmDialog({ title: 'Delete voicemail?', message: 'All messages from this caller will be removed.', ok: 'Delete', danger: true }))) return;
+    const r = await wc('deleteVoicemail', { fromPhoneNumber: v.phone });
+    if (!r.ok) return toast(r.message || 'Couldn’t delete this voicemail. Please try again.');
     mutate((x) => { x.voicemails = x.voicemails.filter((k) => k.id !== v.id); });
     go('calls/voicemail');
   };
@@ -157,7 +175,7 @@ function VoicemailDetail({ id }: { id: string }) {
                 {it.text && <p className="transcript">“{it.text}”</p>}
               </div>
             </PlayerCard>
-          )) : <Empty icon="mic" title="No voicemail found" sub="When this caller leaves a message, it'll show up here." />}
+          )) : loading ? <div className="center" style={{ padding: 24 }}><Spinner /></div> : <Empty icon="mic" title="No voicemail found" sub="When this caller leaves a message, it'll show up here." />}
           <button className="btn btn-outline sm" style={{ alignSelf: 'center', color: 'var(--danger)' }} onClick={del}>
             <Icon name="trash" /> Delete voicemail
           </button>

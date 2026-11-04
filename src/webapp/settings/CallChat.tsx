@@ -5,7 +5,10 @@ import { useEffect, useRef, useState } from 'react';
 import { cx, digits, fmtPhone, fmtTyping, mmss } from '../format';
 import { Icon } from '../icons';
 import { country, isBlocked, isPro, mutate, nameFor, useData } from '../store';
-import { confirmDialog, toast } from '../ui';
+import { alertDialog, confirmDialog, toast } from '../ui';
+import { wc } from '../api';
+import { loadBlocklist, persist } from '../sync';
+import { blockNumber, unblockNumber } from '../messages/Threads';
 import { stopPlayer } from '../player';
 import { Empty, PlayButton, PlayerCard, ScrubBar, TopBar } from '../components/ui';
 import { openContactPicker, openCountryPicker } from '../components/pickers';
@@ -15,7 +18,10 @@ export function CallSettingsView() {
   const d = useData();
   const clearCalls = async () => {
     if (!(await confirmDialog({ title: 'Clear all call history?', ok: 'Clear', danger: true }))) return;
+    const r = await wc('clearCallLogs');
+    if (!r.ok) return toast(r.message || 'Couldn’t clear call history. Please try again.');
     mutate((x) => { x.calls = []; });
+    toast('Call history cleared');
   };
   return (
     <>
@@ -24,9 +30,9 @@ export function CallSettingsView() {
         <div className="content narrow">
           <SectionHead icon="lock">PRIVACY</SectionHead>
           <ToggleTile icon="userQ" color="accent" title="Anonymous call" sub="Hide your number from the person you're calling." pro
-            on={d.settings.anon} onChange={(v) => mutate((x) => { x.settings.anon = v; })} />
+            on={d.settings.anon} onChange={(v) => persist('anonymousSetting', { is_anonymous: v }, (x) => { x.settings.anon = v; })} />
           <ToggleTile icon="record" color="primary" title="Call recording" sub="Automatically record every outgoing call." pro
-            on={d.settings.recording} onChange={(v) => mutate((x) => { x.settings.recording = v; })} />
+            on={d.settings.recording} onChange={(v) => persist('recordingSetting', { is_call_record: v }, (x) => { x.settings.recording = v; })} />
           <SectionHead icon="sliders" style={{ marginTop: 6 }}>MANAGE</SectionHead>
           <LinkTile href="settings/call/voicemail" icon="mic" color="success" title="Voicemail" sub="Set up greetings and record missed-call messages." pro />
           <LinkTile href="settings/call/blocked" icon="phoneDown" color="warning" title="Blocked numbers" sub="Stop calls and texts from specific numbers." />
@@ -44,8 +50,11 @@ function Recorder() {
   const [t, setT] = useState(0);
   const timer = useRef<ReturnType<typeof setInterval> | null>(null);
   const stream = useRef<MediaStream | null>(null);
+  const recorder = useRef<MediaRecorder | null>(null);
+  const chunks = useRef<Blob[]>([]);
+  const [saving, setSaving] = useState(false);
 
-  const stopTracks = () => { stream.current?.getTracks().forEach((x) => x.stop()); stream.current = null; };
+  const stopTracks = () => { if (recorder.current?.state === 'recording') recorder.current.stop(); stream.current?.getTracks().forEach((x) => x.stop()); stream.current = null; };
   useEffect(() => () => { if (timer.current) clearInterval(timer.current); stopTracks(); }, []);
 
   const stop = () => {
@@ -55,7 +64,11 @@ function Recorder() {
   };
   const start = async () => {
     try {
-      if (navigator.mediaDevices?.getUserMedia) stream.current = await navigator.mediaDevices.getUserMedia({ audio: true });
+      stream.current = await navigator.mediaDevices.getUserMedia({ audio: true });
+      chunks.current = [];
+      recorder.current = new MediaRecorder(stream.current);
+      recorder.current.ondataavailable = (e) => { if (e.data.size) chunks.current.push(e.data); };
+      recorder.current.start();
     } catch {
       toast('Microphone access is needed to record.');
       return;
@@ -89,9 +102,18 @@ function Recorder() {
         </div>
         <div className="row-lite" style={{ marginTop: 12 }}>
           <button className="btn btn-outline sm" style={{ flex: 1 }} onClick={() => { stopPlayer(); setState('idle'); }}>Discard</button>
-          <button className="btn btn-primary sm" style={{ flex: 1 }} onClick={() => {
-            mutate((x) => { x.settings.customGreeting = true; }); stopPlayer(); setState('idle'); toast('Greeting saved');
-          }}><Icon name="check" /> Save</button>
+          <button className="btn btn-primary sm" style={{ flex: 1 }} disabled={saving} onClick={async () => {
+            const type = recorder.current?.mimeType || 'audio/webm';
+            const ext = /mp4|aac|m4a/.test(type) ? 'm4a' : /ogg/.test(type) ? 'ogg' : 'webm';
+            const file = new File(chunks.current, `greeting.${ext}`, { type });
+            if (!file.size) return toast('Nothing was recorded. Try again.');
+            setSaving(true);
+            const r = await wc('customVoicemail', {}, { voiceMailMessageFile: file });
+            setSaving(false);
+            if (!r.ok) return alertDialog('Couldn’t save your greeting', r.message || 'Please try again.');
+            await persist('voicemailSettings', { isEnabled: 1, voiceMailType: 0 }, (x) => { x.settings.customGreeting = true; x.settings.greeting = 'custom'; });
+            stopPlayer(); setState('idle'); toast('Greeting saved');
+          }}><Icon name="check" /> {saving ? 'Saving…' : 'Save'}</button>
         </div>
       </PlayerCard>
     );
@@ -104,7 +126,12 @@ export function VoicemailSettingsView() {
   const st = d.settings;
   const on = st.voicemail && isPro(d);
   const Radio = ({ k, title, sub }: { k: 'default' | 'custom'; title: string; sub: string }) => (
-    <button className={cx('card pad row-lite radio-tile', st.greeting === k && 'on')} onClick={() => mutate((x) => { x.settings.greeting = k; })}>
+    <button className={cx('card pad row-lite radio-tile', st.greeting === k && 'on')} onClick={() => {
+      // The default greeting is saved straight away; "your own" is saved once a recording is uploaded.
+      if (k === 'default') persist('voicemailSettings', { isEnabled: 1, voiceMailType: 1 }, (x) => { x.settings.greeting = 'default'; });
+      else if (st.customGreeting) persist('voicemailSettings', { isEnabled: 1, voiceMailType: 0 }, (x) => { x.settings.greeting = 'custom'; });
+      else mutate((x) => { x.settings.greeting = 'custom'; });
+    }}>
       <span className="radio-c"><i /></span>
       <div style={{ flex: 1, textAlign: 'left' }}><div style={{ fontWeight: 600 }}>{title}</div><div className="tiny muted" style={{ fontSize: 13 }}>{sub}</div></div>
     </button>
@@ -122,7 +149,7 @@ export function VoicemailSettingsView() {
             </span>
           </div>
           <ToggleTile icon="mic" color="success" title="Use voicemail" sub="Play your greeting and record missed-call messages." pro
-            on={on} onChange={(v) => mutate((x) => { x.settings.voicemail = v; })} />
+            on={on} onChange={(v) => persist('voicemailSettings', { isEnabled: v, voiceMailType: st.greeting === 'custom' && st.customGreeting ? 0 : 1 }, (x) => { x.settings.voicemail = v; })} />
           {on && (
             <>
               <SectionHead icon="waveform" style={{ marginTop: 6 }}>GREETING</SectionHead>
@@ -140,6 +167,7 @@ export function VoicemailSettingsView() {
 /* ---------------- blocked numbers ---------------- */
 export function BlockedView() {
   const d = useData();
+  useEffect(() => { loadBlocklist(); }, []);
   const [cc, setCc] = useState('US');
   const [phone, setPhone] = useState('');
   const c = country(cc);
@@ -148,14 +176,13 @@ export function BlockedView() {
     if (phone.length < 7) { toast('That number is too short to block.'); return; }
     const p = c.dial + phone;
     if (isBlocked(d, p)) { toast('That number is already blocked.'); return; }
-    mutate((x) => { x.blocked.unshift({ phone: p, name: '' }); });
+    blockNumber(p);
     setPhone('');
-    toast('Number blocked');
   };
   const blockContact = () => openContactPicker({ title: 'Block a contact' }, ([ct]) => {
     if (!ct) return;
     if (isBlocked(d, ct.phone)) { toast('Already blocked.'); return; }
-    mutate((x) => { x.blocked.unshift({ phone: ct.phone, name: ct.name }); });
+    blockNumber(ct.phone);
   });
 
   return (
@@ -190,7 +217,7 @@ export function BlockedView() {
                     <div className="t" style={{ fontSize: 15 }}>{hasName ? name : fmtPhone(b.phone)}</div>
                     {hasName && <div className="s mono" style={{ fontSize: 11 }}>{fmtPhone(b.phone)}</div>}
                   </div>
-                  <button className="chip success" onClick={() => mutate((x) => { x.blocked.splice(i, 1); })}>Unblock</button>
+                  <button className="chip success" onClick={() => unblockNumber(b.phone)}>Unblock</button>
                 </div>
               );
             }) : <Empty icon="shieldCheck" title="Nothing blocked" sub="Numbers you block won't be able to call or text you." />}
@@ -240,9 +267,9 @@ export function ChatSettingsView() {
           <SectionHead icon="palette">APPEARANCE</SectionHead>
           <LinkTile href="settings/chat/background" icon="image" color="accent" title="Chat background" sub="Pick a wallpaper for chat threads." />
           <Exp k="font" icon="textSize" color="primary" title="Font size" sub={'Currently · ' + st.fontSize} options={['Small', 'Medium', 'Large']} cur={st.fontSize}
-            onPick={(v) => mutate((x) => { x.settings.fontSize = v as typeof st.fontSize; })} />
+            onPick={(v) => persist('chatSettings', { font_size: v }, (x) => { x.settings.fontSize = v as typeof st.fontSize; })} />
           <Exp k="sig" icon="signature" color="warning" title="Message signature" sub={st.signature || 'Add a signature'} options={sigs} cur={st.signature}
-            onPick={(v) => mutate((x) => { x.settings.signature = v; })} />
+            onPick={(v) => persist('chatSettings', { chat_signature: v }, (x) => { x.settings.signature = v; })} />
           <SectionHead icon="sliders" style={{ marginTop: 6 }}>MANAGE</SectionHead>
           <LinkTile onClick={clearChats} icon="trash" color="danger" title="Clear all chats" sub="Permanently delete every chat thread." danger />
         </div>
@@ -256,7 +283,12 @@ const PRESETS: [string, string][] = [['#EDE4FB', '#FDE6F4'], ['#E0F2FE', '#EDE4F
 export function ChatBackgroundView() {
   const bg = useData().settings.chatBg;
   const fileRef = useRef<HTMLInputElement>(null);
-  const setBg = (url: string | null, msg: string) => { mutate((x) => { x.settings.chatBg = url; }); toast(msg); };
+  const setBg = async (url: string | null, msg: string) => {
+    if (!url) return void persist('chatSettings', { remove_chat_background: 1 }, (x) => { x.settings.chatBg = null; }, { ok: msg });
+    const blob = await (await fetch(url)).blob();
+    const file = new File([blob], blob.type === 'image/png' ? 'background.png' : 'background.jpg', { type: blob.type });
+    persist('chatSettings', {}, (x) => { x.settings.chatBg = url; }, { files: { chat_background: file }, ok: msg });
+  };
 
   const onFile = (e: React.ChangeEvent<HTMLInputElement>) => {
     const f = e.target.files?.[0];

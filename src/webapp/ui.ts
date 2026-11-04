@@ -85,8 +85,15 @@ export const setNavigate = (fn: (href: string) => void) => { navigateImpl = fn; 
 export const go = (path: string) => navigateImpl('/app/' + path.replace(/^\/+/, ''));
 
 /* ---- calls ---- */
+/** Calling from the browser isn't connected yet (it needs the voice SDK); until then this explains. */
+export const CALLS_ON_WEB = false;
+
 export function startCall(req: CallRequest) {
   if (useUI.getState().call) { toast("You're already on a call."); return; }
+  if (!CALLS_ON_WEB) {
+    alertDialog('Calls are coming to the web soon', 'For now, make calls from the iPhone app. Your messages, call history and voicemail are all here.');
+    return;
+  }
   const d = getData();
   if ((req.kind === 'video' || req.kind === 'app') && req.phone) {
     const c = contactByPhone(d, req.phone);
