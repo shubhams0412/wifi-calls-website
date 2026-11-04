@@ -1,19 +1,20 @@
-import { getPosts } from '@/site/blog';
+import { listPosts } from '@/site/blog';
 import { abs, BRAND } from '@/site/config';
 
-export const dynamic = 'force-static';
+export const revalidate = 600;
 
 const esc = (s: string) => s.replace(/[<>&'"]/g, (c) => ({ '<': '&lt;', '>': '&gt;', '&': '&amp;', "'": '&apos;', '"': '&quot;' }[c]!));
 
-/** RSS feed of published blog posts. */
-export function GET() {
-  const items = getPosts().map((p) => `
+/** RSS feed of the latest 30 published articles. */
+export async function GET() {
+  const { posts } = await listPosts({ perPage: 30 });
+  const items = posts.map((p) => `
     <item>
       <title>${esc(p.title)}</title>
       <link>${abs(`/blog/${p.slug}`)}</link>
       <guid>${abs(`/blog/${p.slug}`)}</guid>
-      <pubDate>${new Date(p.date + 'T12:00:00Z').toUTCString()}</pubDate>
-      <description>${esc(p.description)}</description>
+      <pubDate>${new Date(p.publishedAt).toUTCString()}</pubDate>${p.category ? `\n      <category>${esc(p.category.name)}</category>` : ''}
+      <description>${esc(p.excerpt)}</description>
     </item>`).join('');
   const xml = `<?xml version="1.0" encoding="UTF-8"?>
 <rss version="2.0"><channel>

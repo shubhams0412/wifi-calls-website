@@ -1,60 +1,206 @@
-/* Blog engine. Publishing a post = adding `content/blog/<slug>.md` (front matter + Markdown) and
-   deploying. Posts with `draft: true` are hidden in production but visible in `npm run dev`. */
+/* Blog data. Two sources, same shape:
+
+   1. The blog CMS (admin panel → Laravel API), used when CMS_ENCRYPTION_KEY is set.
+        GET {CMS_API_URL}/v1/posts?page=&perPage=&category=   list + categories
+        GET {CMS_API_URL}/v1/posts/{slug}                      one article (or 404, maybe with a redirect)
+        GET {CMS_API_URL}/v1/sitemap                           every published article
+      Every response (404s too) is RNCryptor v3 encrypted with the Blog API key and marked
+      `X-Blog-Encryption: rncryptor-v3`. Pages re-fetch at most once a minute (ISR), so an article
+      published in the admin panel shows up here within ~60 seconds without a redeploy.
+
+   2. Local Markdown in content/blog/*.md — the fallback when no CMS key is configured. */
 import fs from 'node:fs';
 import path from 'node:path';
 import matter from 'gray-matter';
 import { marked } from 'marked';
+import { decryptRncryptor } from './rncryptor';
 
-const DIR = path.join(process.cwd(), 'content', 'blog');
+export const REVALIDATE = 60;
+export const PER_PAGE = 12;
 
-export interface PostMeta {
+const CMS_API_URL = (process.env.CMS_API_URL || 'https://secondphonenumber.worksqr.com/api').replace(/\/+$/, '');
+const CMS_KEY = process.env.CMS_ENCRYPTION_KEY || '';
+export const blogSource: 'cms' | 'local' = CMS_KEY ? 'cms' : 'local';
+
+/* ---------- Shapes the pages use ---------- */
+export interface BlogImage { url: string; alt: string; width: number | null; height: number | null }
+export interface BlogCategory { name: string; slug: string; description?: string | null }
+export interface BlogAuthor { name: string; role: string | null; bio: string | null; image: string | null }
+export interface PostSummary {
   slug: string;
   title: string;
-  description: string;
-  date: string;          // ISO yyyy-mm-dd
-  author: string;
-  tags: string[];
-  draft: boolean;
+  excerpt: string;
+  image: BlogImage | null;
+  category: BlogCategory | null;
+  author: BlogAuthor | null;
+  publishedAt: string;   // ISO
+  updatedAt: string;     // ISO
   readingMinutes: number;
+  draft?: boolean;
 }
-export interface Post extends PostMeta { html: string }
+export interface BlogCta { title: string; description: string | null; buttonText: string; buttonUrl: string; image: string | null }
+export interface Post extends PostSummary {
+  html: string;
+  tags: { name: string; slug: string }[];
+  faqs: { q: string; a: string }[];
+  faqSchema: boolean;
+  cta: BlogCta | null;
+  related: PostSummary[];
+  seo: { title: string; description: string; canonicalUrl: string | null; ogImage: string | null; index: boolean; follow: boolean } | null;
+}
+export interface PostList { posts: PostSummary[]; page: number; totalPages: number; total: number; categories: BlogCategory[] }
+export type PostLookup = { post: Post } | { redirect: string; permanent: boolean } | null;
 
+export const isSlug = (s: string) => /^[a-z0-9]+(?:-[a-z0-9]+)*$/.test(s);
+
+/* ---------- CMS (Laravel API) ---------- */
+/* eslint-disable @typescript-eslint/no-explicit-any */
+async function cms<T = any>(endpoint: string): Promise<{ status: number; body: T }> {
+  const res = await fetch(`${CMS_API_URL}/${endpoint}`, {
+    headers: { Accept: 'application/json, text/plain' },
+    next: { revalidate: REVALIDATE, tags: ['blog'] },
+  });
+  const raw = await res.text();
+  const enc = res.headers.get('x-blog-encryption');
+  if (enc && enc !== 'rncryptor-v3') throw new Error(`Blog CMS: unknown encryption "${enc}"`);
+  const text = enc ? await decryptRncryptor(raw, CMS_KEY) : raw;
+  try { return { status: res.status, body: JSON.parse(text) as T }; }
+  catch { throw new Error(`Blog CMS: ${endpoint} → HTTP ${res.status}, not JSON`); }
+}
+
+const toImage = (i: any): BlogImage | null => i?.url ? { url: i.url, alt: i.alt ?? '', width: i.width ?? null, height: i.height ?? null } : null;
+const toSummary = (p: any): PostSummary => ({
+  slug: p.slug,
+  title: p.title,
+  excerpt: p.excerpt ?? '',
+  image: toImage(p.featuredImage),
+  category: p.category ? { name: p.category.name, slug: p.category.slug, description: p.category.description ?? null } : null,
+  author: p.author ? { name: p.author.name, role: p.author.role ?? null, bio: p.author.bio ?? null, image: p.author.image ?? null } : null,
+  publishedAt: p.publishedAt,
+  updatedAt: p.updatedAt ?? p.publishedAt,
+  readingMinutes: p.readingMinutes || 1,
+});
+const toPost = (p: any): Post => ({
+  ...toSummary(p),
+  html: p.contentHtml ?? '',
+  tags: Array.isArray(p.tags) ? p.tags : [],
+  faqs: Array.isArray(p.faqs) ? p.faqs.map((f: any) => ({ q: f.question, a: f.answer })) : [],
+  faqSchema: !!p.faqSchema,
+  cta: p.cta ?? null,
+  related: Array.isArray(p.related) ? p.related.map(toSummary) : [],
+  seo: p.seo ? {
+    title: p.seo.title || p.title, description: p.seo.description || p.excerpt || '',
+    canonicalUrl: p.seo.canonicalUrl ?? null, ogImage: p.seo.ogImage ?? null,
+    index: p.seo.robots?.index !== false, follow: p.seo.robots?.follow !== false,
+  } : null,
+});
+/* eslint-enable @typescript-eslint/no-explicit-any */
+
+/* ---------- Local Markdown ---------- */
+const DIR = path.join(process.cwd(), 'content', 'blog');
 const showDrafts = process.env.NODE_ENV !== 'production';
+const slugify = (s: string) => s.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
 
-function read(slug: string): Post | null {
+function readLocal(slug: string): Post | null {
   const file = path.join(DIR, slug + '.md');
   if (!fs.existsSync(file)) return null;
   const { data, content } = matter(fs.readFileSync(file, 'utf8'));
-  const words = content.split(/\s+/).filter(Boolean).length;
+  const tags: string[] = Array.isArray(data.tags) ? data.tags.map(String) : [];
+  const date = new Date(String(data.date ?? '1970-01-01').slice(0, 10) + 'T12:00:00Z').toISOString();
   return {
     slug,
     title: String(data.title ?? slug),
-    description: String(data.description ?? ''),
-    date: String(data.date ?? '1970-01-01').slice(0, 10),
-    author: String(data.author ?? 'Wi-Fi Calling & Texting Team'),
-    tags: Array.isArray(data.tags) ? data.tags.map(String) : [],
+    excerpt: String(data.description ?? ''),
+    image: data.image ? { url: String(data.image), alt: String(data.imageAlt ?? ''), width: null, height: null } : null,
+    category: tags[0] ? { name: tags[0], slug: slugify(tags[0]) } : null,
+    author: { name: String(data.author ?? 'Wi-Fi Calling & Texting Team'), role: null, bio: null, image: null },
+    publishedAt: date,
+    updatedAt: date,
+    readingMinutes: Math.max(1, Math.round(content.split(/\s+/).filter(Boolean).length / 220)),
     draft: data.draft === true,
-    readingMinutes: Math.max(1, Math.round(words / 220)),
     html: marked.parse(content, { async: false, gfm: true }) as string,
+    tags: tags.map((t) => ({ name: t, slug: slugify(t) })),
+    faqs: [], faqSchema: false, cta: null, related: [], seo: null,
+  };
+}
+function allLocal(): Post[] {
+  if (!fs.existsSync(DIR)) return [];
+  return fs.readdirSync(DIR).filter((f) => f.endsWith('.md'))
+    .map((f) => readLocal(f.replace(/\.md$/, '')))
+    .filter((p): p is Post => !!p && (showDrafts || !p.draft))
+    .sort((a, b) => b.publishedAt.localeCompare(a.publishedAt));
+}
+const summary = ({ html: _h, tags: _t, faqs: _f, faqSchema: _s, cta: _c, related: _r, seo: _o, ...s }: Post): PostSummary => s; // eslint-disable-line @typescript-eslint/no-unused-vars
+
+/* ---------- Public API used by pages ---------- */
+
+/** One page of published articles, newest first, optionally in one category. */
+export async function listPosts({ page = 1, perPage = PER_PAGE, category }: { page?: number; perPage?: number; category?: string } = {}): Promise<PostList> {
+  if (blogSource === 'cms') {
+    try {
+      const q = new URLSearchParams({ page: String(page), perPage: String(perPage) });
+      if (category) q.set('category', category);
+      const { status, body } = await cms(`v1/posts?${q}`);
+      if (status !== 200 || !Array.isArray(body?.posts)) throw new Error(`HTTP ${status}`);
+      return {
+        posts: body.posts.map(toSummary),
+        page: body.pagination?.page ?? page,
+        totalPages: body.pagination?.totalPages ?? 1,
+        total: body.pagination?.total ?? body.posts.length,
+        categories: Array.isArray(body.categories) ? body.categories : [],
+      };
+    } catch (e) {
+      console.error('[blog] list failed:', (e as Error).message);
+      return { posts: [], page, totalPages: 0, total: 0, categories: [] };
+    }
+  }
+  const all = allLocal();
+  const cats = new Map<string, BlogCategory>();
+  all.forEach((p) => p.category && cats.set(p.category.slug, p.category));
+  const filtered = category ? all.filter((p) => p.category?.slug === category) : all;
+  const totalPages = Math.max(1, Math.ceil(filtered.length / perPage));
+  return {
+    posts: filtered.slice((page - 1) * perPage, page * perPage).map(summary),
+    page, totalPages, total: filtered.length, categories: [...cats.values()],
   };
 }
 
-/** All published posts, newest first. */
-export function getPosts(): PostMeta[] {
-  if (!fs.existsSync(DIR)) return [];
-  return fs.readdirSync(DIR)
-    .filter((f) => f.endsWith('.md'))
-    .map((f) => read(f.replace(/\.md$/, '')))
-    .filter((p): p is Post => !!p && (showDrafts || !p.draft))
-    .sort((a, b) => b.date.localeCompare(a.date))
-    .map(({ html: _html, ...meta }) => meta); // eslint-disable-line @typescript-eslint/no-unused-vars
+/** One article, or a redirect when its slug moved, or null. */
+export async function getPost(slug: string): Promise<PostLookup> {
+  if (!isSlug(slug)) return null;
+  if (blogSource === 'cms') {
+    try {
+      const { status, body } = await cms(`v1/posts/${slug}`);
+      if (status === 200 && body?.post) return { post: toPost(body.post) };
+      if (body?.redirect?.destination) return { redirect: body.redirect.destination, permanent: body.redirect.permanent !== false };
+      return null;
+    } catch (e) {
+      console.error(`[blog] post "${slug}" failed:`, (e as Error).message);
+      return null;
+    }
+  }
+  const p = readLocal(slug);
+  if (!p || (!showDrafts && p.draft)) return null;
+  p.related = allLocal().filter((x) => x.slug !== slug).slice(0, 3).map(summary);
+  return { post: p };
 }
 
-export function getPost(slug: string): Post | null {
-  if (!/^[a-z0-9-]+$/.test(slug)) return null;
-  const p = read(slug);
-  return p && (showDrafts || !p.draft) ? p : null;
+/** Every published article (slug + last change), for the sitemap, RSS and prebuilt pages. */
+export async function allPostSlugs(): Promise<{ slug: string; updatedAt: string }[]> {
+  if (blogSource === 'cms') {
+    try {
+      const { status, body } = await cms<{ posts: { path: string; updatedAt: string }[] }>('v1/sitemap');
+      if (status !== 200 || !Array.isArray(body?.posts)) throw new Error(`HTTP ${status}`);
+      return body.posts
+        .map((p) => ({ slug: p.path.replace(/^\/?blog\//, '').replace(/\/+$/, ''), updatedAt: p.updatedAt }))
+        .filter((p) => isSlug(p.slug));
+    } catch (e) {
+      console.error('[blog] sitemap failed:', (e as Error).message);
+      return [];
+    }
+  }
+  return allLocal().map((p) => ({ slug: p.slug, updatedAt: p.updatedAt }));
 }
 
 export const formatDate = (iso: string) =>
-  new Date(iso + 'T12:00:00Z').toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric', timeZone: 'UTC' });
+  new Date(iso).toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric', timeZone: 'UTC' });

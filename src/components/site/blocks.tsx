@@ -101,7 +101,7 @@ export function Sections({ items }: { items: Section[] }) {
 }
 
 /** FAQ accordion + FAQPage structured data for search engines. */
-export function Faqs({ items, title = 'Frequently asked questions' }: { items: Faq[]; title?: string }) {
+export function Faqs({ items, title = 'Frequently asked questions', schema = true }: { items: Faq[]; title?: string; schema?: boolean }) {
   if (!items.length) return null;
   const ld = { '@context': 'https://schema.org', '@type': 'FAQPage', mainEntity: items.map((f) => ({ '@type': 'Question', name: f.q, acceptedAnswer: { '@type': 'Answer', text: f.a } })) };
   return (
@@ -112,12 +112,12 @@ export function Faqs({ items, title = 'Frequently asked questions' }: { items: F
           {items.map((f) => (
             <details key={f.q}>
               <summary>{f.q}<Icon name="chevD" /></summary>
-              <p>{f.a}</p>
+              {f.a.split(/\n\s*\n/).map((para, i) => <p key={i}>{para}</p>)}
             </details>
           ))}
         </div>
       </div>
-      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(ld) }} />
+      {schema && <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(ld).replace(/</g, '\\u003c') }} />}
     </section>
   );
 }

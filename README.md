@@ -52,6 +52,21 @@ public/                static assets (app icon)
 Website styles are scoped under `.site-root` and web-app styles under `.wa-root`, so both
 can live in one app without class-name clashes.
 
+## Blog
+
+Articles come from the blog admin panel (repo `1140_2nd_phone_number_admin_panel`), through its
+Laravel public API: `GET v1/posts`, `GET v1/posts/{slug}`, `GET v1/sitemap`. Responses are
+RNCryptor v3 encrypted; `src/site/blog.ts` decrypts them with `CMS_ENCRYPTION_KEY`.
+
+| Variable | Purpose |
+| --- | --- |
+| `CMS_API_URL` | API base, e.g. `https://secondphonenumber.worksqr.com/api` (testing) |
+| `CMS_ENCRYPTION_KEY` | Blog API key. Server-only. Without it, `/blog` uses `content/blog/*.md` |
+
+Pages refresh at most once a minute (ISR), so a newly published article appears without a redeploy.
+`/blog` supports `?category=<slug>` and `?page=<n>`; moved slugs redirect; FAQ, CTA, author and
+related articles come from the CMS. Set both variables in Vercel → Settings → Environment Variables.
+
 ## Demo tips
 
 - Any phone number and any 6-digit code log you in.

@@ -6,9 +6,13 @@ import { FEATURES } from '@/site/content/features';
 import { USE_CASES } from '@/site/content/useCases';
 import { CALL_COUNTRIES, NUMBER_COUNTRIES } from '@/site/content/countries';
 import { GENERAL_FAQ } from '@/site/content/faq';
-import { formatDate, getPosts } from '@/site/blog';
+import { listPosts } from '@/site/blog';
+import BlogCard from '@/components/site/BlogCard';
 
-export default function HomePage() {
+export const revalidate = 60; // latest articles from the blog CMS
+
+export default async function HomePage() {
+  const latest = (await listPosts({ perPage: 3 })).posts;
   return (
     <>
       <a id="top" />
@@ -146,19 +150,12 @@ export default function HomePage() {
 <Faqs items={GENERAL_FAQ.slice(0, 6)} />
 
 {/* ===================== BLOG ===================== */}
-{getPosts().length > 0 && (
+{latest.length > 0 && (
 <section className="band" id="blog">
   <div className="wrap">
     <SectionHead label="Blog" title="Guides & tips" />
-    <div className="x-posts">
-      {getPosts().slice(0, 3).map((p) => (
-        <Link className="x-post" href={`/blog/${p.slug}`} key={p.slug}>
-          <div className="x-post-meta">{p.tags[0] && <span className="tag">{p.tags[0]}</span>}<time dateTime={p.date}>{formatDate(p.date)}</time></div>
-          <h2>{p.title}</h2><p>{p.description}</p>
-        </Link>
-      ))}
-    </div>
-    <p className="x-note"><Link href="/blog">All posts →</Link></p>
+    <div className="x-posts">{latest.map((p) => <BlogCard p={p} key={p.slug} headingLevel={3} />)}</div>
+    <p className="x-note"><Link href="/blog">All articles →</Link></p>
   </div>
 </section>
 )}

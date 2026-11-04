@@ -1,12 +1,15 @@
 import type { MetadataRoute } from 'next';
 import { abs } from '@/site/config';
-import { getPosts } from '@/site/blog';
+import { allPostSlugs } from '@/site/blog';
 import { FEATURES } from '@/site/content/features';
 import { USE_CASES } from '@/site/content/useCases';
 import { CALL_COUNTRIES, NUMBER_COUNTRIES } from '@/site/content/countries';
 
 /** Every public page; new content records and blog posts are included automatically. */
-export default function sitemap(): MetadataRoute.Sitemap {
+export const revalidate = 3600;
+
+export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
+  const posts = await allPostSlugs();
   const now = new Date();
   const page = (path: string, priority = 0.7): MetadataRoute.Sitemap[number] => ({ url: abs(path), lastModified: now, priority });
   return [
@@ -17,6 +20,6 @@ export default function sitemap(): MetadataRoute.Sitemap {
     ...USE_CASES.map((u) => page(`/use-cases/${u.slug}`, 0.7)),
     ...NUMBER_COUNTRIES.map((c) => page(`/numbers/${c.slug}`, 0.8)),
     ...CALL_COUNTRIES.map((c) => page(`/international-calling/${c.slug}`, 0.7)),
-    ...getPosts().map((p) => ({ url: abs(`/blog/${p.slug}`), lastModified: new Date(p.date), priority: 0.6 })),
+    ...posts.map((p) => ({ url: abs(`/blog/${p.slug}`), lastModified: new Date(p.updatedAt), priority: 0.6 })),
   ];
 }
