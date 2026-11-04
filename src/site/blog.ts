@@ -69,10 +69,10 @@ export const isSlug = (s: string) => /^[a-z0-9]+(?:-[a-z0-9]+)*$/.test(s);
 
 /* ---------- CMS (Laravel API) ---------- */
 /* eslint-disable @typescript-eslint/no-explicit-any */
-async function cms<T = any>(endpoint: string): Promise<{ status: number; body: T }> {
+async function cms<T = any>(endpoint: string, { fresh = false } = {}): Promise<{ status: number; body: T }> {
   const res = await fetch(`${CMS_API_URL}/${endpoint}`, {
     headers: { Accept: 'application/json, text/plain' },
-    next: { revalidate: REVALIDATE, tags: ['blog'] },
+    ...(fresh ? { cache: 'no-store' as const } : { next: { revalidate: REVALIDATE, tags: ['blog'] } }),
   });
   const raw = await res.text();
   const enc = res.headers.get('x-blog-encryption');
@@ -222,6 +222,18 @@ export async function getPost(slug: string): Promise<PostLookup> {
   if (!p || (!showDrafts && p.draft)) return null;
   p.related = allLocal().filter((x) => x.slug !== slug).slice(0, 3).map(summary);
   return { post: p };
+}
+
+/** An article by preview token (drafts and scheduled too, with unsaved autosave applied). Never cached. */
+export async function getPreview(token: string): Promise<{ post: Post; status: string } | null> {
+  if (blogSource !== 'cms' || !/^[A-Za-z0-9._~-]{8,2048}$/.test(token)) return null;
+  try {
+    const { status, body } = await cms(`v1/preview/${encodeURIComponent(token)}`, { fresh: true });
+    return status === 200 && body?.post ? { post: toPost(body.post), status: String(body.status ?? '') } : null;
+  } catch (e) {
+    console.error('[blog] preview failed:', (e as Error).message);
+    return null;
+  }
 }
 
 /** Every published article (slug + last change), for the sitemap, RSS and prebuilt pages. */

@@ -247,3 +247,4 @@
   .site-root .x-post-cta { flex-direction: column; align-items: flex-start; }
   .site-root .x-post-cta img { width: 88px; max-width: 88px; }
 }
+.site-root .x-preview-bar { position: sticky; top: 0; z-index: 60; background: #FEF3C7; color: #78350F; border-bottom: 1px solid #FCD34D; text-align: center; font-size: 13.5px; padding: 8px 16px; }
