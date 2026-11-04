@@ -52,7 +52,7 @@ export interface PostSummary {
   readingMinutes: number;
   draft?: boolean;
 }
-export interface BlogCta { title: string; description: string | null; buttonText: string; buttonUrl: string; image: string | null }
+export interface BlogCta { title: string; description: string | null; buttonText: string; buttonUrl: string; buttonStyle: 'APP_STORE' | 'BUTTON'; image: string | null }
 export interface Post extends PostSummary {
   html: string;
   tags: { name: string; slug: string }[];
@@ -125,7 +125,7 @@ const toPost = (p: any): Post => ({
   tags: Array.isArray(p.tags) ? p.tags : [],
   faqs: Array.isArray(p.faqs) ? p.faqs.map((f: any) => ({ q: f.question, a: f.answer })) : [],
   faqSchema: !!p.faqSchema,
-  cta: p.cta ? { ...p.cta, buttonUrl: ownLink(p.cta.buttonUrl) } : null,
+  cta: p.cta ? { ...p.cta, buttonUrl: ownLink(p.cta.buttonUrl), buttonStyle: p.cta.buttonStyle === 'APP_STORE' ? 'APP_STORE' : 'BUTTON' } : null,
   related: Array.isArray(p.related) ? p.related.map(toSummary) : [],
   seo: p.seo ? {
     title: p.seo.title || p.title, description: p.seo.description || p.excerpt || '',
