@@ -9,6 +9,7 @@
       published in the admin panel shows up here within ~60 seconds without a redeploy.
 
    2. Local Markdown in content/blog/*.md — the fallback when no CMS key is configured. */
+import { createDecipheriv, createHash } from 'node:crypto';
 import fs from 'node:fs';
 import path from 'node:path';
 import matter from 'gray-matter';
@@ -20,6 +21,19 @@ export const PER_PAGE = 12;
 
 const CMS_API_URL = (process.env.CMS_API_URL || 'https://secondphonenumber.worksqr.com/api').replace(/\/+$/, '');
 const CMS_KEY = process.env.CMS_ENCRYPTION_KEY || '';
+// Only for `X-Blog-Encryption: aes-256-cbc` (the WiFi Calls Symfony backend): the IV seed.
+const CMS_IV = process.env.CMS_ENCRYPTION_IV || '';
+
+/** OpenSSL-style AES-256-CBC, as the backend's OpenSslApiCryptor: key = SHA-256(secret[0,32]),
+    IV = MD5(ivSeed), PKCS#7 padding, base64 body. */
+function decryptAesCbc(base64: string): string {
+  if (!CMS_IV) throw new Error('Blog CMS: aes-256-cbc response but CMS_ENCRYPTION_IV is not set');
+  const key = createHash('sha256').update(CMS_KEY.slice(0, 32)).digest();
+  const iv = createHash('md5').update(CMS_IV).digest();
+  const d = createDecipheriv('aes-256-cbc', key, iv);
+  try { return d.update(base64.trim(), 'base64', 'utf8') + d.final('utf8'); }
+  catch { throw new Error('Blog CMS: aes-256-cbc decrypt failed (wrong CMS_ENCRYPTION_KEY / CMS_ENCRYPTION_IV?)'); }
+}
 export const blogSource: 'cms' | 'local' = CMS_KEY ? 'cms' : 'local';
 
 /* ---------- Shapes the pages use ---------- */
@@ -62,8 +76,10 @@ async function cms<T = any>(endpoint: string): Promise<{ status: number; body: T
   });
   const raw = await res.text();
   const enc = res.headers.get('x-blog-encryption');
-  if (enc && enc !== 'rncryptor-v3') throw new Error(`Blog CMS: unknown encryption "${enc}"`);
-  const text = enc ? await decryptRncryptor(raw, CMS_KEY) : raw;
+  const text = !enc ? raw
+    : enc === 'rncryptor-v3' ? await decryptRncryptor(raw, CMS_KEY)
+    : enc === 'aes-256-cbc' ? decryptAesCbc(raw)
+    : (() => { throw new Error(`Blog CMS: unknown encryption "${enc}"`); })();
   try { return { status: res.status, body: JSON.parse(text) as T }; }
   catch { throw new Error(`Blog CMS: ${endpoint} → HTTP ${res.status}, not JSON`); }
 }

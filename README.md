@@ -56,12 +56,14 @@ can live in one app without class-name clashes.
 
 Articles come from the blog admin panel (repo `1140_2nd_phone_number_admin_panel`), through its
 Laravel public API: `GET v1/posts`, `GET v1/posts/{slug}`, `GET v1/sitemap`. Responses are
-RNCryptor v3 encrypted; `src/site/blog.ts` decrypts them with `CMS_ENCRYPTION_KEY`.
+encrypted (`X-Blog-Encryption: rncryptor-v3` or `aes-256-cbc`); `src/site/blog.ts` decrypts both.
+Our own backend: `https://staging-server.worksqr.com/002099-wificalls-Backend/public/api` (aes-256-cbc).
 
 | Variable | Purpose |
 | --- | --- |
 | `CMS_API_URL` | API base, e.g. `https://secondphonenumber.worksqr.com/api` (testing) |
 | `CMS_ENCRYPTION_KEY` | Blog API key. Server-only. Without it, `/blog` uses `content/blog/*.md` |
+| `CMS_ENCRYPTION_IV` | Only for backends that answer `X-Blog-Encryption: aes-256-cbc` (WiFi Calls Symfony API): the IV seed |
 
 Pages refresh at most once a minute (ISR), so a newly published article appears without a redeploy.
 `/blog` supports `?category=<slug>` and `?page=<n>`; moved slugs redirect; FAQ, CTA, author and
