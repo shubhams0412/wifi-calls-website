@@ -1,13 +1,10 @@
 import type { Metadata } from 'next';
-import SiteNav from '@/components/site/SiteNav';
-import SiteFooter from '@/components/site/SiteFooter';
 
 export const metadata: Metadata = { title: 'Privacy Policy — Wi-Fi Calling and Texting', description: 'How Wi-Fi Calling and Texting collects, uses, and protects your personal information.' };
 
 export default function PrivacyPage() {
   return (
     <>
-      <SiteNav active="privacy" />
 {/* ===================== PAGE HEADER ===================== */}
 <section className="page-hero">
   <div className="wrap">
@@ -20,7 +17,7 @@ export default function PrivacyPage() {
   </div>
 </section>
 
-<main>
+<div>
 <section className="doc-page">
   <div className="wrap">
     <div className="prose">
@@ -125,10 +122,7 @@ export default function PrivacyPage() {
     </div>
   </div>
 </section>
-</main>
-
-
-      <SiteFooter />
+</div>
     </>
   );
 }

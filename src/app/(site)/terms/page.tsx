@@ -1,13 +1,10 @@
 import type { Metadata } from 'next';
-import SiteNav from '@/components/site/SiteNav';
-import SiteFooter from '@/components/site/SiteFooter';
 
 export const metadata: Metadata = { title: 'Terms of Use — Wi-Fi Calling and Texting', description: 'The terms that govern your access to and use of Wi-Fi Calling and Texting.' };
 
 export default function TermsPage() {
   return (
     <>
-      <SiteNav active="terms" />
 {/* ===================== PAGE HEADER ===================== */}
 <section className="page-hero">
   <div className="wrap">
@@ -20,7 +17,7 @@ export default function TermsPage() {
   </div>
 </section>
 
-<main>
+<div>
 <section className="doc-page">
   <div className="wrap">
     <div className="prose">
@@ -94,10 +91,7 @@ export default function TermsPage() {
     </div>
   </div>
 </section>
-</main>
-
-
-      <SiteFooter />
+</div>
     </>
   );
 }
