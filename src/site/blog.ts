@@ -68,7 +68,30 @@ async function cms<T = any>(endpoint: string): Promise<{ status: number; body: T
   catch { throw new Error(`Blog CMS: ${endpoint} → HTTP ${res.status}, not JSON`); }
 }
 
-const toImage = (i: any): BlogImage | null => i?.url ? { url: i.url, alt: i.alt ?? '', width: i.width ?? null, height: i.height ?? null } : null;
+/* Links in CMS content that point at the other brand's site (secondlinenumber.com) are sent to the
+   matching page on this site instead. Image hosts (e.g. api.secondlinenumber.com) are not touched. */
+const FOREIGN_HOSTS = new Set(['secondlinenumber.com', 'www.secondlinenumber.com']);
+const OWN_ROUTES = ['/features', '/use-cases', '/numbers', '/international-calling', '/plans', '/blog', '/faq', '/contact', '/download', '/privacy', '/terms', '/app'];
+const PATH_MAP: Record<string, string> = {
+  '/business/phone-numbers': '/numbers', '/phone-numbers': '/numbers', '/pricing': '/plans', '/reviews': '/',
+  '/privacy-policy': '/privacy', '/terms-of-use': '/terms', '/terms-and-conditions': '/terms', '/contact-us': '/contact',
+};
+/** Maps a link to this site when it points at a foreign host; other links are returned unchanged. */
+export function ownLink(url: string): string {
+  let u: URL;
+  try { u = new URL(url, 'https://secondlinenumber.com'); } catch { return url; }
+  const isRelative = !/^[a-z][a-z0-9+.-]*:/i.test(url) && !url.startsWith('//');
+  if (isRelative && !url.startsWith('/')) return url;          // #anchor, ?query, relative path
+  if (!isRelative && !FOREIGN_HOSTS.has(u.hostname)) return url; // other sites stay as they are
+  const p = u.pathname.replace(/\/+$/, '') || '/';
+  const own = p === '/' || OWN_ROUTES.some((r) => p === r || p.startsWith(r + '/'));
+  return (own ? p : PATH_MAP[p] ?? '/') + (own ? u.search : '') + u.hash;
+}
+const ownLinksInHtml = (html: string) =>
+  html.replace(/(<a\b[^>]*?\bhref=)(["'])(.*?)\2/gi, (_m, pre: string, q: string, href: string) =>
+    `${pre}${q}${ownLink(href.replace(/&amp;/g, '&')).replace(/&/g, '&amp;')}${q}`);
+
+const toImage =(i: any): BlogImage | null => i?.url ? { url: i.url, alt: i.alt ?? '', width: i.width ?? null, height: i.height ?? null } : null;
 const toSummary = (p: any): PostSummary => ({
   slug: p.slug,
   title: p.title,
@@ -82,11 +105,11 @@ const toSummary = (p: any): PostSummary => ({
 });
 const toPost = (p: any): Post => ({
   ...toSummary(p),
-  html: p.contentHtml ?? '',
+  html: ownLinksInHtml(p.contentHtml ?? ''),
   tags: Array.isArray(p.tags) ? p.tags : [],
   faqs: Array.isArray(p.faqs) ? p.faqs.map((f: any) => ({ q: f.question, a: f.answer })) : [],
   faqSchema: !!p.faqSchema,
-  cta: p.cta ?? null,
+  cta: p.cta ? { ...p.cta, buttonUrl: ownLink(p.cta.buttonUrl) } : null,
   related: Array.isArray(p.related) ? p.related.map(toSummary) : [],
   seo: p.seo ? {
     title: p.seo.title || p.title, description: p.seo.description || p.excerpt || '',
