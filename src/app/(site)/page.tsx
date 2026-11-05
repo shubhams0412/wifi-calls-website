@@ -84,8 +84,8 @@ export default async function HomePage() {
     <div className="steps">
       <div className="step">
         <div className="num">1</div>
-        <h3>Download the app</h3>
-        <p>Install Wi-Fi Calling and Texting from the App Store and create your account in seconds.</p>
+        <h3>Create your account</h3>
+        <p>Sign up for Wi-Fi Calling and Texting with your phone number in seconds.</p>
       </div>
       <div className="step">
         <div className="num">2</div>

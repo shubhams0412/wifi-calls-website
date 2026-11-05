@@ -4,7 +4,7 @@ import type { Faq } from '../types';
 export const GENERAL_FAQ: Faq[] = [
   {
     q: 'What is Wi-Fi Calling & Texting?',
-    a: 'It’s an iPhone app (with a companion web app) that gives you a second phone number for calls and SMS over Wi-Fi or mobile data, plus free calls, video calls and chat with other people who use the app.',
+    a: 'It’s an iPhone app that gives you a second phone number for calls and SMS over Wi-Fi or mobile data, plus free calls, video calls and chat with other people who use the app.',
   },
   {
     q: 'How does the second number work?',
@@ -33,10 +33,6 @@ export const GENERAL_FAQ: Faq[] = [
   {
     q: 'Can I get a refund?',
     a: 'Refunds are handled by Apple, not in the app. Visit reportaproblem.apple.com, sign in, find the charge and request a refund.',
-  },
-  {
-    q: 'Is there a web version?',
-    a: 'Yes. The web app runs in your browser, so you can call and message from a computer as well as from your iPhone.',
   },
   {
     q: 'What happens to my contacts?',

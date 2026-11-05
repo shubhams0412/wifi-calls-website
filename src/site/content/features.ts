@@ -15,10 +15,9 @@ export const FEATURES: Feature[] = [
       { icon: 'iphone', title: 'No second SIM', text: 'Your new number runs over Wi-Fi or mobile data on the iPhone you already own.' },
       { icon: 'shieldCheck', title: 'Keep your real number private', text: 'Share the second number for listings, sign-ups and work, and keep your personal line for people you trust.' },
       { icon: 'message', title: 'Calls and texts', text: 'Call and send SMS to regular phone numbers from your second number, right inside the app.' },
-      { icon: 'desktop', title: 'Phone and web', text: 'Use the same number and conversations in the app and in your browser.' },
     ],
     steps: [
-      'Download Wi-Fi Calling & Texting from the App Store and sign in with your phone number.',
+      'Sign in to Wi-Fi Calling & Texting with your phone number.',
       'Tap "Get a phone number" on the Dial screen or in Settings.',
       'Choose USA or Canada, pick a number from the list, and it\'s yours in seconds.',
     ],
@@ -79,45 +78,7 @@ export const FEATURES: Feature[] = [
     ],
     related: ['second-phone-number', 'phone-calls', 'texting'],
     seoTitle: 'Choose Your Own US or Canada Number | Wi-Fi Calling',
-    seoDescription: 'Browse available US and Canadian phone numbers by city, pick the one you like and start calling and texting from it on your iPhone or in your web browser today.',
-  },
-  {
-    slug: 'web-app',
-    group: 'numbers',
-    name: 'Web app',
-    icon: 'desktop',
-    short: 'Call, text and chat from your browser with the same account',
-    title: 'Your number, in your browser',
-    intro: 'Use Wi-Fi Calling & Texting on your computer. Your number, messages, calls and contacts are there when you sign in on the web.',
-    highlights: [
-      { icon: 'desktop', title: 'Big-screen messaging', text: 'Read and reply to SMS and chats with a full keyboard, conversation list on the left and thread on the right.' },
-      { icon: 'keypad', title: 'Type to dial', text: 'Type or paste a number on the dial pad straight from your keyboard.' },
-      { icon: 'devices', title: 'Same account everywhere', text: 'Sign in with the same phone number you use in the iPhone app.' },
-      { icon: 'moon', title: 'Light and dark', text: 'Switch between light and dark mode from the sidebar.' },
-    ],
-    steps: [
-      'Open the web app from the website and sign in with your phone number.',
-      'Enter the 6-digit code we send you to verify it\'s you.',
-      'Use the sidebar to move between Calls, Messages, Dial, Contacts and Settings.',
-    ],
-    sections: [
-      {
-        title: 'Built for the desktop',
-        text: 'The web app follows the iPhone app\'s design, laid out for a larger screen: lists and conversations side by side, so you can move through your messages quickly without losing your place.',
-      },
-      {
-        title: 'Manage your devices',
-        text: 'See every device signed in to your account under Settings → Account Settings → My Devices, and sign out of the others from there if you need to.',
-      },
-    ],
-    faqs: [
-      { q: 'Do I need to install anything?', a: 'No. The web app runs in your browser — open it from the website and sign in.' },
-      { q: 'Is it the same account as the iPhone app?', a: 'Yes. Sign in with the same phone number and you\'ll use the same account.' },
-      { q: 'Can I see which devices are signed in?', a: 'Yes. Go to Settings → Account Settings → My Devices to see them and sign out other devices.' },
-    ],
-    related: ['second-phone-number', 'texting', 'group-chat'],
-    seoTitle: 'Call & Text From Your Browser | Wi-Fi Calling Web App',
-    seoDescription: 'Use your second number on your computer. The Wi-Fi Calling & Texting web app brings your calls, SMS, chats and contacts to the browser with nothing to install.',
+    seoDescription: 'Browse available US and Canadian phone numbers by city, pick the one you like and start calling and texting from it today.',
   },
 
   /* ---------------- Calls ---------------- */

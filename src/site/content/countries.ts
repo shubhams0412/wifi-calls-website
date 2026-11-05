@@ -35,7 +35,7 @@ export const NUMBER_COUNTRIES: NumberCountry[] = [
       },
       {
         title: 'What you can do with it',
-        text: 'Call and text any US number from your new line, call other countries with coins, and talk to other app users for free. Use it on your iPhone or from the web app in your browser.',
+        text: 'Call and text any US number from your new line, call other countries with coins, and talk to other app users for free.',
         bullets: ['Calls and SMS to US numbers', 'Free app-to-app calls, video calls and chat', 'Voicemail, forwarding and recording with Pro'],
       },
     ],
@@ -74,7 +74,7 @@ export const NUMBER_COUNTRIES: NumberCountry[] = [
       {
         title: 'Built for life across borders',
         text: 'Canada and the US share the +1 country code, so your Canadian number can call and text US numbers too. Calls to regular numbers use coins, and calls between app users are free.',
-        bullets: ['Calls and SMS to Canadian and US numbers', 'Free app-to-app calls and chat', 'Use it on iPhone or in the web app'],
+        bullets: ['Calls and SMS to Canadian and US numbers', 'Free app-to-app calls and chat'],
       },
     ],
     faqs: [

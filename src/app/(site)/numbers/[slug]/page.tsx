@@ -29,7 +29,7 @@ export default async function NumberCountryPage({ params }: { params: Promise<{ 
       </div></section>
       <section className="band alt"><div className="wrap">
         <SectionHead label="How it works" title={`Get your ${c.name} number`} />
-        <Steps steps={['Download the app (or open the web app) and sign in with your phone number.', `Tap “Get a phone number” and choose ${c.name}.`, 'Pick a number from the list — calls and texts work right away.']} />
+        <Steps steps={['Sign in with your phone number.', `Tap “Get a phone number” and choose ${c.name}.`, 'Pick a number from the list — calls and texts work right away.']} />
       </div></section>
       <section className="band"><div className="wrap"><Sections items={c.sections} /></div></section>
       <Faqs items={c.faqs} />

@@ -11,16 +11,15 @@ export const USE_CASES: UseCase[] = [
     short: 'A separate business line on the phone you already carry',
     title: 'A business phone number without a second phone',
     intro:
-      'Give customers a dedicated US or Canadian number for your business, and keep your personal number for friends and family — all from the iPhone in your pocket or the web app on your desk.',
+      'Give customers a dedicated US or Canadian number for your business, and keep your personal number for friends and family — all from the iPhone in your pocket.',
     seoTitle: 'Second Phone Number for Small Business',
     seoDescription:
-      'Get a separate business line on your iPhone: a US or Canadian number for calls and texts, voicemail, recording and forwarding, plus a web app for your desk.',
+      'Get a separate business line on your iPhone: a US or Canadian number for calls and texts, voicemail, recording and forwarding.',
     problems: [
       { icon: 'userCard', title: 'Your personal number is on every invoice', text: 'Once a customer has your personal number, they have it for good. A business number you can share freely keeps work and home apart.' },
       { icon: 'clock', title: 'Calls come in when you can’t answer', text: 'On a job, in a meeting or after hours, missed calls turn into missed work. Voicemail with your own greeting and call forwarding make sure every caller gets a response.' },
-      { icon: 'devices', title: 'You switch between phone and computer', text: 'Reply to customers from the web app while you work at your desk, then pick up the same conversations on your iPhone when you head out.' },
     ],
-    features: ['second-phone-number', 'choose-your-number', 'voicemail', 'call-forwarding', 'call-recording', 'web-app'],
+    features: ['second-phone-number', 'choose-your-number', 'voicemail', 'call-forwarding', 'call-recording'],
     sections: [
       {
         title: 'Look established from day one',
@@ -34,10 +33,9 @@ export const USE_CASES: UseCase[] = [
       },
     ],
     faqs: [
-      { q: 'Can my customers text my business number?', a: 'Yes. Your number receives and sends SMS, and you can reply from the iPhone app or the web app. Texts to regular phone numbers use coins from your balance.' },
+      { q: 'Can my customers text my business number?', a: 'Yes. Your number receives and sends SMS, and you can reply from the iPhone app. Texts to regular phone numbers use coins from your balance.' },
       { q: 'Will customers see my personal number?', a: 'No. Calls and texts you make in the app go out from your second number, so your personal number stays private.' },
       { q: 'Which features need Pro?', a: 'Voicemail with a custom greeting, call forwarding, call recording, broadcasts, group calls and anonymous calling are part of the Pro plan. Lite covers the essentials: your number, calls, SMS and free app-to-app chat.' },
-      { q: 'Can I use it from my computer?', a: 'Yes. The web app runs in your browser, so you can call and message from your desk as well as from your iPhone.' },
     ],
   },
   {
@@ -50,13 +48,13 @@ export const USE_CASES: UseCase[] = [
       'Put a dedicated client number on your website, proposals and profiles. When the project ends, your personal number stays yours — and your evenings stay quiet.',
     seoTitle: 'Second Phone Number for Freelancers',
     seoDescription:
-      'Keep client calls and texts on a separate US or Canadian number. Get voicemail, call recording and a web app while your personal number stays private.',
+      'Keep client calls and texts on a separate US or Canadian number. Get voicemail and call recording while your personal number stays private.',
     problems: [
       { icon: 'globe', title: 'Your number is on public profiles', text: 'Portfolio sites and marketplaces ask for a phone number. Listing a second number keeps your personal one out of search results and spam lists.' },
       { icon: 'moon', title: 'Clients call at all hours', text: 'When work and personal calls ring on the same number, it’s hard to switch off. A separate line lets you see at a glance who’s calling and when to answer.' },
       { icon: 'record', title: 'Details get lost on calls', text: 'Briefs and feedback often arrive by phone. Recording your outgoing calls (Pro) means you can listen back instead of relying on memory.' },
     ],
-    features: ['second-phone-number', 'voicemail', 'call-recording', 'texting', 'web-app', 'block-numbers'],
+    features: ['second-phone-number', 'voicemail', 'call-recording', 'texting', 'block-numbers'],
     sections: [
       {
         title: 'Set boundaries without losing work',
@@ -65,7 +63,7 @@ export const USE_CASES: UseCase[] = [
       },
       {
         title: 'Keep a clean record of client conversations',
-        text: 'Call history, SMS threads and recordings live together in one app, separate from your personal messages. Pick the conversation up on your laptop with the web app when you’re back at your desk.',
+        text: 'Call history, SMS threads and recordings live together in one app, separate from your personal messages.',
         bullets: ['SMS threads per client', 'Automatic recording of outgoing calls (Pro)', 'Same account on iPhone and web'],
       },
     ],
@@ -91,12 +89,12 @@ export const USE_CASES: UseCase[] = [
       { icon: 'message', title: 'Lots of short buyer conversations', text: 'Questions about size, price and pickup times come in by text. Each buyer gets their own SMS thread, separate from your personal chats.' },
       { icon: 'nosign', title: 'Some buyers won’t stop messaging', text: 'Block a number in seconds and that buyer can no longer call or text you.' },
     ],
-    features: ['second-phone-number', 'texting', 'block-numbers', 'broadcast-messages', 'phone-calls', 'web-app'],
+    features: ['second-phone-number', 'texting', 'block-numbers', 'broadcast-messages', 'phone-calls'],
     sections: [
       {
         title: 'Handle buyers from your phone or your desk',
-        text: 'Reply to buyers by SMS — including photos of the item — from the iPhone app, or from the web app while you’re packing orders. Calls and texts go out from your second number.',
-        bullets: ['SMS and picture messages from your second number', 'Web app for replying from a computer', 'Your personal number never appears'],
+        text: 'Reply to buyers by SMS — including photos of the item — from the iPhone app. Calls and texts go out from your second number.',
+        bullets: ['SMS and picture messages from your second number', 'Your personal number never appears'],
       },
       {
         title: 'Reach regular buyers in one go',
