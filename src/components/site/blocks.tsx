@@ -2,7 +2,7 @@
 import Link from 'next/link';
 import type { ReactNode } from 'react';
 import { Icon, type IconName } from '@/components/icons';
-import { APP_STORE_URL, abs } from '@/site/config';
+import { abs } from '@/site/config';
 import type { Faq, Point, Section } from '@/site/types';
 
 export function Crumbs({ items }: { items: { href?: string; label: string }[] }) {
@@ -20,15 +20,6 @@ export function Crumbs({ items }: { items: { href?: string; label: string }[] })
       ))}
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(ld) }} />
     </nav>
-  );
-}
-
-export function StoreButton({ light }: { light?: boolean }) {
-  return (
-    <a className={'btn ' + (light ? 'btn-light' : 'btn-primary')} href={APP_STORE_URL} target="_blank" rel="noopener">
-      <svg width="17" height="17" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M16.4 12.9c0-2.3 1.9-3.4 2-3.5-1.1-1.6-2.8-1.8-3.4-1.8-1.4-.1-2.8.9-3.5.9-.7 0-1.9-.9-3.1-.8-1.6 0-3 .9-3.8 2.4-1.6 2.8-.4 7 1.2 9.3.8 1.1 1.7 2.4 2.9 2.3 1.2-.1 1.6-.8 3-.8s1.8.8 3 .7c1.2 0 2-1.1 2.8-2.3.9-1.3 1.2-2.6 1.3-2.7-.1 0-2.4-1-2.4-3.6zM14.2 5.9c.6-.8 1.1-1.9.9-3-1 0-2.2.7-2.9 1.5-.6.7-1.2 1.8-1 2.9 1.1.1 2.3-.6 3-1.4z" /></svg>
-      Download on iOS
-    </a>
   );
 }
 
@@ -137,25 +128,6 @@ export function LinkCards({ items, cols = 3 }: { items: CardLink[]; cols?: 2 | 3
         </Link>
       ))}
     </div>
-  );
-}
-
-/** Closing call to action band. */
-export function CtaBand({ title = 'Get your second number today', text = 'Download the app or open the web app — set up takes a couple of minutes.' }: { title?: string; text?: string }) {
-  return (
-    <section className="x-cta">
-      <div className="wrap">
-        <div className="x-cta-in">
-          <div>
-            <h2>{title}</h2>
-            <p>{text}</p>
-          </div>
-          <div className="x-cta-actions">
-            <StoreButton light />
-          </div>
-        </div>
-      </div>
-    </section>
   );
 }
 

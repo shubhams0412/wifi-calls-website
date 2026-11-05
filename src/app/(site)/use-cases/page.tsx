@@ -1,5 +1,5 @@
 import type { Metadata } from 'next';
-import { CtaBand, LinkCards, PageHero } from '@/components/site/blocks';
+import { LinkCards, PageHero } from '@/components/site/blocks';
 import { USE_CASES } from '@/site/content/useCases';
 
 export const metadata: Metadata = {
@@ -17,7 +17,6 @@ export default function UseCasesPage() {
       <section className="band"><div className="wrap">
         <LinkCards cols={2} items={USE_CASES.map((u) => ({ href: `/use-cases/${u.slug}`, icon: u.icon, title: u.name, text: u.short }))} />
       </div></section>
-      <CtaBand />
     </>
   );
 }

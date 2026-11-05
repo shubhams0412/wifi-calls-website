@@ -1,6 +1,6 @@
 import Link from 'next/link';
 import { Icon } from '@/components/icons';
-import { Crumbs, CtaBand, Faqs } from '@/components/site/blocks';
+import { Crumbs, Faqs } from '@/components/site/blocks';
 import BlogCard from '@/components/site/BlogCard';
 import { formatDate, type Post } from '@/site/blog';
 import { abs, BRAND } from '@/site/config';
@@ -11,8 +11,14 @@ const external = (url: string) => (/^https?:/.test(url) ? { target: '_blank', re
 const wrapTables = (html: string) => html.replace(/<table\b/g, '<div class="x-table"><table').replace(/<\/table>/g, '</table></div>');
 
 /** A full article: used by /blog/[slug] and by the admin panel's preview (/blog/preview/[token]). */
+/** True for a CMS call to action that asks the reader to download or get the app. */
+const isAppDownloadCta = (cta: { buttonStyle?: string; buttonUrl?: string | null; buttonText?: string | null }) =>
+  cta.buttonStyle === 'APP_STORE' || /apps\.apple\.com|play\.google\.com/.test(cta.buttonUrl ?? '') || /download|get the app|app store/i.test(cta.buttonText ?? '');
+
 export default function PostView({ p, preview }: { p: Post; preview?: string }) {
   const updated = p.updatedAt.slice(0, 10) !== p.publishedAt.slice(0, 10);
+  // The site offers no app downloads, so a "get / download the app" call to action from the CMS isn't shown.
+  const cta = p.cta && !isAppDownloadCta(p.cta) ? p.cta : null;
   const ld = {
     '@context': 'https://schema.org', '@type': 'BlogPosting',
     headline: p.title, description: p.excerpt, image: p.image?.url,
@@ -51,7 +57,7 @@ export default function PostView({ p, preview }: { p: Post; preview?: string }) 
             <img src={p.image.url} alt={p.image.alt} width={p.image.width ?? undefined} height={p.image.height ?? undefined} fetchPriority="high" />
           </figure>
         )}
-        <div className={'x-post-layout' + (p.cta ? ' has-cta' : '')}>
+        <div className={'x-post-layout' + (cta ? ' has-cta' : '')}>
           <div className="x-post-main">
             <div className="prose x-article" dangerouslySetInnerHTML={{ __html: wrapTables(p.html) }} />
 
@@ -72,22 +78,15 @@ export default function PostView({ p, preview }: { p: Post; preview?: string }) 
           </div>
 
           {/* The article's call to action: sticky beside the text on desktop, below it on phones. */}
-          {p.cta && (
-            <aside className="x-post-cta" aria-label="Get the app">
+          {cta && (
+            <aside className="x-post-cta" aria-label={cta.title}>
               {/* eslint-disable-next-line @next/next/no-img-element */}
-              {p.cta.image && <img className="x-post-cta-img" src={p.cta.image} alt="" loading="lazy" />}
+              {cta.image && <img className="x-post-cta-img" src={cta.image} alt="" loading="lazy" />}
               <div className="x-post-cta-body">
                 <span className="appicon" role="img" aria-label="Wi-Fi Calling & Texting app icon" />
-                <h2>{p.cta.title}</h2>
-                {p.cta.description && <p>{p.cta.description}</p>}
-                {p.cta.buttonStyle === 'APP_STORE' ? (
-                  <a className="x-store-badge" href={p.cta.buttonUrl} aria-label={p.cta.buttonText || 'Download on the App Store'} {...external(p.cta.buttonUrl)}>
-                    <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M16.4 12.9c0-2.3 1.9-3.4 2-3.5-1.1-1.6-2.8-1.8-3.4-1.8-1.4-.1-2.8.9-3.5.9-.7 0-1.9-.9-3.1-.8-1.6 0-3 .9-3.8 2.4-1.6 2.8-.4 7 1.2 9.3.8 1.1 1.7 2.4 2.9 2.3 1.2-.1 1.6-.8 3-.8s1.8.8 3 .7c1.2 0 2-1.1 2.8-2.3.9-1.3 1.2-2.6 1.3-2.7-.1 0-2.4-1-2.4-3.6zM14.2 5.9c.6-.8 1.1-1.9.9-3-1 0-2.2.7-2.9 1.5-.6.7-1.2 1.8-1 2.9 1.1.1 2.3-.6 3-1.4z" /></svg>
-                    <span><small>Download on the</small>App Store</span>
-                  </a>
-                ) : (
-                  <a className="btn btn-primary" href={p.cta.buttonUrl} {...external(p.cta.buttonUrl)}>{p.cta.buttonText} <Icon name="arrowR" /></a>
-                )}
+                <h2>{cta.title}</h2>
+                {cta.description && <p>{cta.description}</p>}
+                <a className="btn btn-primary" href={cta.buttonUrl} {...external(cta.buttonUrl)}>{cta.buttonText} <Icon name="arrowR" /></a>
               </div>
             </aside>
           )}
@@ -102,7 +101,6 @@ export default function PostView({ p, preview }: { p: Post; preview?: string }) 
           <div className="x-posts">{p.related.map((m) => <BlogCard p={m} key={m.slug} headingLevel={3} />)}</div>
         </div></section>
       )}
-      <CtaBand />
       {!preview && <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(ld).replace(/</g, '\\u003c') }} />}
     </>
   );

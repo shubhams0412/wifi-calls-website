@@ -1,6 +1,6 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
-import { CtaBand, PageHero } from '@/components/site/blocks';
+import { PageHero } from '@/components/site/blocks';
 import BlogCard from '@/components/site/BlogCard';
 import { isSlug, listPosts } from '@/site/blog';
 
@@ -69,7 +69,6 @@ export default async function BlogIndex({ searchParams }: { searchParams: Search
           </nav>
         )}
       </div></section>
-      <CtaBand />
     </>
   );
 }

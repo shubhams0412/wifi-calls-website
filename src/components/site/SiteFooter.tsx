@@ -1,6 +1,5 @@
 import Link from 'next/link';
 import { buildMenu } from '@/site/menu';
-import { APP_STORE_URL } from '@/site/config';
 
 /** Footer with link groups for every section of the site. */
 export default function SiteFooter() {
@@ -16,9 +15,6 @@ export default function SiteFooter() {
               <span className="fb-name">Wi-Fi Calling &amp; Texting</span>
             </div>
             <p>A private second phone number with free app-to-app calling and texting over any Wi-Fi or data connection.</p>
-            <div className="foot-cta">
-              <a className="btn btn-light sm" href={APP_STORE_URL} target="_blank" rel="noopener">Download on iOS</a>
-            </div>
           </div>
           <div className="foot-col">
             <h4>Features</h4>
@@ -41,7 +37,6 @@ export default function SiteFooter() {
             <Link href="/blog">Blog</Link>
             <Link href="/faq">FAQ</Link>
             <Link href="/contact">Contact us</Link>
-            <Link href="/download">Download</Link>
             <Link href="/privacy">Privacy Policy</Link>
             <Link href="/terms">Terms of Use</Link>
           </div>

@@ -1,6 +1,6 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
-import { CtaBand, Faqs, PageHero } from '@/components/site/blocks';
+import { Faqs, PageHero } from '@/components/site/blocks';
 import { GENERAL_FAQ } from '@/site/content/faq';
 
 export const metadata: Metadata = {
@@ -17,7 +17,6 @@ export default function FaqPage() {
         <Link className="btn btn-light" href="/contact">Contact us</Link>
       </PageHero>
       <Faqs items={GENERAL_FAQ} title="Everything about the app" />
-      <CtaBand />
     </>
   );
 }

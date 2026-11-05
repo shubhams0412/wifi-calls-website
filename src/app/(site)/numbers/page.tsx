@@ -1,5 +1,5 @@
 import type { Metadata } from 'next';
-import { CtaBand, LinkCards, PageHero, SectionHead, Steps } from '@/components/site/blocks';
+import { LinkCards, PageHero, SectionHead, Steps } from '@/components/site/blocks';
 import { NUMBER_COUNTRIES } from '@/site/content/countries';
 
 export const metadata: Metadata = {
@@ -22,7 +22,6 @@ export default function NumbersPage() {
         <SectionHead label="How it works" title="Your number in three steps" />
         <Steps steps={['Download the app (or open the web app) and sign in with your phone number.', 'Choose a plan, then tap “Get a phone number” and pick a country.', 'Select a number from the available list — it’s ready for calls and texts straight away.']} />
       </div></section>
-      <CtaBand />
     </>
   );
 }

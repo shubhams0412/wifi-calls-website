@@ -1,5 +1,5 @@
 import type { Metadata } from 'next';
-import { CtaBand, Highlights, LinkCards, PageHero, SectionHead } from '@/components/site/blocks';
+import { Highlights, LinkCards, PageHero, SectionHead } from '@/components/site/blocks';
 import { CALL_COUNTRIES } from '@/site/content/countries';
 
 export const metadata: Metadata = {
@@ -25,7 +25,6 @@ export default function InternationalPage() {
         <SectionHead label="Popular countries" title="Calling guides by country" />
         <LinkCards cols={3} items={CALL_COUNTRIES.map((c) => ({ href: `/international-calling/${c.slug}`, flag: c.flag, title: c.title, text: `Country code ${c.dial}` }))} />
       </div></section>
-      <CtaBand />
     </>
   );
 }

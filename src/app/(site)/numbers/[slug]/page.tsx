@@ -1,6 +1,6 @@
 import type { Metadata } from 'next';
 import { notFound } from 'next/navigation';
-import { CtaBand, Faqs, PageHero, SectionHead, Sections, Steps, StoreButton } from '@/components/site/blocks';
+import { Faqs, PageHero, SectionHead, Sections, Steps } from '@/components/site/blocks';
 import { NUMBER_COUNTRIES } from '@/site/content/countries';
 
 export const dynamicParams = false;
@@ -20,7 +20,6 @@ export default async function NumberCountryPage({ params }: { params: Promise<{ 
     <>
       <PageHero crumbs={[{ href: '/', label: 'Home' }, { href: '/numbers', label: 'Numbers' }, { label: c.name }]}
         eyebrow={<><span aria-hidden="true">{c.flag}</span> {c.name} · {c.dial}</>} title={c.title} intro={c.intro}>
-        <StoreButton light />
       </PageHero>
       <section className="band"><div className="wrap">
         <SectionHead label="Area codes" title="Example area codes" sub="Availability changes — in the app you pick from the numbers available at that moment." />
@@ -34,7 +33,6 @@ export default async function NumberCountryPage({ params }: { params: Promise<{ 
       </div></section>
       <section className="band"><div className="wrap"><Sections items={c.sections} /></div></section>
       <Faqs items={c.faqs} />
-      <CtaBand />
     </>
   );
 }

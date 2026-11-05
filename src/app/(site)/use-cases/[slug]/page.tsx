@@ -1,6 +1,6 @@
 import type { Metadata } from 'next';
 import { notFound } from 'next/navigation';
-import { CtaBand, Faqs, Highlights, LinkCards, PageHero, SectionHead, Sections, StoreButton } from '@/components/site/blocks';
+import { Faqs, Highlights, LinkCards, PageHero, SectionHead, Sections } from '@/components/site/blocks';
 import { USE_CASES } from '@/site/content/useCases';
 import { FEATURES } from '@/site/content/features';
 
@@ -21,7 +21,6 @@ export default async function UseCasePage({ params }: { params: Promise<{ slug: 
   return (
     <>
       <PageHero crumbs={[{ href: '/', label: 'Home' }, { href: '/use-cases', label: 'Use cases' }, { label: u.name }]} eyebrow={u.name} title={u.title} intro={u.intro} icon={u.icon}>
-        <StoreButton light />
       </PageHero>
       <section className="band"><div className="wrap">
         <SectionHead label="Sound familiar?" title="Where a second number helps" />
@@ -33,7 +32,6 @@ export default async function UseCasePage({ params }: { params: Promise<{ slug: 
       </div></section>
       <section className="band"><div className="wrap"><Sections items={u.sections} /></div></section>
       <Faqs items={u.faqs} />
-      <CtaBand />
     </>
   );
 }

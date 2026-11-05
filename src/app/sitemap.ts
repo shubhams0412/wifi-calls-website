@@ -14,7 +14,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const page = (path: string, priority = 0.7): MetadataRoute.Sitemap[number] => ({ url: abs(path), lastModified: now, priority });
   return [
     page('/', 1), page('/features', 0.9), page('/plans', 0.9), page('/numbers', 0.8), page('/international-calling', 0.8),
-    page('/use-cases', 0.7), page('/blog', 0.7), page('/faq', 0.6), page('/contact', 0.5), page('/download', 0.6),
+    page('/use-cases', 0.7), page('/blog', 0.7), page('/faq', 0.6), page('/contact', 0.5),
     page('/privacy', 0.3), page('/terms', 0.3),
     ...FEATURES.map((f) => page(`/features/${f.slug}`, 0.8)),
     ...USE_CASES.map((u) => page(`/use-cases/${u.slug}`, 0.7)),

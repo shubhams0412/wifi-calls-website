@@ -4,7 +4,6 @@
     when the site moves to its own domain (e.g. https://wifiphonecalls.com). */
 export const SITE_URL = (process.env.NEXT_PUBLIC_SITE_URL || 'https://wifi-calls-web.vercel.app').replace(/\/$/, '');
 export const BRAND = 'Wi-Fi Calling & Texting';
-export const APP_STORE_URL = 'https://apps.apple.com/app/id6781677176';
 export const SUPPORT_EMAIL = 'support@wifiphonecalls.com';
 
 

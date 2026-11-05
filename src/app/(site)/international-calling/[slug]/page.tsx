@@ -1,6 +1,6 @@
 import type { Metadata } from 'next';
 import { notFound } from 'next/navigation';
-import { CtaBand, Faqs, LinkCards, PageHero, SectionHead, Steps, StoreButton } from '@/components/site/blocks';
+import { Faqs, LinkCards, PageHero, SectionHead, Steps } from '@/components/site/blocks';
 import { CALL_COUNTRIES } from '@/site/content/countries';
 
 export const dynamicParams = false;
@@ -21,7 +21,6 @@ export default async function CallCountryPage({ params }: { params: Promise<{ sl
     <>
       <PageHero crumbs={[{ href: '/', label: 'Home' }, { href: '/international-calling', label: 'International calling' }, { label: c.name }]}
         eyebrow={<><span aria-hidden="true">{c.flag}</span> Country code {c.dial}</>} title={c.title} intro={c.intro}>
-        <StoreButton light />
       </PageHero>
       <section className="band"><div className="wrap">
         <div className="x-dial">
@@ -39,7 +38,6 @@ export default async function CallCountryPage({ params }: { params: Promise<{ sl
         <SectionHead label="More countries" title="Other calling guides" />
         <LinkCards cols={3} items={others.map((o) => ({ href: `/international-calling/${o.slug}`, flag: o.flag, title: o.title, text: `Country code ${o.dial}` }))} />
       </div></section>
-      <CtaBand />
     </>
   );
 }

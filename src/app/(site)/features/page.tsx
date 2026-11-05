@@ -1,5 +1,5 @@
 import type { Metadata } from 'next';
-import { CtaBand, LinkCards, PageHero, SectionHead } from '@/components/site/blocks';
+import { LinkCards, PageHero, SectionHead } from '@/components/site/blocks';
 import { FEATURES } from '@/site/content/features';
 import { FEATURE_GROUPS, type FeatureGroup } from '@/site/types';
 
@@ -28,7 +28,6 @@ export default function FeaturesPage() {
           </section>
         );
       })}
-      <CtaBand />
     </>
   );
 }

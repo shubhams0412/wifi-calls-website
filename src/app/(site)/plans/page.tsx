@@ -1,5 +1,5 @@
 import type { Metadata } from 'next';
-import { CtaBand, Faqs, PageHero, SectionHead, StoreButton } from '@/components/site/blocks';
+import { Faqs, PageHero, SectionHead } from '@/components/site/blocks';
 import { Icon } from '@/components/icons';
 
 export const metadata: Metadata = {
@@ -27,7 +27,6 @@ export default function PlansPage() {
       <PageHero crumbs={[{ href: '/', label: 'Home' }, { label: 'Plans' }]} eyebrow="Plans" icon="crown"
         title="Simple plans, free trial included"
         intro="Start with Lite for the essentials or go Pro for every feature. Prices are shown in the app before you subscribe.">
-        <StoreButton light />
       </PageHero>
       <section className="band"><div className="wrap">
         <div className="x-plans">
@@ -50,7 +49,6 @@ export default function PlansPage() {
         <SectionHead label="Coins" title="Calls and texts to regular numbers" sub="Coins pay for calls and SMS to non-app numbers — roughly 1 coin per minute or message for US numbers. App-to-app calls and chats are always free." />
       </div></section>
       <Faqs items={PLAN_FAQ} />
-      <CtaBand />
     </>
   );
 }
