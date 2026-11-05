@@ -112,7 +112,6 @@
     border-radius: 10px; display: grid; place-items: center;
   }
 .site-root .theme-btn:hover { color: var(--ink); }
-.site-root .nav-cta { padding: 9px 18px; font-size: 14.5px; }
 .site-root .nav-toggle {
     display: none; font: inherit; cursor: pointer; color: var(--ink);
     background: var(--alt); border: 1px solid var(--line); width: 36px; height: 36px;
@@ -277,7 +276,6 @@
 }
 @media (max-width: 600px) {
 .site-root { font-size: 16px; }
-.site-root .nav-cta { display: none; }
 .site-root .hero-inner { padding-top: 62px; padding-bottom: 108px; }
 .site-root .feature-grid { grid-template-columns: 1fr; }
 .site-root .field-row { grid-template-columns: 1fr; }
