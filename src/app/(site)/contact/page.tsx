@@ -13,7 +13,7 @@ export default function ContactPage() {
   return (
     <>
       <PageHero crumbs={[{ href: '/', label: 'Home' }, { label: 'Contact' }]} eyebrow="Contact us" icon="mail"
-        title="We’re here to help" intro={`Send us a message and we’ll get back to you by email — usually within a day. You can also write to ${SUPPORT_EMAIL}.`} />
+        title="We’re here to help" intro={`Send us a message and we’ll get back to you by email. You can also write to ${SUPPORT_EMAIL}.`} />
       <section className="band"><div className="wrap">
         <div className="contact-grid"><div className="ccard">
           <h3>Send us a message</h3>

@@ -1,5 +1,5 @@
 /* Use-case pages: /use-cases/{slug}. Describes only what the app really does — no prices,
-   ratings or customer stories. Pro-only: group calls, broadcasts, voicemail, call forwarding,
+   ratings or customer stories. Pro-only: group calls, broadcasts, voicemail,
    call recording, anonymous calling. */
 import type { UseCase } from '../types';
 
@@ -14,12 +14,12 @@ export const USE_CASES: UseCase[] = [
       'Give customers a dedicated US or Canadian number for your business, and keep your personal number for friends and family — all from the iPhone in your pocket.',
     seoTitle: 'Second Phone Number for Small Business',
     seoDescription:
-      'Get a separate business line on your iPhone: a US or Canadian number for calls and texts, voicemail, recording and forwarding.',
+      'Get a separate business line on your iPhone: a US or Canadian number for calls and texts, voicemail and call recording.',
     problems: [
       { icon: 'userCard', title: 'Your personal number is on every invoice', text: 'Once a customer has your personal number, they have it for good. A business number you can share freely keeps work and home apart.' },
-      { icon: 'clock', title: 'Calls come in when you can’t answer', text: 'On a job, in a meeting or after hours, missed calls turn into missed work. Voicemail with your own greeting and call forwarding make sure every caller gets a response.' },
+      { icon: 'clock', title: 'Calls come in when you can’t answer', text: 'On a job, in a meeting or after hours, missed calls turn into missed work. Voicemail with your own greeting makes sure every caller can leave a message.' },
     ],
-    features: ['second-phone-number', 'choose-your-number', 'voicemail', 'call-forwarding', 'call-recording'],
+    features: ['second-phone-number', 'choose-your-number', 'voicemail', 'call-recording', 'block-numbers'],
     sections: [
       {
         title: 'Look established from day one',
@@ -28,14 +28,14 @@ export const USE_CASES: UseCase[] = [
       },
       {
         title: 'Stay on top of every customer',
-        text: 'With Pro you can set a custom voicemail greeting, forward calls when you’re away, and automatically record outgoing calls so quotes and instructions are never lost. Broadcasts let you send one update to several customers at once, each receiving it as a private SMS.',
-        bullets: ['Custom voicemail greeting (Pro)', 'Call forwarding and call recording (Pro)', 'Broadcast an SMS to a list of contacts (Pro)'],
+        text: 'With Pro you can set a custom voicemail greeting and automatically record outgoing calls so quotes and instructions are never lost. Broadcasts let you send one update to several customers at once, each receiving it as a private SMS.',
+        bullets: ['Custom voicemail greeting (Pro)', 'Call recording (Pro)', 'Broadcast an SMS to a list of contacts (Pro)'],
       },
     ],
     faqs: [
       { q: 'Can my customers text my business number?', a: 'Yes. Your number receives and sends SMS, and you can reply from the iPhone app. Texts to regular phone numbers use coins from your balance.' },
       { q: 'Will customers see my personal number?', a: 'No. Calls and texts you make in the app go out from your second number, so your personal number stays private.' },
-      { q: 'Which features need Pro?', a: 'Voicemail with a custom greeting, call forwarding, call recording, broadcasts, group calls, creating group chats and anonymous calling are part of the Pro plan. Lite covers the essentials: your number, calls, SMS and free app-to-app chat.' },
+      { q: 'Which features need Pro?', a: 'Voicemail with a custom greeting, call recording, broadcasts, group calls, creating group chats and anonymous calling are part of the Pro plan. Lite covers the essentials: your number, calls, SMS and free app-to-app chat.' },
     ],
   },
   {
@@ -159,7 +159,7 @@ export const USE_CASES: UseCase[] = [
       { icon: 'phone', title: 'People at home need to reach you', text: 'Your second number keeps working while you’re away, so family, colleagues and services back home can still call and text it.' },
       { icon: 'users', title: 'Your travel group is spread out', text: 'Calls, video calls and chats between app users are free, so the group can stay in touch wherever each person is.' },
     ],
-    features: ['second-phone-number', 'free-app-calls', 'video-calls', 'group-chat', 'phone-calls', 'call-forwarding'],
+    features: ['second-phone-number', 'free-app-calls', 'video-calls', 'group-chat', 'phone-calls', 'voicemail'],
     sections: [
       {
         title: 'Calls home without the carrier',
@@ -168,8 +168,8 @@ export const USE_CASES: UseCase[] = [
       },
       {
         title: 'Never miss what matters',
-        text: 'With Pro, voicemail with your own greeting takes messages while you’re in the air, and call forwarding can send calls to another number when you can’t use the app.',
-        bullets: ['Voicemail with custom greeting (Pro)', 'Call forwarding (Pro)', 'Notifications for incoming calls and messages'],
+        text: 'With Pro, voicemail with your own greeting takes messages while you’re in the air, so you can call people back when you land.',
+        bullets: ['Voicemail with custom greeting (Pro)', 'Notifications for incoming calls and messages'],
       },
     ],
     faqs: [

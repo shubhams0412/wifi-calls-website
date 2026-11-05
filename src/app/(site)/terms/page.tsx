@@ -14,6 +14,7 @@ export default function TermsPage() {
     <span className="label">Terms of Use</span>
     <h1>The agreement for using the service.</h1>
     <p>The terms that govern your access to and use of Wi-Fi Calling &amp; Texting.</p>
+    <p><small>Last updated: November 5, 2026</small></p>
   </div>
 </section>
 

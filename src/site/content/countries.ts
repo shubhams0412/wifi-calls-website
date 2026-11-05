@@ -36,7 +36,7 @@ export const NUMBER_COUNTRIES: NumberCountry[] = [
       {
         title: 'What you can do with it',
         text: 'Call and text any US number from your new line, call other countries with coins, and talk to other app users for free.',
-        bullets: ['Calls and SMS to US numbers', 'Free app-to-app calls, video calls and chat', 'Voicemail, forwarding and recording with Pro'],
+        bullets: ['Calls and SMS to US numbers', 'Free app-to-app calls, video calls and chat', 'Voicemail and call recording with Pro'],
       },
     ],
     faqs: [

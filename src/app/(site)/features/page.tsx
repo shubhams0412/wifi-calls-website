@@ -5,7 +5,7 @@ import { FEATURE_GROUPS, type FeatureGroup } from '@/site/types';
 
 export const metadata: Metadata = {
   title: 'Features',
-  description: 'Everything in Wi-Fi Calling & Texting: a private second number, free app-to-app calls and chat, texting, voicemail, call recording, forwarding and more.',
+  description: 'Everything in Wi-Fi Calling & Texting: a private second number, free app-to-app calls and chat, texting, voicemail, call recording and more.',
   alternates: { canonical: '/features' },
 };
 

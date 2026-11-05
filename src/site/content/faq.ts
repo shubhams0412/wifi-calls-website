@@ -24,7 +24,7 @@ export const GENERAL_FAQ: Faq[] = [
   },
   {
     q: 'What’s the difference between Lite and Pro?',
-    a: 'Lite covers the essentials: chat and video calls, texting to any number and unlimited app-to-app calls. Pro adds broadcast messages, call recording, voicemail with a custom greeting, call forwarding, group calls, creating group chats and anonymous caller ID. Both plans start with a free trial.',
+    a: 'Lite covers the essentials: chat and video calls, texting to any number and unlimited app-to-app calls. Pro adds broadcast messages, call recording, voicemail with a custom greeting, group calls, creating group chats and anonymous caller ID.',
   },
   {
     q: 'How do I cancel my subscription?',

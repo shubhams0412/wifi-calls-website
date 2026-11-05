@@ -217,7 +217,7 @@ export const FEATURES: Feature[] = [
     sections: [
       {
         title: 'How coins work',
-        text: 'Coins pay for calls and texts to regular phone numbers. For US numbers it\'s roughly one coin per minute. See the coin cost for every country in Settings → Purchase Coins → Add coins → See per-minute charges.',
+        text: 'Coins pay for calls and texts to regular phone numbers. See the coin cost for every country in Settings → Purchase Coins → Add coins → See per-minute charges.',
         bullets: ['Check your balance in Settings → Purchase Coins', 'Top up whenever you need to — no subscription for coins', 'App-to-app calls never use coins'],
       },
       {
@@ -227,7 +227,7 @@ export const FEATURES: Feature[] = [
     ],
     faqs: [
       { q: 'What do I need to call regular numbers?', a: 'An active subscription, your own second number from the app, and coins in your balance.' },
-      { q: 'How much does a call cost?', a: 'Calls use coins. US calls are roughly one coin per minute, and you can see the coin cost for each country in the app\'s rates list.' },
+      { q: 'How much does a call cost?', a: 'Calls use coins. You can see the coin cost for each country in the app\'s rates list before you call.' },
       { q: 'Can I call international numbers?', a: 'Yes. Choose the country on the dial pad. The rates list in the app shows the coin cost for each country.' },
     ],
     related: ['second-phone-number', 'call-recording', 'anonymous-calling'],
@@ -267,7 +267,7 @@ export const FEATURES: Feature[] = [
     ],
     faqs: [
       { q: 'Can I text people who don\'t have the app?', a: 'Yes. SMS goes to any regular phone number from your second number.' },
-      { q: 'Do texts cost coins?', a: 'Texts to regular phone numbers use coins — about one coin per message for US numbers. Chats with app users are free.' },
+      { q: 'Do texts cost coins?', a: 'Texts to regular phone numbers use coins — the app shows the cost per message for each country. Chats with app users are free.' },
       { q: 'Can I send pictures?', a: 'Yes. Tap the photo button in any conversation to send a picture.' },
     ],
     related: ['broadcast-messages', 'group-chat', 'block-numbers'],
@@ -386,47 +386,9 @@ export const FEATURES: Feature[] = [
       { q: 'How long can my greeting be?', a: 'You can record a greeting of up to 60 seconds.' },
       { q: 'Where do I find my messages?', a: 'Open the Calls tab and switch to Voicemail.' },
     ],
-    related: ['call-forwarding', 'call-recording', 'second-phone-number'],
+    related: ['call-recording', 'second-phone-number', 'phone-calls'],
     seoTitle: 'Voicemail With a Custom Greeting | Wi-Fi Calling & Texting',
     seoDescription: 'Get voicemail on your second number with Wi-Fi Calling & Texting Pro. Record a greeting in your own voice, play messages by caller and call back in one tap.',
-  },
-  {
-    slug: 'call-forwarding',
-    group: 'answering',
-    name: 'Call forwarding',
-    icon: 'phoneOut',
-    short: 'Send calls on your second number to another phone',
-    title: 'Forward calls to any phone',
-    intro: 'Have calls to your second number ring through to another phone number when you need them to. Included with Pro.',
-    pro: true,
-    highlights: [
-      { icon: 'phoneOut', title: 'Forward to any number', text: 'Choose the country and enter the number calls should go to.' },
-      { icon: 'clock', title: 'On when you need it', text: 'Turn forwarding on for busy days and off again when you\'re back in the app.' },
-      { icon: 'crown', title: 'Included with Pro', text: 'Call forwarding comes with the Pro plan.' },
-    ],
-    steps: [
-      'Open the call forwarding setting in the app.',
-      'Turn on Call Forwarding, choose the country and enter the number to forward to.',
-      'Tap Save. Calls to your second number now ring that phone.',
-    ],
-    sections: [
-      {
-        title: 'Stay reachable on the go',
-        text: 'If you\'re somewhere you\'d rather take calls on another line, forwarding sends callers to that number so they still reach you.',
-      },
-      {
-        title: 'Your second number stays the front door',
-        text: 'People keep calling the same second number. You decide where those calls ring.',
-      },
-    ],
-    faqs: [
-      { q: 'Do I need Pro?', a: 'Yes. Call forwarding is included with the Pro plan.' },
-      { q: 'Can I forward to a number in another country?', a: 'Yes. Choose the country before entering the number.' },
-      { q: 'Can I turn it off later?', a: 'Yes. Switch Call Forwarding off and calls will come to the app again.' },
-    ],
-    related: ['voicemail', 'call-recording', 'second-phone-number'],
-    seoTitle: 'Forward Calls From Your Second Number | Wi-Fi Calling',
-    seoDescription: 'Forward calls from your second number to another phone with Wi-Fi Calling & Texting Pro. Choose the country, enter a number and switch it on or off anytime.',
   },
   {
     slug: 'call-recording',

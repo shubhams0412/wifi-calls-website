@@ -2,7 +2,7 @@ import type { Metadata, Viewport } from 'next';
 import '@/styles/globals.css';
 
 export const metadata: Metadata = {
-  title: 'Wi-Fi Calling & Texting — Free Calls, Texts & a Private Number',
+  title: 'Wi-Fi Calling & Texting — Your Second Number Over Wi-Fi',
   description:
     'Wi-Fi Calling & Texting gives you a private second number and free app-to-app calls and chat over Wi-Fi or data — no extra SIM needed.',
   icons: { icon: '/app-icon.png' },

@@ -18,7 +18,7 @@ export default async function HomePage() {
   <HeroSignal />
   <div className="wrap hero-inner">
     <span className="appicon" role="img" aria-label="Wi-Fi Calling & Texting app icon"></span>
-    <h1>Free calls and texts, over any Wi-Fi.</h1>
+    <h1>Your second number, over any Wi-Fi.</h1>
     <p className="lede">
       Wi-Fi Calling &amp; Texting gives you a private phone number and free app-to-app
       calling and messaging on any Wi-Fi or data connection — no extra SIM, no carrier plan.
@@ -47,7 +47,7 @@ export default async function HomePage() {
       <div className="fcard">
         <span className="ic" aria-hidden="true"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6 19.8 19.8 0 0 1-3.1-8.7A2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1.9.3 1.8.6 2.7a2 2 0 0 1-.5 2.1L8.1 9.9a16 16 0 0 0 6 6l1.4-1.1a2 2 0 0 1 2.1-.5c.9.3 1.8.5 2.7.6a2 2 0 0 1 1.7 2z"/></svg></span>
         <h3>Free app-to-app calls</h3>
-        <p>Call and be called by other users for free over any Wi-Fi or data connection — crystal-clear, wherever you are.</p>
+        <p>Call and be called by other users for free over any Wi-Fi or data connection, wherever you are.</p>
       </div>
       <div className="fcard">
         <span className="ic" aria-hidden="true"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect x="5" y="2" width="14" height="20" rx="2.5"/><path d="M11 18h2"/></svg></span>
@@ -129,7 +129,7 @@ export default async function HomePage() {
 {/* ===================== PLANS ===================== */}
 <section className="band" id="plans">
   <div className="wrap">
-    <SectionHead label="Plans" title="Two plans, upgrade when you need more" sub="Lite covers the essentials. Pro adds call recording, voicemail, forwarding, broadcasts, group calls, group chats and anonymous calling." />
+    <SectionHead label="Plans" title="Two plans, upgrade when you need more" sub="Lite covers the essentials. Pro adds call recording, voicemail, broadcasts, group calls, group chats and anonymous calling." />
     <div className="home-plans">
       <Link className="btn btn-primary" href="/plans">Compare Lite and Pro</Link>
     </div>
@@ -160,7 +160,7 @@ export default async function HomePage() {
     <div className="contact-grid">
       <div className="ccard">
         <h3>Send us a message</h3>
-        <p>Fill in the form below and it goes straight to our support team. We usually reply within a day.</p>
+        <p>Fill in the form below and it goes straight to our support team, and we’ll reply by email.</p>
         <ContactForm />
       </div>
     </div>

@@ -14,6 +14,7 @@ export default function PrivacyPage() {
     <span className="label">Privacy Policy</span>
     <h1>Your privacy, in plain terms.</h1>
     <p>What we collect, why we collect it, how we use it, and the choices you have over your data.</p>
+    <p><small>Last updated: November 5, 2026</small></p>
   </div>
 </section>
 
@@ -35,7 +36,7 @@ export default function PrivacyPage() {
       <h4>Account Information</h4>
       <p>When you create an account, we may collect your primary mobile number, your name, and your email address (optional).</p>
       <ul>
-        <li>Your mobile number is used for account verification, security, OTP verification, important account notifications, and optional call-forwarding features.</li>
+        <li>Your mobile number is used for account verification, security, OTP verification, and important account notifications.</li>
         <li>Your name helps personalize your account and communications.</li>
         <li>Your email address is optional and may be used for service updates, account information, promotional offers (where permitted), and customer support.</li>
       </ul>
@@ -51,15 +52,14 @@ export default function PrivacyPage() {
       <p>We automatically collect certain information whenever you use the app, including IP address, login timestamps, authentication logs, device activity, and error reports. These logs help protect accounts, detect suspicious activity, investigate fraud, and improve reliability.</p>
 
       <h4>Location Information</h4>
-      <p>We may collect approximate location derived from your IP address to improve service quality, detect fraudulent activity, comply with legal requirements, and enhance network performance. We do not continuously track your precise GPS location unless you explicitly grant permission for a feature requiring it.</p>
+      <p>We may collect approximate location derived from your IP address to improve service quality, detect fraudulent activity, comply with legal requirements, and enhance network performance. The app does not access your device’s GPS location.</p>
 
       <h4>Contacts</h4>
       <p>With your explicit permission, the app may access your device contacts to help identify friends or other registered users. To do this, the app sends your contacts’ names and phone numbers to our servers, where they are matched against registered users. This information is used only to find and show your friends on the app, is never sold, and is never shared for advertising. You can revoke this permission at any time through your device settings.</p>
 
-      <h4>Phone, SMS, Microphone &amp; Camera Permissions</h4>
+      <h4>Phone, Microphone &amp; Camera Permissions</h4>
       <ul>
-        <li><strong>Phone &amp; calling:</strong> phone access, microphone access, call management, and audio routing — used solely to enable voice calling and improve call quality.</li>
-        <li><strong>SMS:</strong> where supported, requested for OTP verification and automatic verification of authentication codes. SMS access is never used to read unrelated personal messages.</li>
+        <li><strong>Phone &amp; calling:</strong> the iPhone’s built-in calling screen (CallKit) and audio routing — used solely to show and manage your calls.</li>
         <li><strong>Microphone:</strong> required for voice calls and voice messaging. Audio is transmitted only during active communications and handled securely.</li>
         <li><strong>Camera:</strong> optional — requested only if you use features such as profile photos, video calling, or media sharing.</li>
       </ul>
