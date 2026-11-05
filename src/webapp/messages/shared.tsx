@@ -1,6 +1,6 @@
 'use client';
 
-/* Shared thread pieces: bubbles, composer, send logic, fake chat replies, image viewer. */
+/* Shared thread pieces: bubbles, composer, send logic, image viewer. */
 import { wc } from '../api';
 import { loadCredit, mapMessage, type SmsMessage } from '../sync';
 import { Fragment, useEffect, useRef, useState, type ReactNode } from 'react';
@@ -241,11 +241,6 @@ export function pushMsg(kind: ThreadKind, id: string, msg: { body?: string; imag
   });
   if (kind === 'sms') return void sendSms(id, m);
   if (kind === 'broadcast') return void sendBroadcast(id, m);
-  // App-to-app chat isn't connected yet (it runs on QuickBlox, coming with calling).
-  setTimeout(() => mutate((d) => {
-    const mm = findThread(d, kind, id)?.messages.find((x) => x.id === m.id);
-    if (mm) mm.status = 'sent';
-  }), 500);
 }
 
 async function sendBroadcast(id: string, m: Message) {
@@ -259,28 +254,3 @@ async function sendBroadcast(id: string, m: Message) {
   loadCredit();
 }
 
-/* ---------------- fake chat replies ---------------- */
-const REPLIES = ['Haha nice 😄', 'Sounds good!', 'On my way', 'Sure, talk soon', '👍', 'Let me check and get back to you', 'Love it ❤️'];
-let openChat: string | null = null;
-export const setOpenChat = (id: string | null) => { openChat = id; };
-export const useTyping = create<{ id: string | null }>()(() => ({ id: null }));
-
-export function fakeReply(chatId: string) {
-  setTimeout(() => { if (openChat === chatId) useTyping.setState({ id: chatId }); }, 700);
-  setTimeout(() => {
-    useTyping.setState((s) => (s.id === chatId ? { id: null } : s));
-    mutate((d) => {
-      const t = d.chats.find((c) => c.id === chatId);
-      if (!t) return;
-      let sender: string | null = null;
-      if (t.group) {
-        const g = d.groups.find((x) => x.id === t.groupId);
-        const ids = g ? g.members.filter((m) => m !== 'me') : [];
-        const p = d.contacts.find((c) => c.id === ids[Math.floor(Math.random() * ids.length)]);
-        sender = p ? p.name : 'Friend';
-      }
-      t.messages.push({ id: 'm' + uid(), out: false, body: REPLIES[Math.floor(Math.random() * REPLIES.length)], at: Date.now(), status: 'sent', sender });
-      if (openChat !== chatId) t.unread = (t.unread || 0) + 1;
-    });
-  }, 2200 + Math.random() * 1200);
-}

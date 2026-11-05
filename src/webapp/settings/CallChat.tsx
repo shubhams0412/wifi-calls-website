@@ -1,9 +1,10 @@
 'use client';
 
-/* Call settings, Voicemail settings (+ greeting recorder), Blocked numbers, Chat settings, Chat background. */
+/* Call settings, Call forwarding, Voicemail settings (+ greeting recorder), Blocked numbers, Chat settings, Chat background. */
 import { useEffect, useRef, useState } from 'react';
 import { cx, digits, fmtPhone, fmtTyping, mmss } from '../format';
 import { Icon } from '../icons';
+import { COUNTRIES } from '../data';
 import { country, isBlocked, isPro, mutate, nameFor, useData } from '../store';
 import { alertDialog, confirmDialog, toast } from '../ui';
 import { wc } from '../api';
@@ -34,9 +35,73 @@ export function CallSettingsView() {
           <ToggleTile icon="record" color="primary" title="Call recording" sub="Automatically record every outgoing call." pro
             on={d.settings.recording} onChange={(v) => persist('recordingSetting', { is_call_record: v }, (x) => { x.settings.recording = v; })} />
           <SectionHead icon="sliders" style={{ marginTop: 6 }}>MANAGE</SectionHead>
+          <LinkTile href="settings/call/forwarding" icon="phoneOut" color="accent" title="Call forwarding"
+            sub={d.forwarding?.on && d.forwarding.to ? 'On · ' + fmtPhone(d.forwarding.to) : 'Send incoming calls to another phone.'} pro />
           <LinkTile href="settings/call/voicemail" icon="mic" color="success" title="Voicemail" sub="Set up greetings and record missed-call messages." pro />
           <LinkTile href="settings/call/blocked" icon="phoneDown" color="warning" title="Blocked numbers" sub="Stop calls and texts from specific numbers." />
           <LinkTile onClick={clearCalls} icon="trash" color="danger" title="Clear call history" sub="Permanently delete every call log entry." danger />
+        </div>
+      </div>
+    </>
+  );
+}
+
+/* ---------------- call forwarding (Pro) ---------------- */
+/** "+44 20…" → country + local digits, matching the longest dial code (US before CA for +1). */
+function splitNumber(e164: string) {
+  const match = [...COUNTRIES].sort((a, b) => b.dial.length - a.dial.length).find((c) => e164.startsWith(c.dial));
+  return match ? { cc: match.code, local: e164.slice(match.dial.length) } : { cc: 'US', local: digits(e164) };
+}
+
+export function CallForwardingView() {
+  const d = useData();
+  const saved = d.forwarding ?? { on: false, to: '' };
+  const initial = splitNumber(saved.to);
+  const [on, setOn] = useState(saved.on);
+  const [cc, setCc] = useState(initial.cc);
+  const [phone, setPhone] = useState(saved.on ? initial.local : '');
+  const [saving, setSaving] = useState(false);
+  const c = country(cc);
+  const full = c.dial + phone;
+
+  const toggle = async (v: boolean) => {
+    setOn(v);
+    if (v || !saved.on) return; // Turning on waits for a number and Save.
+    setSaving(true);
+    const ok = await persist('forwarding', { is_forwarding: false }, (x) => { x.forwarding = { on: false, to: '' }; }, { ok: 'Call forwarding turned off' });
+    setSaving(false);
+    if (ok) setPhone(''); else setOn(true);
+  };
+  const save = async () => {
+    if (phone.length < 4) return toast('Enter a phone number to forward to.');
+    if (d.number && digits(full) === digits(d.number)) return toast('You can’t forward calls to your own Wi-Fi Calls number.');
+    setSaving(true);
+    await persist('forwarding', { is_forwarding: true, forward_to: full }, (x) => { x.forwarding = { on: true, to: full }; }, { ok: 'Forwarding to ' + fmtPhone(full) });
+    setSaving(false);
+  };
+
+  return (
+    <>
+      <TopBar title="Call forwarding" back="settings/call" />
+      <div className="scroll">
+        <div className="content narrow">
+          <ToggleTile icon="phoneOut" color="accent" title="Call forwarding" sub="Calls to your Wi-Fi Calls number ring this phone instead." pro on={on} onChange={toggle} />
+          {on && isPro(d) && (
+            <div className="card pad" style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
+              <div style={{ fontWeight: 600 }}>Forward to</div>
+              <div className="phone-row">
+                <button className="country-pill" onClick={() => openCountryPicker(cc, (x) => setCc(x.code))}>{c.flag} <b className="mono">{c.dial}</b> <Icon name="chevD" /></button>
+                <span className="icon-input" style={{ flex: 1 }}><Icon name="phone" />
+                  <input className="input mono" inputMode="tel" placeholder="Phone number" value={fmtTyping(phone)} autoFocus={!phone}
+                    onChange={(e) => setPhone(digits(e.target.value).slice(0, 15))} onKeyDown={(e) => { if (e.key === 'Enter') save(); }} />
+                </span>
+              </div>
+              {phone.length >= 4 && <div className="tiny muted">Calls will ring {fmtPhone(full)}</div>}
+              <button className="btn btn-primary sm block" disabled={saving || phone.length < 4 || (saved.on && saved.to === full)} onClick={save}>
+                <Icon name="check" /> {saving ? 'Saving…' : 'Save'}
+              </button>
+            </div>
+          )}
         </div>
       </div>
     </>

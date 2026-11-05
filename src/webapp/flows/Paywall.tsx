@@ -12,7 +12,7 @@ import { alertDialog, closePaywall, toast } from '../ui';
 
 /** Subscriptions are sold by Apple only (the backend checks App Store receipts). */
 export const APP_STORE_URL = 'https://apps.apple.com/app/id6781677176';
-import { Spinner, TopBar } from '../components/ui';
+import { TopBar } from '../components/ui';
 
 export type TierView = 'pro' | 'lite';
 interface Plan { id: string; label: string; price: string; desc: string; badge?: [string, string] }
@@ -51,12 +51,11 @@ export function useOffer(onBought: (tier: TierView) => void) {
   const d = useData();
   const [tier, setTier] = useState<TierView>('pro');
   const [plan, setPlan] = useState('weekly');
-  const [busy, setBusy] = useState(false);
   const purchase = () => {
     window.open(APP_STORE_URL, '_blank', 'noopener');
     onBought(tier);
   };
-  return { tier, setTier: (t: TierView) => { setTier(t); setPlan('weekly'); }, plan, setPlan, busy, purchase, owned: d.tier === tier, current: d.tier };
+  return { tier, setTier: (t: TierView) => { setTier(t); setPlan('weekly'); }, plan, setPlan, purchase, owned: d.tier === tier, current: d.tier };
 }
 type Offer = ReturnType<typeof useOffer>;
 
@@ -128,8 +127,8 @@ export function BuyArea({ o }: { o: Offer }) {
           <button className="btn block" disabled style={{ background: 'var(--field)', color: 'var(--text-3)' }}>You&apos;re on <Swap pro={pro}>{['Pro', 'Lite']}</Swap></button>
         </div>
         <div className={cx('bs', !o.owned && 'on')} aria-hidden={o.owned} inert={o.owned}>
-          <button className="btn btn-primary block pulse fx-cta" onClick={o.purchase} disabled={o.busy}>
-            {o.busy ? <><Spinner white /> Processing…</> : <><span>Get <Swap pro={pro}>{['Pro', 'Lite']}</Swap> in the iPhone app</span><Icon name="arrowUpRight" /></>}
+          <button className="btn btn-primary block pulse fx-cta" onClick={o.purchase}>
+            <span>Get <Swap pro={pro}>{['Pro', 'Lite']}</Swap> in the iPhone app</span><Icon name="arrowUpRight" />
           </button>
           <p className="tiny faint center" style={{ margin: 0 }}>
             Subscriptions are handled by Apple. Subscribe in the iPhone app, then use the same phone number here - your plan works on the web too.

@@ -75,25 +75,6 @@ export const COUNTRIES: Country[] = [
   ['Vietnam', 'VN', '+84', '🇻🇳'],
 ].map(([name, code, dial, flag]) => ({ name, code, dial, flag }));
 
-/** Per-minute / per-SMS coin rates (PerMinuteRatesView) — illustrative values. */
-export const RATES = COUNTRIES.map((c, i) => {
-  const base = c.code === 'US' || c.code === 'CA' ? 1 : 2 + ((i * 7) % 9);
-  return { name: c.name, code: c.code, flag: c.flag, call: base, sms: Math.max(1, Math.round(base * 0.8)) };
-}).sort((a, b) => a.name.localeCompare(b.name));
-
-/** Numbers offered by Buy Number: [digits, city, region]. */
-export const AVAILABLE: Record<'US' | 'CA', [string, string, string][]> = {
-  US: [
-    ['12125550143', 'New York', 'NY'], ['13105550178', 'Los Angeles', 'CA'], ['13125550126', 'Chicago', 'IL'],
-    ['14155550190', 'San Francisco', 'CA'], ['17865550112', 'Miami', 'FL'], ['15125550164', 'Austin', 'TX'],
-    ['12065550155', 'Seattle', 'WA'], ['16175550133', 'Boston', 'MA'],
-  ],
-  CA: [
-    ['14165550147', 'Toronto', 'ON'], ['16045550121', 'Vancouver', 'BC'], ['15145550186', 'Montréal', 'QC'],
-    ['14035550119', 'Calgary', 'AB'], ['16135550170', 'Ottawa', 'ON'],
-  ],
-};
-
 export const DATA_VERSION = 4;
 
 let n = 0;

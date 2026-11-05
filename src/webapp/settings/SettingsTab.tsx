@@ -8,7 +8,7 @@ import { usePathname, useRouter } from 'next/navigation';
 import { useEffect } from 'react';
 import { APP_NAME, cx, fmtPhone } from '../format';
 import { Icon, IconName } from '../icons';
-import { displayName, inviteText, isPro, mutate, useApp, useData } from '../store';
+import { displayName, inviteText, isPro, useData } from '../store';
 import { confirmDialog, openBuyNumber, openPaywall, shareText } from '../ui';
 import { Avatar, Placeholder, Toggle } from '../components/ui';
 import { SplitView, useDarkMode } from '../components/Shell';
@@ -16,7 +16,7 @@ import { RecordingsView } from '../calls/Recordings';
 import { SubscriptionView } from '../flows/Paywall';
 import { AccountView, DeleteAccountView, DevicesView, EditProfileView } from './Account';
 import { CoinsView, UsageView } from './Wallet';
-import { BlockedView, CallSettingsView, ChatBackgroundView, ChatSettingsView, VoicemailSettingsView } from './CallChat';
+import { BlockedView, CallForwardingView, CallSettingsView, ChatBackgroundView, ChatSettingsView, VoicemailSettingsView } from './CallChat';
 import { ContactUsView, FaqsView, InviteView, SupportView } from './Help';
 import { tint } from './parts';
 
@@ -112,10 +112,11 @@ function ListPane() {
   );
 }
 
-function VoicemailGate() {
+/** Pro-only call screens: without Pro, show the paywall over Call Settings. */
+function ProGate({ children }: { children: React.ReactNode }) {
   const pro = isPro(useData());
   useEffect(() => { if (!pro) openPaywall(); }, [pro]);
-  return pro ? <VoicemailSettingsView /> : <CallSettingsView />;
+  return pro ? <>{children}</> : <CallSettingsView />;
 }
 
 export default function SettingsTab({ rest }: { rest: string[] }) {
@@ -127,7 +128,7 @@ export default function SettingsTab({ rest }: { rest: string[] }) {
     case 'coins': detail = <CoinsView />; break;
     case 'usage': detail = <UsageView />; break;
     case 'subscription': detail = <SubscriptionView />; break;
-    case 'call': detail = b === 'voicemail' ? <VoicemailGate /> : b === 'blocked' ? <BlockedView /> : <CallSettingsView />; break;
+    case 'call': detail = b === 'voicemail' ? <ProGate><VoicemailSettingsView /></ProGate> : b === 'forwarding' ? <ProGate><CallForwardingView /></ProGate> : b === 'blocked' ? <BlockedView /> : <CallSettingsView />; break;
     case 'chat': detail = b === 'background' ? <ChatBackgroundView /> : <ChatSettingsView />; break;
     case 'recordings': detail = <RecordingsView />; break;
     case 'support': detail = <SupportView />; break;

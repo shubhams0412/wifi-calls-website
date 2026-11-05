@@ -7,7 +7,7 @@ import { ChatThread, Group, uid } from '../data';
 import { APP_NAME, cx, fmtPhone } from '../format';
 import { Icon } from '../icons';
 import { contactById, displayName, ensureChatWith, friends, getData, lastMsg, mutate, useData } from '../store';
-import { closeSheet, confirmDialog, go, openSheet, promptDialog, requirePro, shareText, startCall, toast } from '../ui';
+import { alertDialog, CALLS_ON_WEB, closeSheet, confirmDialog, go, openSheet, promptDialog, requirePro, shareText, startCall, toast } from '../ui';
 import { Avatar, Empty, Placeholder, TopBar } from '../components/ui';
 import { openFriendPicker } from '../components/pickers';
 
@@ -24,7 +24,9 @@ export function openGroupChat(groupId: string) {
   go('messages/chat/' + dialog);
 }
 
+/** Groups live on QuickBlox, which the web joins along with calling (CALLS_ON_WEB). */
 export function newGroup() {
+  if (!CALLS_ON_WEB) return void alertDialog('Groups are coming to the web soon', 'For now, create and chat in groups from the iPhone app.');
   if (!requirePro()) return;
   openSheet(<CreateGroupSheet />);
 }

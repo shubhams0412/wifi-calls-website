@@ -1,6 +1,6 @@
 'use client';
 
-/* App data store (demo data, persisted to localStorage) + lookups and cross-screen helpers. */
+/* App data store (the signed-in user's data, loaded by sync.ts and cached in localStorage) + lookups and cross-screen helpers. */
 import { create } from 'zustand';
 import { persist, createJSONStorage } from 'zustand/middleware';
 import { AppData, ChatThread, Contact, COUNTRIES, Country, DATA_VERSION, Message, seed, SmsThread, uid } from './data';

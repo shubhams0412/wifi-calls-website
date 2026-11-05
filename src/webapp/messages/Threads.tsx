@@ -10,7 +10,8 @@ import { contactById, contactByPhone, country, getData, isBlocked, mutate, nameF
 import { canSendSms, closeSheet, confirmDialog, go, openSheet, placePhoneCall, startCall, toast } from '../ui';
 import { Placeholder, SheetHead, TopBar } from '../components/ui';
 import { openContactPicker, openCountryPicker } from '../components/pickers';
-import { Bubbles, Composer, fakeReply, fontPx, pushMsg, setOpenChat, ThreadBody, ThreadKind, useTyping } from './shared';
+import { Bubbles, Composer, fontPx, pushMsg, ThreadBody, ThreadKind } from './shared';
+import { APP_STORE_URL } from '../flows/Paywall';
 
 /* ---------------- block / unblock / delete ---------------- */
 type BlockedRow = { blocked_id: string; blocked_number: string; blocked_name?: string };
@@ -204,9 +205,7 @@ function ChatMenu({ id }: { id: string }) {
 export function ChatThreadView({ id }: { id: string }) {
   const d = useData();
   const t = d.chats.find((x) => x.id === id);
-  const typing = useTyping((s) => s.id === id);
   useMarkRead('chat', id, t?.unread);
-  useEffect(() => { setOpenChat(id); return () => setOpenChat(null); }, [id]);
   if (!t) return <Placeholder icon="messages" title="Chat not found" />;
 
   const call = () => {
@@ -219,7 +218,6 @@ export function ChatThreadView({ id }: { id: string }) {
     startCall({ kind: 'app', name: t.name, phone: f ? f.phone : '' });
   };
   const video = () => { const f = contactById(d, t.friendId); startCall({ kind: 'video', name: t.name, phone: f ? f.phone : '' }); };
-  const send = (m: { body?: string; image?: string }) => { pushMsg('chat', t.id, m); fakeReply(t.id); };
 
   return (
     <>
@@ -234,8 +232,11 @@ export function ChatThreadView({ id }: { id: string }) {
         <Bubbles messages={t.messages} group={t.group} groupAvatar={t.group} name={t.name} fontSize={fontPx(d)}
           hint={t.group ? 'Say hi to the group 👋' : 'Free chat over the internet'} />
       </ThreadBody>
-      {typing && <div className="typing">typing…</div>}
-      <Composer key={t.id} onSend={send} autoFocus />
+      {/* App-to-app chat runs on QuickBlox and comes to the web with calling; until then it's read-only here. */}
+      <div className="note" style={{ margin: 12 }}>
+        <Icon name="infoCircle" />
+        <span>App chat is coming to the web soon. To reply now, use the <a href={APP_STORE_URL} target="_blank" rel="noopener noreferrer" style={{ fontWeight: 600 }}>Wi-Fi Calls iPhone app</a>.</span>
+      </div>
     </>
   );
 }
