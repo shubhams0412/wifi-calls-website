@@ -1,10 +1,8 @@
 import type { Metadata } from 'next';
-import Link from 'next/link';
 import { notFound } from 'next/navigation';
 import { CtaBand, Faqs, Highlights, LinkCards, PageHero, SectionHead, Sections, Steps, StoreButton } from '@/components/site/blocks';
 import { FEATURES } from '@/site/content/features';
 import { FEATURE_GROUPS } from '@/site/types';
-import { webApp } from '@/site/config';
 
 export const dynamicParams = false;
 export function generateStaticParams() { return FEATURES.map((f) => ({ slug: f.slug })); }
@@ -26,7 +24,6 @@ export default async function FeaturePage({ params }: { params: Promise<{ slug: 
       <PageHero crumbs={[{ href: '/', label: 'Home' }, { href: '/features', label: 'Features' }, { label: f.name }]}
         eyebrow={<>{FEATURE_GROUPS[f.group]}{f.pro && <em className="pro-tag light">Included with Pro</em>}</>} title={f.title} intro={f.intro} icon={f.icon}>
         <StoreButton light />
-        <Link className="btn btn-ghost-light" href={webApp()}>Try it on the web</Link>
       </PageHero>
       <section className="band"><div className="wrap"><Highlights items={f.highlights} /></div></section>
       <section className="band alt">

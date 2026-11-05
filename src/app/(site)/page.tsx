@@ -8,7 +8,6 @@ import { CALL_COUNTRIES, NUMBER_COUNTRIES } from '@/site/content/countries';
 import { GENERAL_FAQ } from '@/site/content/faq';
 import { listPosts } from '@/site/blog';
 import BlogCard from '@/components/site/BlogCard';
-import { webApp } from '@/site/config';
 
 export const revalidate = 60; // latest articles from the blog CMS
 
@@ -31,7 +30,6 @@ export default async function HomePage() {
         <svg width="17" height="17" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M16.4 12.9c0-2.3 1.9-3.4 2-3.5-1.1-1.6-2.8-1.8-3.4-1.8-1.4-.1-2.8.9-3.5.9-.7 0-1.9-.9-3.1-.8-1.6 0-3 .9-3.8 2.4-1.6 2.8-.4 7 1.2 9.3.8 1.1 1.7 2.4 2.9 2.3 1.2-.1 1.6-.8 3-.8s1.8.8 3 .7c1.2 0 2-1.1 2.8-2.3.9-1.3 1.2-2.6 1.3-2.7-.1 0-2.4-1-2.4-3.6zM14.2 5.9c.6-.8 1.1-1.9.9-3-1 0-2.2.7-2.9 1.5-.6.7-1.2 1.8-1 2.9 1.1.1 2.3-.6 3-1.4z"/></svg>
         Download on iOS
       </a>
-      <a className="btn btn-outline" href={webApp()}>Use it on the web</a>
     </div>
     <div className="trust">
       <span><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round"><path d="M20 6 9 17l-5-5"/></svg> Private second number</span>
@@ -142,7 +140,6 @@ export default async function HomePage() {
     <SectionHead label="Plans" title="Start free, upgrade when you need more" sub="Lite covers the essentials. Pro adds call recording, voicemail, forwarding, broadcasts, group calls and anonymous calling." />
     <div className="home-plans">
       <Link className="btn btn-primary" href="/plans">Compare Lite and Pro</Link>
-      <Link className="btn btn-outline" href={webApp()}>Try the web app</Link>
     </div>
   </div>
 </section>

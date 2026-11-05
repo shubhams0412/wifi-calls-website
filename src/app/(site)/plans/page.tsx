@@ -1,8 +1,6 @@
 import type { Metadata } from 'next';
-import Link from 'next/link';
 import { CtaBand, Faqs, PageHero, SectionHead, StoreButton } from '@/components/site/blocks';
 import { Icon } from '@/components/icons';
-import { webApp } from '@/site/config';
 
 export const metadata: Metadata = {
   title: 'Plans',
@@ -30,7 +28,6 @@ export default function PlansPage() {
         title="Simple plans, free trial included"
         intro="Start with Lite for the essentials or go Pro for every feature. Prices are shown in the app before you subscribe.">
         <StoreButton light />
-        <Link className="btn btn-ghost-light" href={webApp()}>Start on the web</Link>
       </PageHero>
       <section className="band"><div className="wrap">
         <div className="x-plans">

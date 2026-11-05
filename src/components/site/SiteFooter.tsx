@@ -1,6 +1,6 @@
 import Link from 'next/link';
 import { buildMenu } from '@/site/menu';
-import { APP_STORE_URL, webApp } from '@/site/config';
+import { APP_STORE_URL } from '@/site/config';
 
 /** Footer with link groups for every section of the site. */
 export default function SiteFooter() {
@@ -18,7 +18,6 @@ export default function SiteFooter() {
             <p>A private second phone number with free app-to-app calling and texting over any Wi-Fi or data connection.</p>
             <div className="foot-cta">
               <a className="btn btn-light sm" href={APP_STORE_URL} target="_blank" rel="noopener">Download on iOS</a>
-              <Link className="btn btn-ghost-light sm" href={webApp()}>Web app</Link>
             </div>
           </div>
           <div className="foot-col">

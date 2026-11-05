@@ -7,7 +7,6 @@ import { usePathname } from 'next/navigation';
 import { useEffect, useRef, useState } from 'react';
 import { Icon } from '@/components/icons';
 import type { Menu, MenuLink } from '@/site/menu';
-import { webApp } from '@/site/config';
 
 const SUN = <><circle cx="12" cy="12" r="4" /><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4" /></>;
 const MOON = <path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z" />;
@@ -113,7 +112,6 @@ export default function SiteNav({ menu }: { menu: Menu }) {
           <button className="theme-btn" onClick={toggleTheme} aria-label="Toggle light or dark theme" title="Toggle theme">
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">{dark ? SUN : MOON}</svg>
           </button>
-          <Link className="btn btn-outline nav-web" href={webApp()}>Web app</Link>
           <a className="btn btn-primary nav-cta" href={STORE} target="_blank" rel="noopener">Get the app</a>
           <button className="nav-toggle" onClick={() => setOpen(!open)} aria-label={open ? 'Close menu' : 'Open menu'} aria-expanded={open} aria-controls="mobileMenu">
             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
@@ -128,7 +126,6 @@ export default function SiteNav({ menu }: { menu: Menu }) {
         <details><summary>Countries <Icon name="chevD" /></summary>{menu.numbers.map((l) => <Link key={l.href} href={l.href}>{l.flag} {l.label}</Link>)}<Link href="/international-calling">International calling</Link></details>
         <Link href="/plans">Plans</Link>
         <Link href="/blog">Blog</Link>
-        <Link href={webApp()}>Web app</Link>
         <Link href="/contact">Contact</Link>
       </nav>
     </header>

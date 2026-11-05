@@ -2,7 +2,7 @@
 import Link from 'next/link';
 import type { ReactNode } from 'react';
 import { Icon, type IconName } from '@/components/icons';
-import { APP_STORE_URL, abs, webApp } from '@/site/config';
+import { APP_STORE_URL, abs } from '@/site/config';
 import type { Faq, Point, Section } from '@/site/types';
 
 export function Crumbs({ items }: { items: { href?: string; label: string }[] }) {
@@ -152,7 +152,6 @@ export function CtaBand({ title = 'Get your second number today', text = 'Downlo
           </div>
           <div className="x-cta-actions">
             <StoreButton light />
-            <Link className="btn btn-ghost-light" href={webApp()}>Use it on the web</Link>
           </div>
         </div>
       </div>

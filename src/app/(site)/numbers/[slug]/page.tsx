@@ -1,9 +1,7 @@
 import type { Metadata } from 'next';
-import Link from 'next/link';
 import { notFound } from 'next/navigation';
 import { CtaBand, Faqs, PageHero, SectionHead, Sections, Steps, StoreButton } from '@/components/site/blocks';
 import { NUMBER_COUNTRIES } from '@/site/content/countries';
-import { webApp } from '@/site/config';
 
 export const dynamicParams = false;
 export function generateStaticParams() { return NUMBER_COUNTRIES.map((c) => ({ slug: c.slug })); }
@@ -23,7 +21,6 @@ export default async function NumberCountryPage({ params }: { params: Promise<{ 
       <PageHero crumbs={[{ href: '/', label: 'Home' }, { href: '/numbers', label: 'Numbers' }, { label: c.name }]}
         eyebrow={<><span aria-hidden="true">{c.flag}</span> {c.name} · {c.dial}</>} title={c.title} intro={c.intro}>
         <StoreButton light />
-        <Link className="btn btn-ghost-light" href={webApp()}>Get one on the web</Link>
       </PageHero>
       <section className="band"><div className="wrap">
         <SectionHead label="Area codes" title="Example area codes" sub="Availability changes — in the app you pick from the numbers available at that moment." />

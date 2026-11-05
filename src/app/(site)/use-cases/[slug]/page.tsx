@@ -1,10 +1,8 @@
 import type { Metadata } from 'next';
-import Link from 'next/link';
 import { notFound } from 'next/navigation';
 import { CtaBand, Faqs, Highlights, LinkCards, PageHero, SectionHead, Sections, StoreButton } from '@/components/site/blocks';
 import { USE_CASES } from '@/site/content/useCases';
 import { FEATURES } from '@/site/content/features';
-import { webApp } from '@/site/config';
 
 export const dynamicParams = false;
 export function generateStaticParams() { return USE_CASES.map((u) => ({ slug: u.slug })); }
@@ -24,7 +22,6 @@ export default async function UseCasePage({ params }: { params: Promise<{ slug: 
     <>
       <PageHero crumbs={[{ href: '/', label: 'Home' }, { href: '/use-cases', label: 'Use cases' }, { label: u.name }]} eyebrow={u.name} title={u.title} intro={u.intro} icon={u.icon}>
         <StoreButton light />
-        <Link className="btn btn-ghost-light" href={webApp()}>Try it on the web</Link>
       </PageHero>
       <section className="band"><div className="wrap">
         <SectionHead label="Sound familiar?" title="Where a second number helps" />
