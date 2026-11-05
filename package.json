@@ -9,18 +9,12 @@
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
-    "@twilio/voice-sdk": "2.18.5",
-    "@vonage/client-sdk": "2.11.1",
-    "firebase": "^13.2.0",
     "gray-matter": "^4.0.3",
-    "jose": "^6.2.15",
     "marked": "^18.1.3",
     "next": "^16.4.4",
     "nodemailer": "^10.3.1",
-    "quickblox": "^2.24.0",
     "react": "^19.3.1",
-    "react-dom": "^19.3.1",
-    "zustand": "^5.0.16"
+    "react-dom": "^19.3.1"
   },
   "devDependencies": {
     "@types/node": "^26.6.6",

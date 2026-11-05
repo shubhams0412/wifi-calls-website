@@ -87,7 +87,7 @@ async function cms<T = any>(endpoint: string, { fresh = false } = {}): Promise<{
 /* Links in CMS content that point at the other brand's site (secondlinenumber.com) are sent to the
    matching page on this site instead. Image hosts (e.g. api.secondlinenumber.com) are not touched. */
 const FOREIGN_HOSTS = new Set(['secondlinenumber.com', 'www.secondlinenumber.com']);
-const OWN_ROUTES = ['/features', '/use-cases', '/numbers', '/international-calling', '/plans', '/blog', '/faq', '/contact', '/download', '/privacy', '/terms', '/app'];
+const OWN_ROUTES = ['/features', '/use-cases', '/numbers', '/international-calling', '/plans', '/blog', '/faq', '/contact', '/download', '/privacy', '/terms'];
 const PATH_MAP: Record<string, string> = {
   '/business/phone-numbers': '/numbers', '/phone-numbers': '/numbers', '/pricing': '/plans', '/reviews': '/',
   '/privacy-policy': '/privacy', '/terms-of-use': '/terms', '/terms-and-conditions': '/terms', '/contact-us': '/contact',

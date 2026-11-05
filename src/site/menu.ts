@@ -3,7 +3,7 @@ import { FEATURES } from './content/features';
 import { USE_CASES } from './content/useCases';
 import { CALL_COUNTRIES, NUMBER_COUNTRIES } from './content/countries';
 import { FEATURE_GROUPS, type FeatureGroup } from './types';
-import type { IconName } from '@/webapp/icons';
+import type { IconName } from '@/components/icons';
 
 export interface MenuLink { href: string; label: string; sub?: string; icon?: IconName; flag?: string; pro?: boolean }
 export interface MenuGroup { title: string; links: MenuLink[] }

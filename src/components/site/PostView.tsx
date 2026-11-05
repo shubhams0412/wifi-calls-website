@@ -1,5 +1,5 @@
 import Link from 'next/link';
-import { Icon } from '@/webapp/icons';
+import { Icon } from '@/components/icons';
 import { Crumbs, CtaBand, Faqs } from '@/components/site/blocks';
 import BlogCard from '@/components/site/BlogCard';
 import { formatDate, type Post } from '@/site/blog';

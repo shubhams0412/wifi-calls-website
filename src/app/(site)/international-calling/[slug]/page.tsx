@@ -3,6 +3,7 @@ import Link from 'next/link';
 import { notFound } from 'next/navigation';
 import { CtaBand, Faqs, LinkCards, PageHero, SectionHead, Steps, StoreButton } from '@/components/site/blocks';
 import { CALL_COUNTRIES } from '@/site/content/countries';
+import { webApp } from '@/site/config';
 
 export const dynamicParams = false;
 export function generateStaticParams() { return CALL_COUNTRIES.map((c) => ({ slug: c.slug })); }
@@ -23,7 +24,7 @@ export default async function CallCountryPage({ params }: { params: Promise<{ sl
       <PageHero crumbs={[{ href: '/', label: 'Home' }, { href: '/international-calling', label: 'International calling' }, { label: c.name }]}
         eyebrow={<><span aria-hidden="true">{c.flag}</span> Country code {c.dial}</>} title={c.title} intro={c.intro}>
         <StoreButton light />
-        <Link className="btn btn-ghost-light" href="/app/dial">Open the dial pad</Link>
+        <Link className="btn btn-ghost-light" href={webApp('/dial')}>Open the dial pad</Link>
       </PageHero>
       <section className="band"><div className="wrap">
         <div className="x-dial">

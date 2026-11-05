@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
 import { CtaBand, Highlights, PageHero, StoreButton } from '@/components/site/blocks';
+import { webApp } from '@/site/config';
 
 export const metadata: Metadata = {
   title: 'Download',
@@ -14,7 +15,7 @@ export default function DownloadPage() {
       <PageHero crumbs={[{ href: '/', label: 'Home' }, { label: 'Download' }]} eyebrow="Download" icon="download"
         title="Get the app" intro="Available on iPhone, and in any modern browser with the web app.">
         <StoreButton light />
-        <Link className="btn btn-ghost-light" href="/app">Open the web app</Link>
+        <Link className="btn btn-ghost-light" href={webApp()}>Open the web app</Link>
       </PageHero>
       <section className="band"><div className="wrap">
         <Highlights items={[

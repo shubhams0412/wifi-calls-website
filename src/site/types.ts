@@ -1,6 +1,6 @@
 /* Content model for the marketing website. Every feature / use-case / country page is generated
    from these records (src/site/content/*), so adding a page = adding a record. */
-import type { IconName } from '@/webapp/icons';
+import type { IconName } from '@/components/icons';
 
 export interface Faq { q: string; a: string }
 export interface Point { icon: IconName; title: string; text: string }
