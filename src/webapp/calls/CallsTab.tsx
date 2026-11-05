@@ -27,14 +27,16 @@ const tint = (c: string) => ({ ['--c' as string]: c });
 function redial(c: CallLog) {
   if (c.type === 'group') {
     const g = getData().groups.find((x) => x.name === c.name);
-    return startCall({ kind: 'group', name: c.name, members: g ? g.members.map((m) => m.qbId) : [] });
+    return startCall({ kind: 'group', name: c.name, members: c.members ?? (g ? g.members.map((m) => m.qbId) : []) });
   }
-  if (c.type === 'video') return startCall({ kind: 'video', name: c.name, phone: c.phone });
-  if (c.type === 'app') return startCall({ kind: 'app', name: c.name, phone: c.phone });
+  if (c.type === 'video') return startCall({ kind: 'video', name: c.name, phone: c.phone, qbId: c.members?.[0] });
+  if (c.type === 'app') return startCall({ kind: 'app', name: c.name, phone: c.phone, qbId: c.members?.[0] });
   placePhoneCall(c.phone, c.name);
 }
 
 async function deleteCall(id: string) {
+  // App-to-app calls exist only in this browser's log.
+  if (id.startsWith('qb:')) { mutate((x) => { x.calls = x.calls.filter((k) => k.id !== id); }); return; }
   const r = await wc('clearCallLog', { id });
   if (!r.ok) return toast(r.message || 'Couldn’t delete this call. Please try again.');
   mutate((x) => { x.calls = x.calls.filter((k) => k.id !== id); });

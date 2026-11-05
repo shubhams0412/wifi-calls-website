@@ -34,6 +34,12 @@ const dialogs = new Map<string, Dialog>();
 const userNames = new Map<number, string>();
 
 const me = () => session?.qbUserId ?? 0;
+const qbHooks: ((q: QB) => void)[] = [];
+
+/** Runs `fn` once the QuickBlox SDK is loaded (now, if it already is). Calls use this to install their listeners. */
+export function onQuickBlox(fn: (q: QB) => void) { qbHooks.push(fn); if (qb) fn(qb); }
+/** The connected SDK and session, for calls. Null until chat has connected. */
+export const quickBlox = () => (qb && session ? { qb, myId: session.qbUserId, pushEnvironment: session.pushEnvironment } : null);
 const cb = <T>(fn: (done: (err: unknown, res?: T | null) => void) => void) =>
   new Promise<T>((resolve, reject) => fn((err, res) => (err ? reject(err) : resolve(res as T))));
 
@@ -54,9 +60,14 @@ async function connect(): Promise<boolean> {
   try {
     if (!qb) {
       qb = ((await import('quickblox/quickblox.min.js')) as unknown as { default: QB }).default;
-      qb.initWithAppId(session.appId, session.accountKey, { chatProtocol: { active: 2 }, streamManagement: { enable: true } } as never);
+      // Call timings match the iPhone app's QBRTCConfig defaults (45 s to answer, invite resent every 5 s).
+      qb.initWithAppId(session.appId, session.accountKey, {
+        chatProtocol: { active: 2 }, streamManagement: { enable: true },
+        webrtc: { answerTimeInterval: 45, dialingTimeInterval: 5, disconnectTimeInterval: 30 },
+      } as never);
       await qb.ready?.();
       listen(qb);
+      for (const hook of qbHooks) hook(qb);
     }
     await cb((done) => qb!.startSessionWithToken(session!.token, done));
     await cb((done) => qb!.chat.connect({ userId: session!.qbUserId, password: session!.token }, done));
@@ -99,12 +110,12 @@ function listen(q: QB) {
 
 const contactByQb = (qbId: number | string) => getData().contacts.find((c) => c.qbId === String(qbId));
 
-function nameOf(qbId: number): string {
+export function nameOf(qbId: number): string {
   return contactByQb(qbId)?.name || userNames.get(qbId) || 'Wi-Fi Calls user';
 }
 
 /** Looks up QuickBlox names for people who aren't in the contact list. */
-async function fetchNames(ids: number[]) {
+export async function fetchNames(ids: number[]) {
   const missing = [...new Set(ids)].filter((id) => id !== me() && !contactByQb(id) && !userNames.has(id));
   if (!missing.length || !qb) return;
   try {
@@ -263,7 +274,7 @@ function onMessage(userId: number, msg: QBChatXMPPMessage) {
   }
 }
 
-const senderName = () => {
+export const senderName = () => {
   const u = getData().user;
   return `${u.first || ''} ${u.last || ''}`.trim() || u.username || '';
 };

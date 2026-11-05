@@ -232,9 +232,9 @@ export function ChatThreadView({ id }: { id: string }) {
       return;
     }
     const f = contactById(d, t.friendId);
-    startCall({ kind: 'app', name: t.name, phone: f ? f.phone : '' });
+    startCall({ kind: 'app', name: t.name, phone: f ? f.phone : '', qbId: t.qbId });
   };
-  const video = () => { const f = contactById(d, t.friendId); startCall({ kind: 'video', name: t.name, phone: f ? f.phone : '' }); };
+  const video = () => { const f = contactById(d, t.friendId); startCall({ kind: 'video', name: t.name, phone: f ? f.phone : '', qbId: t.qbId }); };
   const sig = d.settings.signature;
   const send = (m: { body?: string; image?: string }) => {
     sendTyping(t.id, false);

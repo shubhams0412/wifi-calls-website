@@ -5,10 +5,12 @@
 import { createElement, type ReactNode } from 'react';
 import { create } from 'zustand';
 import { getData, isBlocked, contactByPhone, isPro } from './store';
+import { placeAppCall, useCall } from './rtc';
 import { APP_NAME, digits } from './format';
 
 export type CallKind = 'phone' | 'app' | 'video' | 'group';
-export interface CallRequest { kind: CallKind; name?: string; phone?: string; members?: string[] }
+/** `members` are QuickBlox ids (group calls); `qbId` is the person for app/video calls when known. */
+export interface CallRequest { kind: CallKind; name?: string; phone?: string; members?: string[]; qbId?: string }
 
 export interface SheetEntry { id: number; node: ReactNode; wide?: boolean; dialog?: boolean; dismissible?: boolean }
 interface Toast { id: number; text: string }
@@ -85,22 +87,37 @@ export const setNavigate = (fn: (href: string) => void) => { navigateImpl = fn; 
 export const go = (path: string) => navigateImpl('/app/' + path.replace(/^\/+/, ''));
 
 /* ---- calls ---- */
-/** Calling from the browser isn't connected yet (it needs the voice SDK); until then this explains. */
-export const CALLS_ON_WEB = false;
+/** Paid phone calls from the browser aren't connected yet (Twilio / Vonage voice SDKs, phase 2.1). */
+export const PHONE_CALLS_ON_WEB = false;
+
+const inCall = () => !!useUI.getState().call || useCall.getState().phase !== 'idle';
 
 export function startCall(req: CallRequest) {
-  if (useUI.getState().call) { toast("You're already on a call."); return; }
-  if (!CALLS_ON_WEB) {
-    alertDialog('Calls are coming to the web soon', 'For now, make calls from the iPhone app. Your messages, call history and voicemail are all here.');
+  if (inCall()) { toast("You're already on a call."); return; }
+  const d = getData();
+  if (req.kind === 'phone') {
+    if (!PHONE_CALLS_ON_WEB) {
+      alertDialog('Phone calls are coming to the web soon', 'For now, call phone numbers from the iPhone app. Free app-to-app calls work here.');
+      return;
+    }
+    useUI.setState({ call: req });
     return;
   }
-  const d = getData();
-  if ((req.kind === 'video' || req.kind === 'app') && req.phone) {
-    const c = contactByPhone(d, req.phone);
-    if (c && !c.friend) { toast(`This contact isn't on ${APP_NAME} yet.`); return; }
+  // App-to-app calls (voice, video, group) over QuickBlox — see rtc.ts.
+  let qbIds: number[];
+  if (req.kind === 'group') {
+    if (!requirePro()) return;
+    const mine = Number(d.user.quickbloxId);
+    qbIds = (req.members ?? []).map(Number).filter((id) => id && id !== mine);
+  } else {
+    const c = req.phone ? contactByPhone(d, req.phone) : undefined;
+    const qbId = Number(req.qbId || c?.qbId);
+    if (!qbId) { toast(`${req.name || 'This contact'} isn't on ${APP_NAME} yet.`); return; }
+    qbIds = [qbId];
   }
-  if (req.kind === 'group' && !requirePro()) return;
-  useUI.setState({ call: req });
+  const title = req.name || (req.phone ? contactByPhone(d, req.phone)?.name : '') || (req.kind === 'group' ? 'Group call' : `${APP_NAME} user`);
+  placeAppCall({ qbIds, title, video: req.kind === 'video', group: req.kind === 'group' })
+    .then((r) => { if (!r.ok && r.message) toast(r.message); });
 }
 export const endCallUI = () => useUI.setState({ call: null });
 

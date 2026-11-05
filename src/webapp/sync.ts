@@ -182,7 +182,10 @@ export async function loadConversation(phone: string, page = 1) {
 
 export async function loadCalls() {
   const r = await wc<{ call_logs?: CallRow[] }>('callLogs');
-  if (r.ok || r.code === 400) mutate((d) => { d.calls = (r.data?.call_logs ?? []).map(mapCall); });
+  // Keep the app-to-app calls this browser logged itself (the backend doesn't record them).
+  if (r.ok || r.code === 400) mutate((d) => {
+    d.calls = [...(r.data?.call_logs ?? []).map(mapCall), ...d.calls.filter((c) => c.id.startsWith('qb:'))].sort((a, b) => b.at - a.at);
+  });
   return r;
 }
 

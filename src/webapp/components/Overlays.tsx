@@ -4,6 +4,8 @@
    the in-call screen, the mid-session paywall and the Buy Number cover. */
 import { useEffect, useRef, useState } from 'react';
 import CallScreen from '../calls/CallScreen';
+import AppCallScreen from '../calls/AppCallScreen';
+import { useCall } from '../rtc';
 import { PaywallModal } from '../flows/Paywall';
 import { BuyNumberSheet } from '../messages/BuyNumber';
 import { cx } from '../format';
@@ -85,6 +87,7 @@ function BuyNumberCover() {
 
 export default function Overlays() {
   const call = useUI((s) => s.call);
+  const appCall = useCall((s) => s.phase !== 'idle');
   const paywall = useUI((s) => s.paywallOpen);
   return (
     <>
@@ -92,6 +95,7 @@ export default function Overlays() {
       <BuyNumberCover />
       <Sheets />
       {call && <CallScreen />}
+      {appCall && <AppCallScreen />}
       <Dialog />
       <Toasts />
     </>

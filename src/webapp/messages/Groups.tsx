@@ -202,7 +202,7 @@ export function GroupInfo({ id }: { id: string }) {
     const chat = c ? await chatWith(c) : null;
     if (chat) go('messages/chat/' + chat); else toast('Couldn’t open the chat. Please try again.');
   };
-  const memberCall = (qbId: string) => { const c = contactOf(qbId); startCall({ kind: 'app', name: c?.name, phone: c?.phone }); };
+  const memberCall = (qbId: string) => { const c = contactOf(qbId); startCall({ kind: 'app', name: c?.name, phone: c?.phone, qbId }); };
   const myQb = d.user.quickbloxId;
 
   return (

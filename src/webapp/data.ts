@@ -17,7 +17,8 @@ export interface GroupMember { qbId: string; name: string; admin: boolean }
 /** A group as kept by the backend; `id` and `dialog` are the QuickBlox dialog id. */
 export interface Group { id: string; name: string; admin: boolean; members: GroupMember[]; dialog: string | null; icon?: string }
 export type CallType = 'phone' | 'app' | 'video' | 'group' | 'wifi';
-export interface CallLog { id: string; phone: string; name: string; dir: 'in' | 'out' | 'missed'; dur: number; at: number; type: CallType }
+/** App-to-app calls aren't recorded by the backend; the web logs them locally with id `qb:<session>` and the QuickBlox ids in `members`. */
+export interface CallLog { id: string; phone: string; name: string; dir: 'in' | 'out' | 'missed'; dur: number; at: number; type: CallType; members?: string[] }
 export interface VoicemailItem { id: string; dir: string; dur: number; at: number; text?: string; url?: string }
 export interface Voicemail { id: string; phone: string; name?: string; items: VoicemailItem[] }
 export interface Recording { id: string; name: string; phone: string; dir: 'in' | 'out'; dur: number; at: number; url?: string }
