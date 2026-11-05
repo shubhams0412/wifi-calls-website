@@ -1,5 +1,6 @@
 import { ApiError, call, type ApiResult } from '@/server/wc/api';
 import { authKey, clearAuthKey, device, setAuthKey, verifiedPhone } from '@/server/wc/session';
+import { chatSession } from '@/server/wc/quickblox';
 
 /*
  * The web app's only way to the Wi-Fi Calls backend. Each action maps to one backend endpoint
@@ -10,6 +11,7 @@ import { authKey, clearAuthKey, device, setAuthKey, verifiedPhone } from '@/serv
  *   POST session   { idToken }  Firebase-verified phone → signInWithFirebase → verifyNow
  *   GET  session                 the signed-in user (getUserInfo), or 401
  *   DELETE session               logout this browser
+ *   GET  chatSession             a QuickBlox session token for app-to-app chat (see server/wc/quickblox.ts)
  */
 
 export const dynamic = 'force-dynamic';
@@ -19,6 +21,9 @@ type Spec = { path: string | ((p: Record<string, string>) => string); method?: '
 const ACTIONS: Record<string, Spec> = {
   // account
   profile: { path: 'wsqr_getUserInfo' },
+  // Finds which contacts are on Wi-Fi Calls. Friends are kept per signed-in device (login history),
+  // so this only replaces this browser's friend list, never the iPhone's.
+  friends: { path: 'wsqr_fetchFriend', fields: ['contacts'] },
   updateProfile: { path: 'wsqr_addUserInfo', fields: ['first_name', 'last_name', 'username'] },
   devices: { path: 'wsqr_getLoggedInDevices' },
   logoutAll: { path: 'wsqr_logoutFromAllDevices' },
@@ -61,6 +66,12 @@ const ACTIONS: Record<string, Spec> = {
   recordingSetting: { path: 'wsqr_saveCallRecordingSettings', fields: ['is_call_record'] },
   anonymousSetting: { path: 'wsqr_saveAnonymousCallSetting', fields: ['is_anonymous'] },
   chatSettings: { path: 'wsqr_saveChatSetting', fields: ['font_size', 'chat_signature', 'remove_chat_background'], files: ['chat_background'] },
+  // groups (the backend creates and updates the QuickBlox group dialog; messages go through QuickBlox)
+  groups: { path: 'wsqr_retrieveGroup' },
+  group: { path: 'wsqr_retrieveGroupById', method: 'GET', fields: ['group_id'] },
+  createGroup: { path: 'wsqr_createGroup', fields: ['name', 'type', 'occupants_ids'], files: ['group_icon'] },
+  updateGroup: { path: 'wsqr_updateGroup', fields: ['quick_blox_chat_dialog_id', 'name', 'occupants_ids', 'type'], files: ['group_icon'] },
+  deleteGroup: { path: 'wsqr_deleteGroup', fields: ['quick_blox_chat_dialog_id', 'force'] },
 };
 
 const json = (body: unknown, status = 200) => Response.json(body, { status, headers: { 'Cache-Control': 'no-store' } });
@@ -79,7 +90,10 @@ async function readInput(request: Request, spec?: Spec) {
   const params: Record<string, string> = {};
   const files: Record<string, Blob> = {};
   const type = request.headers.get('content-type') ?? '';
-  if (request.method === 'GET') return { params, files };
+  if (request.method === 'GET') {
+    for (const [k, v] of new URL(request.url).searchParams) params[k] = v;
+    return { params, files };
+  }
   if (type.includes('multipart/form-data')) {
     const form = await request.formData();
     for (const [k, v] of form) {
@@ -96,6 +110,7 @@ async function readInput(request: Request, spec?: Spec) {
 async function handle(request: Request, action: string) {
   try {
     if (action === 'session') return await session(request);
+    if (action === 'chatSession') return await chat();
 
     const spec = ACTIONS[action];
     if (!spec) return json({ ok: false, code: 404, data: null, message: 'Unknown action.' }, 404);
@@ -144,6 +159,22 @@ async function session(request: Request) {
 
   await setAuthKey(key);
   return json({ ok: true, code: 200, data: verified.data, message: verified.message });
+}
+
+/** Signs the user in to QuickBlox on the server and returns only the session token. */
+async function chat() {
+  const key = await authKey();
+  if (!key) return signedOut();
+  const profile = await call<{ user_info?: { user_id?: number | string; quickblox_id?: number | string | null } }>('wsqr_getUserInfo', { auth: { authKey: key }, device: await device() });
+  if (profile.code === 203) { await clearAuthKey(); return signedOut(); }
+  const info = profile.data?.user_info;
+  if (!profile.ok || !info?.user_id) return json({ ok: false, code: profile.code, data: null, message: profile.message || 'Couldn’t load your account.' }, 502);
+  // The backend creates the QuickBlox user once the account has an active plan.
+  if (!info.quickblox_id) return json({ ok: false, code: 409, data: null, message: 'App chat isn’t set up for your account yet.' }, 409);
+  const session = await chatSession(info.user_id);
+  if (!session) return json({ ok: false, code: 502, data: null, message: 'Chat is unavailable right now. Please try again.' }, 502);
+  if (String(session.qbUserId) !== String(info.quickblox_id)) console.warn('[qb] session user differs from profile quickblox_id');
+  return json({ ok: true, code: 200, data: session, message: '' });
 }
 
 type Ctx = { params: Promise<{ action: string }> };

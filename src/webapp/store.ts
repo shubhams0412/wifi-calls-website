@@ -3,7 +3,7 @@
 /* App data store (the signed-in user's data, loaded by sync.ts and cached in localStorage) + lookups and cross-screen helpers. */
 import { create } from 'zustand';
 import { persist, createJSONStorage } from 'zustand/middleware';
-import { AppData, ChatThread, Contact, COUNTRIES, Country, DATA_VERSION, Message, seed, SmsThread, uid } from './data';
+import { AppData, Contact, COUNTRIES, Country, DATA_VERSION, Message, seed, SmsThread } from './data';
 import { APP_NAME, digits, fmtPhone } from './format';
 
 interface AppStore {
@@ -74,14 +74,6 @@ export const inviteText = () =>
   `Stay connected with ${APP_NAME}! Make high-quality calls and send texts anytime, anywhere. Download now and start communicating without limits! https://apps.apple.com/app/id6781677176`;
 
 /* ---------------- cross-screen helpers ---------------- */
-/** Find or create the 1:1 chat with an app friend; returns its id. */
-export function ensureChatWith(contact: Contact): string {
-  const existing = getData().chats.find((c) => c.friendId === contact.id);
-  if (existing) return existing.id;
-  const t: ChatThread = { id: 'd' + uid(), name: contact.name, friendId: contact.id, unread: 0, messages: [], created: Date.now() };
-  mutate((d) => { d.chats.unshift(t); });
-  return t.id;
-}
 /** Find or create the SMS thread with a number; returns its id. */
 export function ensureSmsWith(phone: string, name = ''): string {
   const p = digits(phone).slice(-10);

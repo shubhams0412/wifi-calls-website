@@ -8,7 +8,8 @@ import Link from 'next/link';
 import { useState } from 'react';
 import { cx, digits, when } from '../format';
 import { Icon } from '../icons';
-import { ensureChatWith, lastAt, lastMsg, nameFor, useData } from '../store';
+import { openChatWith } from '../chat';
+import { lastAt, lastMsg, nameFor, useData } from '../store';
 import { go, openBuyNumber } from '../ui';
 import { Avatar, Empty, Placeholder, Seg } from '../components/ui';
 import { SplitView } from '../components/Shell';
@@ -75,7 +76,7 @@ function Inbox({ seg, activeId }: { seg: SegKey; activeId?: string }) {
     );
   }
 
-  const newChat = () => openFriendPicker({ title: 'Pick a friend' }, ([f]) => { if (f) go('messages/chat/' + ensureChatWith(f)); });
+  const newChat = () => openFriendPicker({ title: 'Pick a friend' }, ([f]) => { if (f) openChatWith(f); });
 
   return (
     <>

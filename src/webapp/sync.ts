@@ -6,6 +6,7 @@
 import { e164, setSignedOutHandler, toMs, wc } from './api';
 import type { AppData, CallLog, Message, Recording, SmsThread, Tier, UsageMonth, Voicemail } from './data';
 import { seed } from './data';
+import { startChat, stopChat } from './chat';
 import { firebaseSignOut } from './firebase';
 import { setTrackUrl } from './player';
 import { getData, mutate, useApp } from './store';
@@ -106,22 +107,35 @@ export function applyProfile(p: ProfileData) {
       d.settings.greeting = s.is_default == null || on(s.is_default) ? 'default' : 'custom';
       d.settings.recording = on(s.is_call_record);
     }
-    if (p.friend_info) {
-      // App friends found from the user's contacts; kept alongside any contacts already loaded.
-      for (const f of p.friend_info) {
-        const phone = f.phone_number ? e164(f.phone_number) : '';
-        const existing = d.contacts.find((c) => c.phone.replace(/\D/g, '').slice(-10) === phone.replace(/\D/g, '').slice(-10));
-        if (existing) { existing.friend = true; existing.username = f.username; }
-        else d.contacts.push({ id: 'f' + String(f.quickblox_id ?? phone), name: f.full_name || f.username || phone, phone, friend: true, username: f.username });
-      }
-    }
+    if (p.friend_info) applyFriends(d, p.friend_info);
   });
+}
+
+type FriendRow = NonNullable<ProfileData['friend_info']>[number];
+/** App friends found from the user's contacts; kept alongside any contacts already loaded. */
+function applyFriends(d: AppData, list: FriendRow[]) {
+  for (const f of list) {
+    const phone = f.phone_number ? e164(f.phone_number) : '';
+    const qbId = f.quickblox_id ? String(f.quickblox_id) : undefined;
+    const existing = d.contacts.find((c) => c.phone.replace(/\D/g, '').slice(-10) === phone.replace(/\D/g, '').slice(-10));
+    if (existing) { existing.friend = true; existing.username = f.username; existing.qbId = qbId ?? existing.qbId; }
+    else d.contacts.push({ id: 'f' + String(f.quickblox_id ?? phone), name: f.full_name || f.username || phone, phone, friend: true, username: f.username, qbId });
+  }
 }
 
 /* ---------------- loaders ---------------- */
 export async function loadProfile() {
   const r = await wc<ProfileData>('profile');
   if (r.ok && r.data) applyProfile(r.data);
+  return r;
+}
+
+/** Sends the contacts saved in this browser to the backend, which answers with those on Wi-Fi Calls. */
+export async function loadFriends() {
+  const list = getData().contacts.filter((c) => !c.id.startsWith('f') && c.phone).map((c) => ({ name: c.name, phone: c.phone }));
+  if (!list.length) return null;
+  const r = await wc<{ friend_info?: FriendRow[] }>('friends', { contacts: JSON.stringify(list) });
+  if (r.ok && r.data?.friend_info) { const rows = r.data.friend_info; mutate((d) => applyFriends(d, rows)); }
   return r;
 }
 
@@ -253,6 +267,9 @@ export async function loadDevices() {
 /** Everything the main screens show. Failures leave the cached copy in place. */
 export async function syncAll() {
   await Promise.all([loadProfile(), loadCredit()]);
+  loadFriends();
+  // App chat connects in the background; it loads the chat and group lists itself (chat.ts).
+  startChat();
   await Promise.all([loadSmsThreads(), loadCalls(), loadBlocklist(), loadVoicemails()]);
   mutate((d) => { d.syncedAt = Date.now(); });
 }
@@ -331,6 +348,7 @@ export function stopPolling() { if (timer) clearInterval(timer); timer = null; }
 /** Clears everything local and returns to the sign-in flow. */
 export function signOutLocal() {
   stopPolling();
+  stopChat();
   const launches = getData().launches;
   useApp.setState({ data: { ...seed(), stage: 'auth', launches, ratingSeen: true } });
   firebaseSignOut();

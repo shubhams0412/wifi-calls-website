@@ -7,7 +7,9 @@ import type { ReactNode } from 'react';
 import { Contact, uid } from '../data';
 import { APP_NAME, fmtPhone } from '../format';
 import { Icon, IconName } from '../icons';
-import { contactByPhone, ensureChatWith, ensureSmsWith, inviteText, isBlocked, mutate, nameFor, useData } from '../store';
+import { openChatWith } from '../chat';
+import { loadFriends } from '../sync';
+import { contactByPhone, ensureSmsWith, inviteText, isBlocked, mutate, nameFor, useData } from '../store';
 import { copyText, go, placePhoneCall, promptDialog, shareText, startCall, toast } from '../ui';
 import { Avatar, TopBar } from '../components/ui';
 
@@ -51,6 +53,7 @@ export function UserInfoView({ contact, back, extra, title }: { contact: { id?: 
     const v = await promptDialog({ title: 'Add to contacts', placeholder: 'Name' });
     if (!v) return;
     mutate((dd) => { dd.contacts.push({ id: 'c' + uid(), name: v, phone: contact.phone, friend: false }); });
+    loadFriends(); // is this person on Wi-Fi Calls?
     toast('Contact saved');
   };
 
@@ -64,7 +67,7 @@ export function UserInfoView({ contact, back, extra, title }: { contact: { id?: 
             <button className="card act-tile" onClick={() => placePhoneCall(contact.phone, name)}><span style={{ background: 'var(--success)' }}><Icon name="phone" /></span>Call</button>
             <button className="card act-tile" onClick={() => go('messages/sms/' + ensureSmsWith(contact.phone, name))}><span style={{ background: 'var(--primary)' }}><Icon name="message" /></span>Message</button>
             {known?.friend && (
-              <button className="card act-tile" onClick={() => go('messages/chat/' + ensureChatWith(known))}><span style={{ background: 'var(--accent)' }}><Icon name="messages" /></span>Free chat</button>
+              <button className="card act-tile" onClick={() => openChatWith(known)}><span style={{ background: 'var(--accent)' }}><Icon name="messages" /></span>Free chat</button>
             )}
           </div>
           {extra}
@@ -112,7 +115,7 @@ export function QbInfoView({ contact: c }: { contact: Contact }) {
             <div className="qb-acts">
               <Btn icon="video" label="Video Call" onClick={() => startCall({ kind: 'video', name: c.name, phone: c.phone })} />
               <Btn icon="phone" label="Voice Call" onClick={() => startCall({ kind: 'app', name: c.name, phone: c.phone })} />
-              <Btn icon="messages" label="Message" onClick={() => go('messages/chat/' + ensureChatWith(c))} />
+              <Btn icon="messages" label="Message" onClick={() => openChatWith(c)} />
             </div>
           </div>
           <div className="card pad">

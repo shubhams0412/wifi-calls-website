@@ -34,7 +34,10 @@ export async function wc<T = unknown>(
     }
   }
   try {
-    const r = await fetch(`/api/wc/${action}`, { method, headers, body, credentials: 'same-origin', cache: 'no-store' });
+    const query = method === 'GET' && params
+      ? new URLSearchParams(Object.entries(params).filter(([, v]) => v != null).map(([k, v]) => [k, String(v)])).toString()
+      : '';
+    const r = await fetch(`/api/wc/${action}${query ? '?' + query : ''}`, { method, headers, body, credentials: 'same-origin', cache: 'no-store' });
     const json = (await r.json().catch(() => null)) as WcResult<T> | null;
     if (r.status === 401 && action !== 'session') onSignedOut?.();
     if (!json) return { ok: false, code: r.status, data: null as T, message: 'Something went wrong. Please try again.' };

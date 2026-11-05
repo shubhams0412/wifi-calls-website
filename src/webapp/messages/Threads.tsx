@@ -8,10 +8,10 @@ import { fmtPhone, fmtTyping, digits } from '../format';
 import { Icon } from '../icons';
 import { contactById, contactByPhone, country, getData, isBlocked, mutate, nameFor, useData } from '../store';
 import { canSendSms, closeSheet, confirmDialog, go, openSheet, placePhoneCall, startCall, toast } from '../ui';
-import { Placeholder, SheetHead, TopBar } from '../components/ui';
+import { Placeholder, SheetHead, Spinner, TopBar } from '../components/ui';
 import { openContactPicker, openCountryPicker } from '../components/pickers';
 import { Bubbles, Composer, fontPx, pushMsg, ThreadBody, ThreadKind } from './shared';
-import { APP_STORE_URL } from '../flows/Paywall';
+import { deleteChat, leaveGroup, loadMessages, sendChat, sendTyping, setOpenThread, useChat } from '../chat';
 
 /* ---------------- block / unblock / delete ---------------- */
 type BlockedRow = { blocked_id: string; blocked_number: string; blocked_name?: string };
@@ -44,6 +44,11 @@ export async function deleteThread(kind: ThreadKind, id: string) {
   if (kind === 'broadcast') {
     const r = await wc('deleteBroadcast', { broadcast_id: id }, undefined, 'DELETE');
     if (!r.ok) return toast(r.message || 'Couldn’t delete the broadcast. Please try again.');
+  }
+  if (kind === 'chat') {
+    const t = d0.chats.find((x) => x.id === id);
+    const ok = t?.group ? (await leaveGroup(id)).ok : await deleteChat(id);
+    if (!ok) return toast('Couldn’t delete the chat. Please try again.');
   }
   mutate((d) => {
     if (kind === 'sms') d.sms = d.sms.filter((t) => t.id !== id);
@@ -205,19 +210,38 @@ function ChatMenu({ id }: { id: string }) {
 export function ChatThreadView({ id }: { id: string }) {
   const d = useData();
   const t = d.chats.find((x) => x.id === id);
+  const chat = useChat();
+  const typing = !!chat.typing[id] && Date.now() - chat.typing[id] < 8000;
   useMarkRead('chat', id, t?.unread);
-  if (!t) return <Placeholder icon="messages" title="Chat not found" />;
+  const known = !!t;
+  useEffect(() => {
+    setOpenThread(id);
+    if (known) loadMessages(id);
+    return () => setOpenThread(null);
+  }, [id, known]);
+  if (!t) {
+    return chat.state === 'connecting' || chat.state === 'off'
+      ? <div className="center" style={{ padding: 40 }}><Spinner /></div>
+      : <Placeholder icon="messages" title="Chat not found" sub={chat.message || undefined} />;
+  }
 
   const call = () => {
     if (t.group) {
       const g = d.groups.find((x) => x.id === t.groupId);
-      startCall({ kind: 'group', name: t.name, members: g ? g.members : [] });
+      startCall({ kind: 'group', name: t.name, members: g ? g.members.map((m) => m.qbId) : [] });
       return;
     }
     const f = contactById(d, t.friendId);
     startCall({ kind: 'app', name: t.name, phone: f ? f.phone : '' });
   };
   const video = () => { const f = contactById(d, t.friendId); startCall({ kind: 'video', name: t.name, phone: f ? f.phone : '' }); };
+  const sig = d.settings.signature;
+  const send = (m: { body?: string; image?: string }) => {
+    sendTyping(t.id, false);
+    // The chat signature is added to the text, as the iPhone app does.
+    const body = m.body && sig && sig !== 'None' ? `${m.body}\n\n— ${sig}` : m.body;
+    sendChat(t.id, { body, image: m.image });
+  };
 
   return (
     <>
@@ -229,14 +253,19 @@ export function ChatThreadView({ id }: { id: string }) {
         <button className="icon-btn plain" title="More" onClick={() => openSheet(<ChatMenu id={t.id} />)}><Icon name="more" /></button>
       </>} />
       <ThreadBody count={t.messages.length} wallpaper={d.settings.chatBg}>
+        {t.full && !t.lastPage && t.messages.length >= 50 && (
+          <div className="center" style={{ padding: 8 }}><button className="chip soft" onClick={() => loadMessages(t.id, true)}>Load earlier messages</button></div>
+        )}
         <Bubbles messages={t.messages} group={t.group} groupAvatar={t.group} name={t.name} fontSize={fontPx(d)}
           hint={t.group ? 'Say hi to the group 👋' : 'Free chat over the internet'} />
       </ThreadBody>
-      {/* App-to-app chat runs on QuickBlox and comes to the web with calling; until then it's read-only here. */}
-      <div className="note" style={{ margin: 12 }}>
-        <Icon name="infoCircle" />
-        <span>App chat is coming to the web soon. To reply now, use the <a href={APP_STORE_URL} target="_blank" rel="noopener noreferrer" style={{ fontWeight: 600 }}>Wi-Fi Calls iPhone app</a>.</span>
-      </div>
+      {typing && <div className="typing">typing…</div>}
+      {chat.state === 'error' && (
+        <div className="note warn" style={{ margin: '0 12px 8px' }}>
+          <Icon name="infoCircle" /><span>{chat.message || 'Chat is offline.'}</span>
+        </div>
+      )}
+      <Composer key={t.id} onSend={send} onTyping={(v) => sendTyping(t.id, v)} autoFocus />
     </>
   );
 }

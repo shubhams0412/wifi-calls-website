@@ -158,8 +158,18 @@ function shrink(file: File): Promise<string> {
   });
 }
 
-export function Composer({ onSend, disabled, autoFocus }: { onSend: (m: { body?: string; image?: string }) => void; disabled?: boolean; autoFocus?: boolean }) {
+export function Composer({ onSend, onTyping, disabled, autoFocus }: {
+  onSend: (m: { body?: string; image?: string }) => void; onTyping?: (typing: boolean) => void; disabled?: boolean; autoFocus?: boolean;
+}) {
   const [text, setText] = useState('');
+  // "typing…" for the other person: announced on the first keystroke, cleared after 3 s without one.
+  const typingTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const typed = () => {
+    if (!onTyping) return;
+    if (!typingTimer.current) onTyping(true); else clearTimeout(typingTimer.current);
+    typingTimer.current = setTimeout(() => { typingTimer.current = null; onTyping(false); }, 3000);
+  };
+  useEffect(() => () => { if (typingTimer.current) clearTimeout(typingTimer.current); }, []);
   const ta = useRef<HTMLTextAreaElement>(null);
   const file = useRef<HTMLInputElement>(null);
   useEffect(() => { if (autoFocus && window.innerWidth > 820) ta.current?.focus(); }, [autoFocus]);
@@ -174,6 +184,7 @@ export function Composer({ onSend, disabled, autoFocus }: { onSend: (m: { body?:
     e?.preventDefault();
     const v = text.trim();
     if (!v) return;
+    if (typingTimer.current) { clearTimeout(typingTimer.current); typingTimer.current = null; }
     onSend({ body: v });
     setText('');
     ta.current?.focus();
@@ -182,7 +193,7 @@ export function Composer({ onSend, disabled, autoFocus }: { onSend: (m: { body?:
     <form className="composer" autoComplete="off" onSubmit={submit}>
       <button type="button" className="icon-btn" title="Send a photo" onClick={() => file.current?.click()} disabled={disabled}><Icon name="image" /></button>
       <textarea ref={ta} rows={1} placeholder="Type a message" maxLength={1024} value={text} disabled={disabled}
-        onChange={(e) => setText(e.target.value)}
+        onChange={(e) => { setText(e.target.value); typed(); }}
         onKeyDown={(e) => { if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); submit(); } }} />
       <button type="submit" className="send-btn" disabled={!text.trim() || disabled} aria-label="Send"><Icon name="send" /></button>
       <input ref={file} type="file" accept="image/*" className="hidden" onChange={(e) => {

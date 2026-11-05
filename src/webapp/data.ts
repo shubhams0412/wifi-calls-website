@@ -5,11 +5,17 @@ export type Stage = 'splash' | 'onboarding' | 'rating' | 'paywall' | 'auth' | 'p
 export type Tier = 'none' | 'lite' | 'pro';
 
 export interface Country { name: string; code: string; dial: string; flag: string }
-export interface Contact { id: string; name: string; phone: string; friend: boolean; username?: string }
+export interface Contact { id: string; name: string; phone: string; friend: boolean; username?: string; /** QuickBlox user id (app friends). */ qbId?: string }
 export interface Message { id: string; out: boolean; body: string; at: number; status: 'sending' | 'sent' | 'failed'; sender?: string | null; image?: string | null }
 export interface SmsThread { id: string; phone: string; name: string; unread: number; messages: Message[]; created?: number; /** All messages loaded (not just the list preview). */ full?: boolean; lastPage?: boolean }
-export interface ChatThread { id: string; name: string; friendId?: string; group?: boolean; groupId?: string; unread: number; messages: Message[]; created?: number }
-export interface Group { id: string; name: string; admin: boolean; members: string[]; dialog: string | null }
+/** App-to-app chat: a QuickBlox dialog. `id` is the dialog id; 1:1 chats keep the other person's QuickBlox id. */
+export interface ChatThread {
+  id: string; name: string; friendId?: string; qbId?: string; group?: boolean; groupId?: string; unread: number; messages: Message[]; created?: number;
+  /** History loaded (not just the list preview) / no older messages left. */ full?: boolean; lastPage?: boolean;
+}
+export interface GroupMember { qbId: string; name: string; admin: boolean }
+/** A group as kept by the backend; `id` and `dialog` are the QuickBlox dialog id. */
+export interface Group { id: string; name: string; admin: boolean; members: GroupMember[]; dialog: string | null; icon?: string }
 export type CallType = 'phone' | 'app' | 'video' | 'group' | 'wifi';
 export interface CallLog { id: string; phone: string; name: string; dir: 'in' | 'out' | 'missed'; dur: number; at: number; type: CallType }
 export interface VoicemailItem { id: string; dir: string; dur: number; at: number; text?: string; url?: string }
@@ -75,7 +81,7 @@ export const COUNTRIES: Country[] = [
   ['Vietnam', 'VN', '+84', '🇻🇳'],
 ].map(([name, code, dial, flag]) => ({ name, code, dial, flag }));
 
-export const DATA_VERSION = 4;
+export const DATA_VERSION = 5;
 
 let n = 0;
 export const uid = () => Date.now().toString(36) + (n++).toString(36) + Math.random().toString(36).slice(2, 6);

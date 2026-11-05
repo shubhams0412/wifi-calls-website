@@ -27,7 +27,7 @@ const tint = (c: string) => ({ ['--c' as string]: c });
 function redial(c: CallLog) {
   if (c.type === 'group') {
     const g = getData().groups.find((x) => x.name === c.name);
-    return startCall({ kind: 'group', name: c.name, members: g ? g.members : [] });
+    return startCall({ kind: 'group', name: c.name, members: g ? g.members.map((m) => m.qbId) : [] });
   }
   if (c.type === 'video') return startCall({ kind: 'video', name: c.name, phone: c.phone });
   if (c.type === 'app') return startCall({ kind: 'app', name: c.name, phone: c.phone });

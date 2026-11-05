@@ -109,9 +109,14 @@ export async function call<T = unknown>(path: string, opts: CallOptions): Promis
     }
   }
 
+  // GET routes (e.g. wsqr_retrieveGroupById?group_id=…) read their few parameters from the query string.
+  const query = method === 'GET' && opts.params
+    ? Object.entries(opts.params).filter(([, v]) => v !== undefined && v !== null && v !== '').map(([k, v]) => `${encodeURIComponent(k)}=${encodeURIComponent(String(v))}`).join('&')
+    : '';
+
   let response: Response;
   try {
-    response = await fetch(`${base()}/api/v1/${path}`, { method, headers, body, cache: 'no-store', signal: AbortSignal.timeout(20_000) });
+    response = await fetch(`${base()}/api/v1/${path}${query ? '?' + query : ''}`, { method, headers, body, cache: 'no-store', signal: AbortSignal.timeout(20_000) });
   } catch (error) {
     console.error(`[wc] ${path} unreachable`, error);
     throw new ApiError('The service is not reachable right now. Please try again.', 503, 503);

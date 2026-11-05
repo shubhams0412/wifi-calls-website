@@ -6,8 +6,9 @@ import { useCallback, useEffect, useRef, useState } from 'react';
 import { Contact } from '../data';
 import { APP_NAME, cx, digits, fmtPhone, fmtTyping } from '../format';
 import { Icon } from '../icons';
-import { country, ensureChatWith, friends, useData } from '../store';
-import { go, openBuyNumber, placePhoneCall, startCall, toast, useDialog, useUI } from '../ui';
+import { openChatWith } from '../chat';
+import { country, friends, useData } from '../store';
+import { openBuyNumber, placePhoneCall, startCall, toast, useDialog, useUI } from '../ui';
 import { Avatar, Empty } from '../components/ui';
 import { FullPane } from '../components/Shell';
 import { openContactPicker, openCountryPicker } from '../components/pickers';
@@ -46,7 +47,7 @@ function FriendRow({ f }: { f: Contact }) {
         <button className="circle-ic s32" style={tint('var(--accent)')} title="Video call" aria-label="Video call"
           onClick={(e) => { stop(e); startCall({ kind: 'video', name: f.name, phone: f.phone }); }}><Icon name="video" /></button>
         <button className="circle-ic s32" style={tint('var(--primary)')} title="Chat" aria-label="Chat"
-          onClick={(e) => { stop(e); go('messages/chat/' + ensureChatWith(f)); }}><Icon name="message" /></button>
+          onClick={(e) => { stop(e); openChatWith(f); }}><Icon name="message" /></button>
       </span>
     </Link>
   );

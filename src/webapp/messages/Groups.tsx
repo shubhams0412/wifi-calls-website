@@ -1,32 +1,22 @@
 'use client';
 
-/* Groups: list (GroupListView), create (CreateGroupView, 2-step sheet), info (GroupInfoView). */
+/* Groups: list (GroupListView), create (CreateGroupView, 2-step sheet), info (GroupInfoView).
+   Groups live on the backend (wsqr_*Group), which creates the QuickBlox group dialog; see chat.ts. */
 import Link from 'next/link';
-import { useState } from 'react';
-import { ChatThread, Group, uid } from '../data';
+import { useEffect, useRef, useState } from 'react';
 import { APP_NAME, cx, fmtPhone } from '../format';
 import { Icon } from '../icons';
-import { contactById, displayName, ensureChatWith, friends, getData, lastMsg, mutate, useData } from '../store';
-import { alertDialog, CALLS_ON_WEB, closeSheet, confirmDialog, go, openSheet, promptDialog, requirePro, shareText, startCall, toast } from '../ui';
-import { Avatar, Empty, Placeholder, TopBar } from '../components/ui';
+import { displayName, friends, getData, lastMsg, useData } from '../store';
+import { alertDialog, closeSheet, confirmDialog, go, openSheet, promptDialog, requirePro, shareText, startCall, toast } from '../ui';
+import { Avatar, Empty, Placeholder, Spinner, TopBar } from '../components/ui';
 import { openFriendPicker } from '../components/pickers';
+import { changeMembers, chatWith, createGroup, leaveGroup, loadGroup, renameGroup } from '../chat';
 
-/** Open (creating if needed) the group's chat thread. */
-export function openGroupChat(groupId: string) {
-  const g = getData().groups.find((x) => x.id === groupId);
-  if (!g) return;
-  let dialog = g.dialog;
-  if (!dialog) {
-    const t: ChatThread = { id: 'd' + uid(), name: g.name, group: true, groupId: g.id, unread: 0, messages: [], created: Date.now() };
-    dialog = t.id;
-    mutate((d) => { d.chats.unshift(t); const gg = d.groups.find((x) => x.id === groupId); if (gg) gg.dialog = t.id; });
-  }
-  go('messages/chat/' + dialog);
-}
+/** A group's chat is its QuickBlox dialog, which has the same id. */
+export function openGroupChat(groupId: string) { go('messages/chat/' + groupId); }
 
-/** Groups live on QuickBlox, which the web joins along with calling (CALLS_ON_WEB). */
+/** Creating groups is a Pro feature (the backend checks GROUP_CHAT_CREATE). */
 export function newGroup() {
-  if (!CALLS_ON_WEB) return void alertDialog('Groups are coming to the web soon', 'For now, create and chat in groups from the iPhone app.');
   if (!requirePro()) return;
   openSheet(<CreateGroupSheet />);
 }
@@ -52,7 +42,7 @@ export function GroupPane({ activeId }: { activeId?: string }) {
         ) : !items.length ? <Empty icon="search" title="No matching groups" /> : (
           <div className="list">
             {items.map((g) => {
-              const t = g.dialog ? d.chats.find((c) => c.id === g.dialog) : undefined;
+              const t = d.chats.find((c) => c.id === g.id);
               const m = t && lastMsg(t);
               return (
                 <div key={g.id} className={cx('row clickable', activeId === g.id && 'active')} role="button" tabIndex={0}
@@ -82,15 +72,19 @@ function CreateGroupSheet() {
   const [name, setName] = useState('');
   const [members, setMembers] = useState<string[]>([]);
   const [q, setQ] = useState('');
-  const create = () => {
-    if (!name.trim() || !members.length) return;
-    const g: Group = { id: 'g' + uid(), name: name.trim(), admin: true, members: ['me', ...members], dialog: null };
-    const t: ChatThread = { id: 'd' + uid(), name: g.name, group: true, groupId: g.id, unread: 0, messages: [], created: Date.now() };
-    g.dialog = t.id;
-    mutate((dd) => { dd.groups.unshift(g); dd.chats.unshift(t); });
+  const [icon, setIcon] = useState<{ file: File; url: string } | null>(null);
+  const [busy, setBusy] = useState(false);
+  const fileRef = useRef<HTMLInputElement>(null);
+  const create = async () => {
+    if (!name.trim() || !members.length || busy) return;
+    const qbIds = friends(getData()).filter((f) => members.includes(f.id) && f.qbId).map((f) => f.qbId!);
+    setBusy(true);
+    const r = await createGroup(name.trim(), qbIds, icon?.file);
+    setBusy(false);
+    if (!r.ok) return alertDialog('Couldn’t create the group', r.message || 'Please try again.');
     closeSheet();
     toast('Group created');
-    go('messages/chat/' + t.id);
+    if (r.data?.quick_blox_chat_dialog_id) openGroupChat(r.data.quick_blox_chat_dialog_id);
   };
   const top = (
     <div className="ob-top" style={{ padding: '18px 20px 6px' }}>
@@ -99,7 +93,7 @@ function CreateGroupSheet() {
       </button>
       <span className="step-pill">{step === 1 ? 'Step 1 · Group' : 'Step 2 · Members'}</span>
       {step === 2
-        ? <button className="chip on" disabled={!name.trim() || !members.length} style={name.trim() && members.length ? undefined : { opacity: 0.5 }} onClick={create}>Create</button>
+        ? <button className="chip on" disabled={!name.trim() || !members.length || busy} style={name.trim() && members.length && !busy ? undefined : { opacity: 0.5 }} onClick={create}>{busy ? <Spinner /> : 'Create'}</button>
         : <span style={{ width: 38 }} />}
     </div>
   );
@@ -110,7 +104,14 @@ function CreateGroupSheet() {
         <div className="sheet-body" style={{ alignItems: 'center', textAlign: 'center' }}>
           <h3 style={{ margin: '8px 0 0', fontSize: 22 }}>Name your group</h3>
           <p className="muted" style={{ margin: 0 }}>Pick a name and a picture — you can change them later.</p>
-          <div className="cg-photo"><Icon name="camera" /><span className="plus"><Icon name="plus" /></span></div>
+          <button className="cg-photo" onClick={() => fileRef.current?.click()} aria-label="Choose a group picture"
+            style={icon ? { backgroundImage: `url(${icon.url})`, backgroundSize: 'cover', backgroundPosition: 'center' } : undefined}>
+            {!icon && <Icon name="camera" />}<span className="plus"><Icon name="plus" /></span>
+          </button>
+          <input ref={fileRef} type="file" accept="image/*" hidden onChange={(e) => {
+            const f = e.target.files?.[0];
+            if (f) setIcon({ file: f, url: URL.createObjectURL(f) });
+          }} />
           <div className="card pad" style={{ width: '100%', textAlign: 'left' }}>
             <div className="card-h"><Icon name="tag" /> GROUP NAME<span className="grow" /><span className="tiny muted">{name.length}/25</span></div>
             <span className="icon-input"><Icon name="group" />
@@ -126,7 +127,7 @@ function CreateGroupSheet() {
     );
   }
   const s = q.trim().toLowerCase();
-  const fr = friends(d).filter((f) => !s || f.name.toLowerCase().includes(s));
+  const fr = friends(d).filter((f) => f.qbId && (!s || f.name.toLowerCase().includes(s)));
   return (
     <>
       {top}
@@ -166,31 +167,43 @@ function CreateGroupSheet() {
 export function GroupInfo({ id }: { id: string }) {
   const d = useData();
   const g = d.groups.find((x) => x.id === id);
+  useEffect(() => { loadGroup(id); }, [id]);
   if (!g) return <Placeholder icon="group" title="Group not found" />;
 
   const rename = async () => {
-    const v = await promptDialog({ title: 'Rename group', placeholder: 'Group name', value: g.name });
-    if (!v) return;
-    mutate((dd) => {
-      const gg = dd.groups.find((x) => x.id === id);
-      if (!gg) return;
-      gg.name = v.slice(0, 25);
-      const t = dd.chats.find((c) => c.id === gg.dialog);
-      if (t) t.name = gg.name;
-    });
+    const v = (await promptDialog({ title: 'Rename group', placeholder: 'Group name', value: g.name }))?.trim().slice(0, 25);
+    if (!v || v === g.name) return;
+    const r = await renameGroup(id, v);
+    if (!r.ok) toast(r.message || 'Couldn’t rename the group. Please try again.');
   };
-  const addMembers = () => openFriendPicker({ multi: true, title: 'Pick friends', exclude: g.members }, (list) => {
-    mutate((dd) => { const gg = dd.groups.find((x) => x.id === id); if (gg) list.forEach((f) => { if (!gg.members.includes(f.id)) gg.members.push(f.id); }); });
+  const inGroup = new Set(g.members.map((m) => m.qbId));
+  const addMembers = () => openFriendPicker({ multi: true, title: 'Pick friends', exclude: friends(getData()).filter((f) => !f.qbId || inGroup.has(f.qbId)).map((f) => f.id) }, async (list) => {
+    const ids = list.map((f) => f.qbId!).filter(Boolean);
+    if (!ids.length) return;
+    const r = await changeMembers(id, ids, true);
+    toast(r.ok ? (ids.length === 1 ? 'Member added' : 'Members added') : r.message || 'Couldn’t add members. Please try again.');
   });
-  const remove = (mid: string) => mutate((dd) => { const gg = dd.groups.find((x) => x.id === id); if (gg) gg.members = gg.members.filter((m) => m !== mid); });
+  const remove = async (qbId: string, name: string) => {
+    if (!(await confirmDialog({ title: `Remove ${name}?`, ok: 'Remove', danger: true }))) return;
+    const r = await changeMembers(id, [qbId], false);
+    if (!r.ok) toast(r.message || 'Couldn’t remove this member. Please try again.');
+  };
   const leave = async () => {
-    const ok = await confirmDialog({ title: g.admin ? 'Delete group?' : 'Leave group?', ok: g.admin ? 'Delete' : 'Leave', danger: true });
+    const ok = await confirmDialog({ title: g.admin ? 'Delete group?' : 'Leave group?', message: g.admin ? 'The group is deleted for everyone.' : undefined, ok: g.admin ? 'Delete' : 'Leave', danger: true });
     if (!ok) return;
-    mutate((dd) => { dd.groups = dd.groups.filter((x) => x.id !== g.id); dd.chats = dd.chats.filter((c) => c.id !== g.dialog); });
+    const r = await leaveGroup(g.id);
+    if (!r.ok) return toast(r.message || 'Please try again.');
+    toast(g.admin ? 'Group deleted' : 'You left the group');
     go('messages/groups');
   };
-  const memberChat = (mid: string) => { const c = contactById(getData(), mid); if (c) go('messages/chat/' + ensureChatWith(c)); };
-  const memberCall = (mid: string) => { const c = contactById(getData(), mid); if (c) startCall({ kind: 'app', name: c.name, phone: c.phone }); };
+  const contactOf = (qbId: string) => getData().contacts.find((c) => c.qbId === qbId);
+  const memberChat = async (qbId: string) => {
+    const c = contactOf(qbId);
+    const chat = c ? await chatWith(c) : null;
+    if (chat) go('messages/chat/' + chat); else toast('Couldn’t open the chat. Please try again.');
+  };
+  const memberCall = (qbId: string) => { const c = contactOf(qbId); startCall({ kind: 'app', name: c?.name, phone: c?.phone }); };
+  const myQb = d.user.quickbloxId;
 
   return (
     <>
@@ -198,7 +211,12 @@ export function GroupInfo({ id }: { id: string }) {
       <div className="scroll">
         <div className="content narrow">
           <div className="card pad center hero-card">
-            <div className="rings"><Avatar name={g.name} size={88} group /></div>
+            <div className="rings">
+              {g.icon
+                // eslint-disable-next-line @next/next/no-img-element
+                ? <img src={g.icon} alt="" width={88} height={88} style={{ borderRadius: '50%', objectFit: 'cover' }} />
+                : <Avatar name={g.name} size={88} group />}
+            </div>
             <div className="row-lite" style={{ justifyContent: 'center', gap: 8 }}>
               <h2 style={{ margin: 0, fontSize: 22, fontWeight: 800 }}>{g.name}</h2>
               {g.admin && <button className="circle-ic s22" onClick={rename} title="Rename"><Icon name="pencil" /></button>}
@@ -206,7 +224,7 @@ export function GroupInfo({ id }: { id: string }) {
             <span className="chip soft"><Icon name="users" /> {g.members.length} members</span>
             <div className="row-lite" style={{ justifyContent: 'center', gap: 10, marginTop: 6 }}>
               <button className="btn btn-ghost sm" onClick={() => openGroupChat(g.id)}><Icon name="message" /> Chat</button>
-              <button className="btn btn-ghost sm" onClick={() => startCall({ kind: 'group', name: g.name, members: g.members })}><Icon name="phone" /> Call Group</button>
+              <button className="btn btn-ghost sm" onClick={() => startCall({ kind: 'group', name: g.name, members: g.members.map((m) => m.qbId) })}><Icon name="phone" /> Call Group</button>
             </div>
           </div>
           <div className="card pad">
@@ -218,26 +236,27 @@ export function GroupInfo({ id }: { id: string }) {
                 <Icon name="chevR" />
               </button>
             )}
-            {g.members.map((mid, i) => {
-              const me = mid === 'me';
-              const c = me ? undefined : contactById(d, mid);
-              const name = me ? displayName(d) + ' (You)' : c ? c.name : 'User';
-              const admin = (me && g.admin) || (!g.admin && i === 1);
+            {g.members.map((m) => {
+              const me = m.qbId === myQb;
+              const name = me ? displayName(d) + ' (You)' : m.name;
               return (
-                <div className="mem-row" key={mid}>
+                <div className="mem-row" key={m.qbId}>
                   <Avatar name={me ? displayName(d) : name} size={40} />
-                  <div style={{ flex: 1, minWidth: 0, fontWeight: 600 }}>{name}</div>
-                  {admin && (
+                  <div style={{ flex: 1, minWidth: 0, fontWeight: 600 }}>
+                    {name}
+                    {!me && contactOf(m.qbId) && <div className="tiny muted" style={{ fontWeight: 400 }}>{fmtPhone(contactOf(m.qbId)!.phone)}</div>}
+                  </div>
+                  {m.admin && (
                     <span className="chip" style={{ background: 'color-mix(in srgb,var(--warning) 14%,transparent)', color: 'var(--warning)', fontSize: 11 }}>
                       <Icon name="crown" /> Admin
                     </span>
                   )}
-                  {!me && <>
-                    <button className="circle-ic s32" style={{ background: 'var(--accent-soft)' }} onClick={() => memberChat(mid)} title="Message"><Icon name="message" /></button>
-                    <button className="circle-ic s32" style={{ ['--c' as string]: 'var(--success)' }} onClick={() => memberCall(mid)} title="Call"><Icon name="phone" /></button>
+                  {!me && contactOf(m.qbId) && <>
+                    <button className="circle-ic s32" style={{ background: 'var(--accent-soft)' }} onClick={() => memberChat(m.qbId)} title="Message"><Icon name="message" /></button>
+                    <button className="circle-ic s32" style={{ ['--c' as string]: 'var(--success)' }} onClick={() => memberCall(m.qbId)} title="Call"><Icon name="phone" /></button>
                   </>}
-                  {!me && g.admin && !admin && (
-                    <button className="circle-ic s32" style={{ ['--c' as string]: 'var(--danger)' }} onClick={() => remove(mid)} title="Remove"><Icon name="x" /></button>
+                  {!me && g.admin && !m.admin && (
+                    <button className="circle-ic s32" style={{ ['--c' as string]: 'var(--danger)' }} onClick={() => remove(m.qbId, m.name)} title="Remove"><Icon name="x" /></button>
                   )}
                 </div>
               );

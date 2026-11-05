@@ -7,7 +7,9 @@ import { useEffect, useState, type MouseEvent } from 'react';
 import { Contact, uid } from '../data';
 import { APP_NAME, cx, digits, fmtPhone, initial } from '../format';
 import { Icon, IconName } from '../icons';
-import { contactById, ensureChatWith, ensureSmsWith, friends, inviteText, mutate, useData } from '../store';
+import { openChatWith } from '../chat';
+import { loadFriends } from '../sync';
+import { contactById, ensureSmsWith, friends, inviteText, mutate, useData } from '../store';
 import { closeSheet, go, openBuyNumber, openSheet, placePhoneCall, shareText, startCall, toast } from '../ui';
 import { Avatar, Empty, Placeholder, Seg, SheetHead } from '../components/ui';
 import { SplitView } from '../components/Shell';
@@ -35,7 +37,7 @@ export function FriendRow({ f, active }: { f: Contact; active?: boolean }) {
       <span className="row-acts">
         <Chip icon="phone" tint="var(--success)" title="Free call" onClick={() => startCall({ kind: 'app', name: f.name, phone: f.phone })} />
         <Chip icon="video" tint="var(--accent)" title="Video call" onClick={() => startCall({ kind: 'video', name: f.name, phone: f.phone })} />
-        <Chip icon="message" tint="var(--primary)" title="Chat" onClick={() => go('messages/chat/' + ensureChatWith(f))} />
+        <Chip icon="message" tint="var(--primary)" title="Chat" onClick={() => openChatWith(f)} />
       </span>
     </Link>
   );
@@ -136,6 +138,7 @@ function NewContactSheet() {
     if (ph && ph.length < 7) { toast('Enter a valid phone number.'); return; }
     const c: Contact = { id: 'c' + uid(), name: name || fmtPhone(ph), phone: ph.length === 10 ? '+1' + ph : '+' + ph, friend: false };
     mutate((d) => { d.contacts.push(c); });
+    loadFriends(); // is this person on Wi-Fi Calls?
     closeSheet();
     toast('Contact saved');
     go('contacts/phonebook/' + c.id);
