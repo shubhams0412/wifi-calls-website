@@ -6,7 +6,7 @@ import { createElement, type ReactNode } from 'react';
 import { create } from 'zustand';
 import { getData, isBlocked, contactByPhone, isPro } from './store';
 import { placeAppCall, useCall } from './rtc';
-import { placeTwilioCall, usePhoneCall } from './phone';
+import { placePhoneCallNow, usePhoneCall } from './phone';
 import { APP_NAME, digits } from './format';
 import { e164 } from './api';
 
@@ -95,12 +95,8 @@ export function startCall(req: CallRequest) {
   if (inCall()) { toast("You're already on a call."); return; }
   const d = getData();
   if (req.kind === 'phone') {
-    // Paid calls go through the number's voice provider (phone.ts). Vonage isn't connected on the web yet.
-    if (d.voiceProvider === 'vonage') {
-      alertDialog('Calling from this number is coming to the web soon', 'For now, call phone numbers from the iPhone app. Free app-to-app calls work here.');
-      return;
-    }
-    placeTwilioCall(req.phone ?? '', req.name ?? '').then((message) => { if (message) toast(message); });
+    // Paid calls go through the number's voice provider, Twilio or Vonage (phone.ts).
+    placePhoneCallNow(req.phone ?? '', req.name ?? '').then((message) => { if (message) toast(message); });
     return;
   }
   // App-to-app calls (voice, video, group) over QuickBlox — see rtc.ts.

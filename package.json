@@ -10,6 +10,7 @@
   },
   "dependencies": {
     "@twilio/voice-sdk": "2.18.5",
+    "@vonage/client-sdk": "2.11.1",
     "firebase": "^13.2.0",
     "gray-matter": "^4.0.3",
     "jose": "^6.2.15",
