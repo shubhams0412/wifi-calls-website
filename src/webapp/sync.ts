@@ -56,7 +56,9 @@ function mapThreads(list: SmsSummary[], current: SmsThread[]): SmsThread[] {
     const preview: Message = { id: 'p' + String(t.id), out: false, body: t.body ?? '', at, status: 'sent' };
     // Keep a loaded conversation if nothing new arrived; otherwise show the list preview until it's opened.
     const keep = old?.full && old.messages.length && Math.abs((old.messages[old.messages.length - 1]?.at ?? 0) - at) < 1000;
-    return { id, phone, name: t.username ?? old?.name ?? '', unread: t.unreadMessageCount ?? 0, messages: keep ? old!.messages : [preview], full: keep ? true : false, created: at };
+    // With no saved name the backend repeats the number as `username`; leave the name empty so contacts can name it.
+    const username = t.username && t.username.replace(/\D/g, '') !== phone.replace(/\D/g, '') ? t.username : '';
+    return { id, phone, name: username || old?.name || '', unread: t.unreadMessageCount ?? 0, messages: keep ? old!.messages : [preview], full: keep ? true : false, created: at };
   });
 }
 
