@@ -12,8 +12,10 @@ let verifier: RecaptchaVerifier | null = null;
 async function auth() {
   const { initializeApp, getApps } = await import('firebase/app');
   const { getAuth } = await import('firebase/auth');
+  // Must be a Firebase *Web* app's config: an iOS app's API key fails phone sign-in with auth/invalid-app-credential.
   const app = getApps()[0] ?? initializeApp({
     apiKey: process.env.NEXT_PUBLIC_FIREBASE_API_KEY,
+    appId: process.env.NEXT_PUBLIC_FIREBASE_APP_ID,
     authDomain: process.env.NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN,
     projectId: process.env.NEXT_PUBLIC_FIREBASE_PROJECT_ID,
   });
@@ -30,8 +32,12 @@ const MESSAGES: Record<string, string> = {
   'auth/unauthorized-domain': 'Sign-in isn’t enabled for this website yet.',
   'auth/network-request-failed': 'You’re offline. Check your connection and try again.',
 };
-export const firebaseMessage = (error: unknown) =>
-  MESSAGES[(error as { code?: string })?.code ?? ''] ?? 'We couldn’t send the code. Please try again.';
+/** A readable message; unknown errors keep Firebase's code so support can tell what happened. */
+export function firebaseMessage(error: unknown) {
+  const code = (error as { code?: string })?.code ?? '';
+  console.warn('[firebase]', code || error);
+  return MESSAGES[code] ?? `We couldn’t send the code. Please try again.${code ? ` (${code.replace('auth/', '')})` : ''}`;
+}
 
 /** Texts a code to `phone` (E.164). `buttonId` hosts the invisible reCAPTCHA. Throws with a readable message. */
 export async function sendCode(phone: string, buttonId: string): Promise<void> {
