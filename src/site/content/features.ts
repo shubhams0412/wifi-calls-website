@@ -309,8 +309,8 @@ export const FEATURES: Feature[] = [
       { q: 'Do I need Pro to create a group?', a: 'Yes. Creating groups is included with Pro.' },
     ],
     related: ['group-calls', 'free-app-calls', 'texting'],
-    seoTitle: 'Free Chat & Group Chat With Friends | Wi-Fi Calling',
-    seoDescription: 'Chat for free with friends who use Wi-Fi Calling & Texting. Create groups, share photos, pick a chat wallpaper and jump from chat to a call with a single tap.',
+    seoTitle: 'Free Chat With Friends, Groups With Pro | Wi-Fi Calling',
+    seoDescription: 'Chat for free with friends who use Wi-Fi Calling & Texting. Share photos, create groups with Pro and jump from chat to a call with a single tap.',
   },
   {
     slug: 'broadcast-messages',
