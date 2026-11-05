@@ -12,6 +12,7 @@ const nextConfig: NextConfig = {
     return [
       { source: '/download', destination: '/', permanent: false },
       { source: '/features/web-app', destination: '/features', permanent: false },
+      { source: '/blog/call-and-text-from-your-computer', destination: '/blog', permanent: false },
     ];
   },
 };
