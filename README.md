@@ -4,7 +4,7 @@ Next.js (App Router, TypeScript) marketing website: home, features, use cases, n
 international calling, plans, FAQ, blog, download, contact, Privacy and Terms.
 
 The **web app** (calls, texts and chat in the browser) is a separate project on branch `webapp`.
-This site links to it through `NEXT_PUBLIC_WEBAPP_URL`.
+This site doesn't link to it.
 
 ## Run locally
 
@@ -25,7 +25,6 @@ Other scripts: `npm run build` (production build), `npm start` (serve the build)
 | Variable | Purpose |
 | --- | --- |
 | `NEXT_PUBLIC_SITE_URL` | This site's public address, for canonical links, the sitemap and RSS |
-| `NEXT_PUBLIC_WEBAPP_URL` | The web app's address (its own deployment), e.g. `https://app.wifiphonecalls.com`. "Web app" buttons go to `<this>/app` |
 | `SMTP_*` | Contact form (see `.env.example`) |
 | `CMS_*` | Blog (see "Blog" below) |
 
