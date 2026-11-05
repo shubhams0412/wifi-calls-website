@@ -88,7 +88,8 @@ export async function call<T = unknown>(path: string, opts: CallOptions): Promis
   const method = opts.method ?? 'POST';
   const headers: Record<string, string> = {};
   if (opts.auth === 'bootstrap') headers[env('WC_APP_HEADER_NAME')] = env('WC_APP_HEADER_VALUE');
-  else if (opts.auth !== 'none') headers.authToken = authToken(opts.auth.authKey);
+  // The backend decrypts authToken like the body (ApiEncryptionListener), so it's sent encrypted, as on iOS.
+  else if (opts.auth !== 'none') headers.authToken = encrypt(authToken(opts.auth.authKey));
 
   const params: Record<string, string> = {};
   for (const [k, v] of Object.entries({ ...deviceParams(opts.device), ...opts.params })) {
