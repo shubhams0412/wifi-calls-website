@@ -27,7 +27,8 @@ async function auth() {
 /*
  * The Firebase project enforces App Check on Authentication, so sign-in requests must carry an
  * App Check token (otherwise: auth/firebase-app-check-token-is-invalid). The web app proves itself
- * with reCAPTCHA v3; local development uses a debug token registered in the Firebase console.
+ * with Fraud Defense (reCAPTCHA Enterprise) — the console's classic reCAPTCHA v3 option is deprecated.
+ * Local development uses a debug token registered in the Firebase console.
  */
 async function startAppCheck(app: import('firebase/app').FirebaseApp) {
   const siteKey = process.env.NEXT_PUBLIC_FIREBASE_APPCHECK_SITE_KEY;
@@ -36,9 +37,9 @@ async function startAppCheck(app: import('firebase/app').FirebaseApp) {
   if (debugToken && process.env.NODE_ENV !== 'production') {
     (self as unknown as { FIREBASE_APPCHECK_DEBUG_TOKEN?: string }).FIREBASE_APPCHECK_DEBUG_TOKEN = debugToken;
   }
-  const { initializeAppCheck, ReCaptchaV3Provider } = await import('firebase/app-check');
+  const { initializeAppCheck, ReCaptchaEnterpriseProvider } = await import('firebase/app-check');
   // In debug mode the provider is never asked for a token, so a placeholder key is enough locally.
-  initializeAppCheck(app, { provider: new ReCaptchaV3Provider(siteKey || 'debug-mode'), isTokenAutoRefreshEnabled: true });
+  initializeAppCheck(app, { provider: new ReCaptchaEnterpriseProvider(siteKey || 'debug-mode'), isTokenAutoRefreshEnabled: true });
 }
 
 const MESSAGES: Record<string, string> = {
