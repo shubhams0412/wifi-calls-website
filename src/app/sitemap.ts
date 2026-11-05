@@ -1,15 +1,14 @@
 import type { MetadataRoute } from 'next';
 import { abs } from '@/site/config';
-import { allPostSlugs } from '@/site/blog';
+import { allCategories, allPostSlugs } from '@/site/blog';
 import { FEATURES } from '@/site/content/features';
 import { USE_CASES } from '@/site/content/useCases';
 import { CALL_COUNTRIES, NUMBER_COUNTRIES } from '@/site/content/countries';
 
-/** Every public page; new content records and blog posts are included automatically. */
-export const revalidate = 3600;
+/** Every public page, including each blog article and blog category. Built once at deploy. */
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
-  const posts = await allPostSlugs();
+  const [posts, categories] = await Promise.all([allPostSlugs(), allCategories()]);
   const now = new Date();
   const page = (path: string, priority = 0.7): MetadataRoute.Sitemap[number] => ({ url: abs(path), lastModified: now, priority });
   return [
@@ -21,5 +20,6 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     ...NUMBER_COUNTRIES.map((c) => page(`/numbers/${c.slug}`, 0.8)),
     ...CALL_COUNTRIES.map((c) => page(`/international-calling/${c.slug}`, 0.7)),
     ...posts.map((p) => ({ url: abs(`/blog/${p.slug}`), lastModified: new Date(p.updatedAt), priority: 0.6 })),
+    ...categories.map((c) => page(`/blog/category/${c.slug}`, 0.5)),
   ];
 }

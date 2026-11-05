@@ -1,11 +1,11 @@
 import { listPosts } from '@/site/blog';
 import { abs, BRAND } from '@/site/config';
 
-export const revalidate = 600;
+export const dynamic = 'force-static';
 
 const esc = (s: string) => s.replace(/[<>&'"]/g, (c) => ({ '<': '&lt;', '>': '&gt;', '&': '&amp;', "'": '&apos;', '"': '&quot;' }[c]!));
 
-/** RSS feed of the latest 30 published articles. */
+/** RSS feed of the latest 30 articles, built once at deploy. */
 export async function GET() {
   const { posts } = await listPosts({ perPage: 30 });
   const items = posts.map((p) => `

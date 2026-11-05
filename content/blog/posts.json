@@ -1,0 +1,1721 @@
+{
+  "snapshotAt": "2026-11-05T11:26:58.917Z",
+  "categories": [
+    {
+      "name": "Business",
+      "slug": "business",
+      "description": "Use a second number to run your work, side hustle or small business."
+    },
+    {
+      "name": "How-To Guides",
+      "slug": "how-to-guides",
+      "description": "Step-by-step help with calls, texts and settings in the app."
+    },
+    {
+      "name": "Privacy & Safety",
+      "slug": "privacy-safety",
+      "description": "Keep your personal number private and stay safe online."
+    },
+    {
+      "name": "Wi-Fi Calling",
+      "slug": "wifi-calling",
+      "description": "How internet calling works and how to get the most from it."
+    }
+  ],
+  "posts": [
+    {
+      "id": "01M6KFSSXY5HVS3CA2WCJGT8HK",
+      "slug": "second-number-for-freelancers",
+      "path": "/blog/second-number-for-freelancers/",
+      "title": "A second phone number for freelancers: look established from day one",
+      "excerpt": "Freelancers give their number to every client. A second number keeps that list separate from your personal life and makes you look established.",
+      "featuredImage": {
+        "url": "/blog/01m6kfsqhsb4p2a4xx8py6gr8b-965967a1.png",
+        "alt": "A second phone number for freelancers: look established from day one — Wi-Fi Calling & Texting",
+        "title": "A second phone number for freelancers: look established from day one",
+        "width": null,
+        "height": null
+      },
+      "category": {
+        "name": "Business",
+        "slug": "business",
+        "description": "Use a second number to run your work, side hustle or small business."
+      },
+      "author": {
+        "name": "Wi-Fi Calling & Texting Team",
+        "slug": "wifi-calling-team",
+        "role": "Editorial team",
+        "bio": "Guides and tips from the team behind Wi-Fi Calling & Texting: free calls and texts over Wi-Fi from a private second number.",
+        "image": null
+      },
+      "publishedAt": "2026-10-28T09:30:00.000Z",
+      "updatedAt": "2026-10-28T09:30:00.000Z",
+      "readingMinutes": 1,
+      "contentHtml": "<p>When you freelance, your phone number goes on proposals, invoices and profiles. Years later, past clients and agencies still have your personal number. A <strong>second number for client work</strong> keeps that separate from day one.</p>\n<h2>Why freelancers use one</h2>\n<ul><li><strong>Look established:</strong> a dedicated business number with your own voicemail greeting.</li><li><strong>Protect your privacy:</strong> clients never get your personal number.</li><li><strong>Set boundaries:</strong> stop checking work messages when the day ends.</li><li><strong>Keep it forever:</strong> your client number doesn’t change when your phone plan does.</li></ul>\n<h2>Features that help freelancers</h2>\n<table><thead><tr><th>Feature</th><th>How it helps</th><th>Plan</th></tr></thead><tbody><tr><td><a href=\"/features/voicemail\">Voicemail</a></td><td>A greeting with your name and when you’ll call back</td><td>Pro</td></tr><tr><td><a href=\"/features/call-recording\">Call recording</a></td><td>Keep a record of what was agreed on a call</td><td>Pro</td></tr></tbody></table>\n<blockquote><p><strong>Tip:</strong> Check the rules where you and your client live before recording calls — many places require you to tell the other person.</p></blockquote>\n<h2>Getting set up</h2>\n<ol><li>Choose a US or Canadian number in the app.</li><li>Add it to your proposals, invoices and profiles.</li><li>Record a short, friendly voicemail greeting.</li><li>Let existing clients know about your new number.</li></ol>\n<h2>The bottom line</h2>\n<p>A second number is a small step that makes a freelance business feel more professional. See <a href=\"/use-cases/freelancers\">how freelancers use it</a>.</p>",
+      "tags": [
+        {
+          "name": "business",
+          "slug": "business"
+        },
+        {
+          "name": "call recording",
+          "slug": "call-recording"
+        },
+        {
+          "name": "freelancers",
+          "slug": "freelancers"
+        },
+        {
+          "name": "voicemail",
+          "slug": "voicemail"
+        }
+      ],
+      "faqs": [
+        {
+          "id": "01M6KFSSY22PNN676EAG0SZVMX",
+          "question": "Can I record calls with clients?",
+          "answer": "With Pro, outgoing calls can be recorded automatically and played back in Settings → My Recordings. Check the consent rules where you and your client are."
+        },
+        {
+          "id": "01M6KFSSY4454Y882C0EZZQJBY",
+          "question": "Can I use my work number on my laptop?",
+          "answer": "Yes. Sign in to the web app with the same account to call and text from your computer."
+        },
+        {
+          "id": "01M6KFSSY6MGSSPWYE1HYFXSEB",
+          "question": "Which numbers can I choose?",
+          "answer": "You can choose a number from the United States or Canada."
+        }
+      ],
+      "faqSchema": true,
+      "cta": null,
+      "related": [
+        {
+          "id": "01M6KFSSRCXR9NNYNN9K7Y9Z5N",
+          "slug": "separate-work-and-personal-calls",
+          "path": "/blog/separate-work-and-personal-calls/",
+          "title": "How to keep work and personal calls separate on one phone",
+          "excerpt": "Clients calling at dinner? A second number gives work its own line on the phone you already carry, so you can switch off when the day ends.",
+          "featuredImage": {
+            "url": "/blog/01m6kfshfk0xgv4ga8matqq0g7-24d7e6ab.png",
+            "alt": "How to keep work and personal calls separate on one phone — Wi-Fi Calling & Texting",
+            "title": "How to keep work and personal calls separate on one phone",
+            "width": null,
+            "height": null
+          },
+          "category": {
+            "name": "Business",
+            "slug": "business",
+            "description": "Use a second number to run your work, side hustle or small business."
+          },
+          "author": {
+            "name": "Wi-Fi Calling & Texting Team",
+            "slug": "wifi-calling-team",
+            "role": "Editorial team",
+            "bio": "Guides and tips from the team behind Wi-Fi Calling & Texting: free calls and texts over Wi-Fi from a private second number.",
+            "image": null
+          },
+          "publishedAt": "2026-10-04T09:30:00.000Z",
+          "updatedAt": "2026-10-04T09:30:00.000Z",
+          "readingMinutes": 1
+        },
+        {
+          "id": "01M6KFSSWY3TN9QFDEJ2JP3Q94",
+          "slug": "call-and-text-from-your-computer",
+          "path": "/blog/call-and-text-from-your-computer/",
+          "title": "How to call and text from your computer with the web app",
+          "excerpt": "Your second number isn’t stuck on your phone. Sign in on the web to call, text and chat from your computer with the same account.",
+          "featuredImage": {
+            "url": "/blog/01m6kfsqfz6ww830t4p3bqewqw-b374a000.png",
+            "alt": "How to call and text from your computer with the web app — Wi-Fi Calling & Texting",
+            "title": "How to call and text from your computer with the web app",
+            "width": null,
+            "height": null
+          },
+          "category": {
+            "name": "How-To Guides",
+            "slug": "how-to-guides",
+            "description": "Step-by-step help with calls, texts and settings in the app."
+          },
+          "author": {
+            "name": "Wi-Fi Calling & Texting Team",
+            "slug": "wifi-calling-team",
+            "role": "Editorial team",
+            "bio": "Guides and tips from the team behind Wi-Fi Calling & Texting: free calls and texts over Wi-Fi from a private second number.",
+            "image": null
+          },
+          "publishedAt": "2026-10-25T09:30:00.000Z",
+          "updatedAt": "2026-10-25T09:30:00.000Z",
+          "readingMinutes": 1
+        },
+        {
+          "id": "01M6KFSSVYX0RVCM6XMRJNNYJV",
+          "slug": "how-to-block-spam-calls-and-texts",
+          "path": "/blog/how-to-block-spam-calls-and-texts/",
+          "title": "How to block spam calls and texts on your second number",
+          "excerpt": "Spam calls and texts are annoying, but stopping them takes seconds. Here’s how to block a number, review your blocked list and unblock someone.",
+          "featuredImage": {
+            "url": "/blog/01m6kfsmxx8cm13c4b5g4vr2ec-5084c78b.png",
+            "alt": "How to block spam calls and texts on your second number — Wi-Fi Calling & Texting",
+            "title": "How to block spam calls and texts on your second number",
+            "width": null,
+            "height": null
+          },
+          "category": {
+            "name": "How-To Guides",
+            "slug": "how-to-guides",
+            "description": "Step-by-step help with calls, texts and settings in the app."
+          },
+          "author": {
+            "name": "Wi-Fi Calling & Texting Team",
+            "slug": "wifi-calling-team",
+            "role": "Editorial team",
+            "bio": "Guides and tips from the team behind Wi-Fi Calling & Texting: free calls and texts over Wi-Fi from a private second number.",
+            "image": null
+          },
+          "publishedAt": "2026-10-22T09:30:00.000Z",
+          "updatedAt": "2026-10-22T09:30:00.000Z",
+          "readingMinutes": 1
+        }
+      ],
+      "seo": {
+        "title": "A Second Phone Number for Freelancers",
+        "description": "Why freelancers use a second phone number: privacy, professional voicemail, clear boundaries and one number for every client, on the phone you already own.",
+        "canonicalUrl": null,
+        "focusKeyword": "second number for freelancers",
+        "ogTitle": "A Second Phone Number for Freelancers",
+        "ogDescription": "Why freelancers use a second phone number: privacy, professional voicemail, clear boundaries and one number for every client, on the phone you already own.",
+        "ogImage": "/blog/01m6kfsqhsb4p2a4xx8py6gr8b-965967a1.png",
+        "robots": {
+          "index": true,
+          "follow": true
+        }
+      }
+    },
+    {
+      "id": "01M6KFSSWY3TN9QFDEJ2JP3Q94",
+      "slug": "call-and-text-from-your-computer",
+      "path": "/blog/call-and-text-from-your-computer/",
+      "title": "How to call and text from your computer with the web app",
+      "excerpt": "Your second number isn’t stuck on your phone. Sign in on the web to call, text and chat from your computer with the same account.",
+      "featuredImage": {
+        "url": "/blog/01m6kfsqfz6ww830t4p3bqewqw-b374a000.png",
+        "alt": "How to call and text from your computer with the web app — Wi-Fi Calling & Texting",
+        "title": "How to call and text from your computer with the web app",
+        "width": null,
+        "height": null
+      },
+      "category": {
+        "name": "How-To Guides",
+        "slug": "how-to-guides",
+        "description": "Step-by-step help with calls, texts and settings in the app."
+      },
+      "author": {
+        "name": "Wi-Fi Calling & Texting Team",
+        "slug": "wifi-calling-team",
+        "role": "Editorial team",
+        "bio": "Guides and tips from the team behind Wi-Fi Calling & Texting: free calls and texts over Wi-Fi from a private second number.",
+        "image": null
+      },
+      "publishedAt": "2026-10-25T09:30:00.000Z",
+      "updatedAt": "2026-10-25T09:30:00.000Z",
+      "readingMinutes": 1,
+      "contentHtml": "<p>Typing long messages on a phone is slow, and taking calls at your desk is easier with a headset. The <strong>Wi-Fi Calling &amp; Texting web app</strong> puts your second number in your browser, so you can call and text from your computer.</p>\n<h2>What you can do on the web</h2>\n<ul><li>Call regular numbers and friends on the app</li><li>Send and read texts and chats</li><li>See your call history and contacts</li><li>Manage your settings and devices</li></ul>\n<p>It’s the same account as the iPhone app, so your number, messages, calls and contacts are there when you sign in.</p>\n<h2>Getting started</h2>\n<ol><li>Open the web app in your browser — there’s nothing to install.</li><li>Sign in with the same phone number you use in the app.</li><li>Allow microphone access when your browser asks, so you can make calls.</li></ol>\n<blockquote><p><strong>Tip:</strong> Use headphones with a microphone for the clearest calls from your computer.</p></blockquote>\n<h2>Keep your account secure</h2>\n<p>Signed in on a shared computer? Go to <strong>Settings → Account Settings → My Devices</strong> to see where you’re signed in and sign out other devices.</p>\n<h2>The bottom line</h2>\n<p>Use the app on the go and the web app at your desk — it’s the same number either way. Read more about the web app.</p>",
+      "tags": [
+        {
+          "name": "browser",
+          "slug": "browser"
+        },
+        {
+          "name": "computer",
+          "slug": "computer"
+        },
+        {
+          "name": "how-to",
+          "slug": "how-to"
+        },
+        {
+          "name": "web app",
+          "slug": "web-app"
+        }
+      ],
+      "faqs": [
+        {
+          "id": "01M6KFSSX26GXPK34EJQTAA5RN",
+          "question": "Do I need to install anything?",
+          "answer": "No. The web app runs in your browser — open it from the website and sign in."
+        },
+        {
+          "id": "01M6KFSSX4VMFX4H83MKJFBWMM",
+          "question": "Is it the same account as the iPhone app?",
+          "answer": "Yes. Sign in with the same phone number and you’ll use the same account."
+        },
+        {
+          "id": "01M6KFSSX6FX7YDFBPXWF5TS2K",
+          "question": "Can I see which devices are signed in?",
+          "answer": "Yes. Go to Settings → Account Settings → My Devices to see them and sign out other devices."
+        }
+      ],
+      "faqSchema": true,
+      "cta": null,
+      "related": [
+        {
+          "id": "01M6KFSSVYX0RVCM6XMRJNNYJV",
+          "slug": "how-to-block-spam-calls-and-texts",
+          "path": "/blog/how-to-block-spam-calls-and-texts/",
+          "title": "How to block spam calls and texts on your second number",
+          "excerpt": "Spam calls and texts are annoying, but stopping them takes seconds. Here’s how to block a number, review your blocked list and unblock someone.",
+          "featuredImage": {
+            "url": "/blog/01m6kfsmxx8cm13c4b5g4vr2ec-5084c78b.png",
+            "alt": "How to block spam calls and texts on your second number — Wi-Fi Calling & Texting",
+            "title": "How to block spam calls and texts on your second number",
+            "width": null,
+            "height": null
+          },
+          "category": {
+            "name": "How-To Guides",
+            "slug": "how-to-guides",
+            "description": "Step-by-step help with calls, texts and settings in the app."
+          },
+          "author": {
+            "name": "Wi-Fi Calling & Texting Team",
+            "slug": "wifi-calling-team",
+            "role": "Editorial team",
+            "bio": "Guides and tips from the team behind Wi-Fi Calling & Texting: free calls and texts over Wi-Fi from a private second number.",
+            "image": null
+          },
+          "publishedAt": "2026-10-22T09:30:00.000Z",
+          "updatedAt": "2026-10-22T09:30:00.000Z",
+          "readingMinutes": 1
+        },
+        {
+          "id": "01M6KFSSSHB18GFRMY9TJJKGNH",
+          "slug": "how-to-call-landlines-and-mobiles-with-coins",
+          "path": "/blog/how-to-call-landlines-and-mobiles-with-coins/",
+          "title": "How to call any landline or mobile with coins",
+          "excerpt": "Calling someone who isn’t on the app? Coins let you dial regular landlines and mobiles from your second number. Here’s how coins work.",
+          "featuredImage": {
+            "url": "/blog/01m6kfsmc2nfhxm58p7kcmtdrv-a0770d9b.png",
+            "alt": "How to call any landline or mobile with coins — Wi-Fi Calling & Texting",
+            "title": "How to call any landline or mobile with coins",
+            "width": null,
+            "height": null
+          },
+          "category": {
+            "name": "How-To Guides",
+            "slug": "how-to-guides",
+            "description": "Step-by-step help with calls, texts and settings in the app."
+          },
+          "author": {
+            "name": "Wi-Fi Calling & Texting Team",
+            "slug": "wifi-calling-team",
+            "role": "Editorial team",
+            "bio": "Guides and tips from the team behind Wi-Fi Calling & Texting: free calls and texts over Wi-Fi from a private second number.",
+            "image": null
+          },
+          "publishedAt": "2026-10-13T09:30:00.000Z",
+          "updatedAt": "2026-10-13T09:30:00.000Z",
+          "readingMinutes": 1
+        },
+        {
+          "id": "01M6KFSSXY5HVS3CA2WCJGT8HK",
+          "slug": "second-number-for-freelancers",
+          "path": "/blog/second-number-for-freelancers/",
+          "title": "A second phone number for freelancers: look established from day one",
+          "excerpt": "Freelancers give their number to every client. A second number keeps that list separate from your personal life and makes you look established.",
+          "featuredImage": {
+            "url": "/blog/01m6kfsqhsb4p2a4xx8py6gr8b-965967a1.png",
+            "alt": "A second phone number for freelancers: look established from day one — Wi-Fi Calling & Texting",
+            "title": "A second phone number for freelancers: look established from day one",
+            "width": null,
+            "height": null
+          },
+          "category": {
+            "name": "Business",
+            "slug": "business",
+            "description": "Use a second number to run your work, side hustle or small business."
+          },
+          "author": {
+            "name": "Wi-Fi Calling & Texting Team",
+            "slug": "wifi-calling-team",
+            "role": "Editorial team",
+            "bio": "Guides and tips from the team behind Wi-Fi Calling & Texting: free calls and texts over Wi-Fi from a private second number.",
+            "image": null
+          },
+          "publishedAt": "2026-10-28T09:30:00.000Z",
+          "updatedAt": "2026-10-28T09:30:00.000Z",
+          "readingMinutes": 1
+        }
+      ],
+      "seo": {
+        "title": "Call and Text from Your Computer with the Web App",
+        "description": "Use your second number on your computer. The Wi-Fi Calling & Texting web app lets you call, text and chat from your browser with the same account.",
+        "canonicalUrl": null,
+        "focusKeyword": "call and text from computer",
+        "ogTitle": "Call and Text from Your Computer with the Web App",
+        "ogDescription": "Use your second number on your computer. The Wi-Fi Calling & Texting web app lets you call, text and chat from your browser with the same account.",
+        "ogImage": "/blog/01m6kfsqfz6ww830t4p3bqewqw-b374a000.png",
+        "robots": {
+          "index": true,
+          "follow": true
+        }
+      }
+    },
+    {
+      "id": "01M6KFSSVYX0RVCM6XMRJNNYJV",
+      "slug": "how-to-block-spam-calls-and-texts",
+      "path": "/blog/how-to-block-spam-calls-and-texts/",
+      "title": "How to block spam calls and texts on your second number",
+      "excerpt": "Spam calls and texts are annoying, but stopping them takes seconds. Here’s how to block a number, review your blocked list and unblock someone.",
+      "featuredImage": {
+        "url": "/blog/01m6kfsmxx8cm13c4b5g4vr2ec-5084c78b.png",
+        "alt": "How to block spam calls and texts on your second number — Wi-Fi Calling & Texting",
+        "title": "How to block spam calls and texts on your second number",
+        "width": null,
+        "height": null
+      },
+      "category": {
+        "name": "How-To Guides",
+        "slug": "how-to-guides",
+        "description": "Step-by-step help with calls, texts and settings in the app."
+      },
+      "author": {
+        "name": "Wi-Fi Calling & Texting Team",
+        "slug": "wifi-calling-team",
+        "role": "Editorial team",
+        "bio": "Guides and tips from the team behind Wi-Fi Calling & Texting: free calls and texts over Wi-Fi from a private second number.",
+        "image": null
+      },
+      "publishedAt": "2026-10-22T09:30:00.000Z",
+      "updatedAt": "2026-10-22T09:30:00.000Z",
+      "readingMinutes": 1,
+      "contentHtml": "<p>Once a number is on a few marketing lists, spam follows. The good news: on your second number, <strong>blocking takes seconds</strong>, and a blocked number can’t call or text you again.</p>\n<h2>Block from a conversation</h2>\n<ol><li>Open the conversation with the number you want to block.</li><li>Tap the menu in the top corner.</li><li>Choose Block.</li></ol>\n<p>That’s it. The number can no longer call or text your second number.</p>\n<h2>Review and unblock numbers</h2>\n<p>Changed your mind? Go to <strong>Settings → Call Settings → Blocked numbers</strong> to see everyone you’ve blocked, and tap <em>Unblock</em> next to a number to let them reach you again.</p>\n<blockquote><p><strong>Tip:</strong> Never call back a missed call from an unknown international number. Some scams rely on you calling an expensive number.</p></blockquote>\n<h2>Cut spam at the source</h2>\n<ul><li>Use your second number for sign-ups and listings, and keep your personal number private.</li><li>Don’t reply to spam texts — even “STOP” can confirm your number is active.</li><li>Never share codes sent to your phone with anyone who calls or texts you.</li></ul>\n<h2>The bottom line</h2>\n<p>Blocking keeps your second number clean, and using it for sign-ups keeps your personal number out of spam lists. Read more about <a href=\"/features/block-numbers\">blocking numbers</a>.</p>",
+      "tags": [
+        {
+          "name": "block numbers",
+          "slug": "block-numbers"
+        },
+        {
+          "name": "how-to",
+          "slug": "how-to"
+        },
+        {
+          "name": "privacy",
+          "slug": "privacy"
+        },
+        {
+          "name": "spam",
+          "slug": "spam"
+        }
+      ],
+      "faqs": [
+        {
+          "id": "01M6KFSSW2Z22HZRN26QWH9FY3",
+          "question": "What happens when I block someone?",
+          "answer": "They can’t call or text your second number."
+        },
+        {
+          "id": "01M6KFSSW4T4DXDF9WJPNRKCGK",
+          "question": "Will they know I blocked them?",
+          "answer": "The app doesn’t notify them. Their calls and texts simply don’t reach your second number."
+        },
+        {
+          "id": "01M6KFSSW7EAN4Y2HG8BGS6E9F",
+          "question": "How do I unblock a number?",
+          "answer": "Go to Settings → Call Settings → Blocked numbers and tap Unblock."
+        }
+      ],
+      "faqSchema": true,
+      "cta": null,
+      "related": [
+        {
+          "id": "01M6KFSSWY3TN9QFDEJ2JP3Q94",
+          "slug": "call-and-text-from-your-computer",
+          "path": "/blog/call-and-text-from-your-computer/",
+          "title": "How to call and text from your computer with the web app",
+          "excerpt": "Your second number isn’t stuck on your phone. Sign in on the web to call, text and chat from your computer with the same account.",
+          "featuredImage": {
+            "url": "/blog/01m6kfsqfz6ww830t4p3bqewqw-b374a000.png",
+            "alt": "How to call and text from your computer with the web app — Wi-Fi Calling & Texting",
+            "title": "How to call and text from your computer with the web app",
+            "width": null,
+            "height": null
+          },
+          "category": {
+            "name": "How-To Guides",
+            "slug": "how-to-guides",
+            "description": "Step-by-step help with calls, texts and settings in the app."
+          },
+          "author": {
+            "name": "Wi-Fi Calling & Texting Team",
+            "slug": "wifi-calling-team",
+            "role": "Editorial team",
+            "bio": "Guides and tips from the team behind Wi-Fi Calling & Texting: free calls and texts over Wi-Fi from a private second number.",
+            "image": null
+          },
+          "publishedAt": "2026-10-25T09:30:00.000Z",
+          "updatedAt": "2026-10-25T09:30:00.000Z",
+          "readingMinutes": 1
+        },
+        {
+          "id": "01M6KFSSSHB18GFRMY9TJJKGNH",
+          "slug": "how-to-call-landlines-and-mobiles-with-coins",
+          "path": "/blog/how-to-call-landlines-and-mobiles-with-coins/",
+          "title": "How to call any landline or mobile with coins",
+          "excerpt": "Calling someone who isn’t on the app? Coins let you dial regular landlines and mobiles from your second number. Here’s how coins work.",
+          "featuredImage": {
+            "url": "/blog/01m6kfsmc2nfhxm58p7kcmtdrv-a0770d9b.png",
+            "alt": "How to call any landline or mobile with coins — Wi-Fi Calling & Texting",
+            "title": "How to call any landline or mobile with coins",
+            "width": null,
+            "height": null
+          },
+          "category": {
+            "name": "How-To Guides",
+            "slug": "how-to-guides",
+            "description": "Step-by-step help with calls, texts and settings in the app."
+          },
+          "author": {
+            "name": "Wi-Fi Calling & Texting Team",
+            "slug": "wifi-calling-team",
+            "role": "Editorial team",
+            "bio": "Guides and tips from the team behind Wi-Fi Calling & Texting: free calls and texts over Wi-Fi from a private second number.",
+            "image": null
+          },
+          "publishedAt": "2026-10-13T09:30:00.000Z",
+          "updatedAt": "2026-10-13T09:30:00.000Z",
+          "readingMinutes": 1
+        },
+        {
+          "id": "01M6KFSSTZ55H067X2W5RZQJA1",
+          "slug": "second-number-for-dating-apps",
+          "path": "/blog/second-number-for-dating-apps/",
+          "title": "Dating safely with a second phone number",
+          "excerpt": "Moving a chat off the dating app means sharing a number. Give matches a second number instead and keep your personal one until you’re ready.",
+          "featuredImage": {
+            "url": "/blog/01m6kfsmtfdx50vey3dmvck6n9-b166568a.png",
+            "alt": "Dating safely with a second phone number — Wi-Fi Calling & Texting",
+            "title": "Dating safely with a second phone number",
+            "width": null,
+            "height": null
+          },
+          "category": {
+            "name": "Privacy & Safety",
+            "slug": "privacy-safety",
+            "description": "Keep your personal number private and stay safe online."
+          },
+          "author": {
+            "name": "Wi-Fi Calling & Texting Team",
+            "slug": "wifi-calling-team",
+            "role": "Editorial team",
+            "bio": "Guides and tips from the team behind Wi-Fi Calling & Texting: free calls and texts over Wi-Fi from a private second number.",
+            "image": null
+          },
+          "publishedAt": "2026-10-19T09:30:00.000Z",
+          "updatedAt": "2026-10-19T09:30:00.000Z",
+          "readingMinutes": 1
+        }
+      ],
+      "seo": {
+        "title": "How to Block Spam Calls and Texts on Your Second Number",
+        "description": "Block spam calls and texts on your second number in seconds. How to block from a conversation, manage blocked numbers and unblock someone.",
+        "canonicalUrl": null,
+        "focusKeyword": "block spam calls",
+        "ogTitle": "How to Block Spam Calls and Texts on Your Second Number",
+        "ogDescription": "Block spam calls and texts on your second number in seconds. How to block from a conversation, manage blocked numbers and unblock someone.",
+        "ogImage": "/blog/01m6kfsmxx8cm13c4b5g4vr2ec-5084c78b.png",
+        "robots": {
+          "index": true,
+          "follow": true
+        }
+      }
+    },
+    {
+      "id": "01M6KFSSTZ55H067X2W5RZQJA1",
+      "slug": "second-number-for-dating-apps",
+      "path": "/blog/second-number-for-dating-apps/",
+      "title": "Dating safely with a second phone number",
+      "excerpt": "Moving a chat off the dating app means sharing a number. Give matches a second number instead and keep your personal one until you’re ready.",
+      "featuredImage": {
+        "url": "/blog/01m6kfsmtfdx50vey3dmvck6n9-b166568a.png",
+        "alt": "Dating safely with a second phone number — Wi-Fi Calling & Texting",
+        "title": "Dating safely with a second phone number",
+        "width": null,
+        "height": null
+      },
+      "category": {
+        "name": "Privacy & Safety",
+        "slug": "privacy-safety",
+        "description": "Keep your personal number private and stay safe online."
+      },
+      "author": {
+        "name": "Wi-Fi Calling & Texting Team",
+        "slug": "wifi-calling-team",
+        "role": "Editorial team",
+        "bio": "Guides and tips from the team behind Wi-Fi Calling & Texting: free calls and texts over Wi-Fi from a private second number.",
+        "image": null
+      },
+      "publishedAt": "2026-10-19T09:30:00.000Z",
+      "updatedAt": "2026-10-19T09:30:00.000Z",
+      "readingMinutes": 1,
+      "contentHtml": "<p>Sooner or later, a good match asks for your number. Sharing it feels like a big step — once someone has your personal number, you can’t take it back. A <strong>second number</strong> lets you keep talking without giving that away.</p>\n<h2>Why a second number makes sense</h2>\n<ul><li><strong>You stay in control</strong> of who has your personal number.</li><li><strong>Blocking is instant</strong> and doesn’t affect your real line.</li><li><strong>Less linking:</strong> your personal number is often tied to social accounts that someone could find.</li></ul>\n<h2>A simple routine</h2>\n<ol><li>Share your second number when you move off the dating app.</li><li>Call or text from the app until you feel comfortable.</li><li>Share your personal number only when you’re ready — or never.</li></ol>\n<blockquote><p><strong>Tip:</strong> Video call a match before meeting. Video calls between app users are free, and a quick call confirms they’re who they say they are.</p></blockquote>\n<h2>Extra privacy with Pro</h2>\n<p>Turn on <a href=\"/features/anonymous-calling\">anonymous calling</a> and the person you call won’t see your number at all. It’s included with the Pro plan.</p>\n<h2>If things go wrong</h2>\n<p>Open the conversation and choose Block from the menu. Blocked numbers can’t call or text you again. Learn more about <a href=\"/features/block-numbers\">blocking numbers</a>.</p>\n<h2>The bottom line</h2>\n<p>Your personal number is yours to share when you choose. See <a href=\"/use-cases/dating\">how a second number helps with dating</a>.</p>",
+      "tags": [
+        {
+          "name": "block numbers",
+          "slug": "block-numbers"
+        },
+        {
+          "name": "dating",
+          "slug": "dating"
+        },
+        {
+          "name": "privacy",
+          "slug": "privacy"
+        },
+        {
+          "name": "safety",
+          "slug": "safety"
+        }
+      ],
+      "faqs": [
+        {
+          "id": "01M6KFSSV31PMHZ52MNJ6EM2C6",
+          "question": "Will my match see my personal number?",
+          "answer": "No. They only see your second number when you call or text from the app."
+        },
+        {
+          "id": "01M6KFSSV5EGZJRGS2CXV3TR0K",
+          "question": "Can I hide my number completely?",
+          "answer": "Yes. With Pro, turn on anonymous calling and the person you call won’t see your number."
+        },
+        {
+          "id": "01M6KFSSV7M3DVVJZ238Z40E5G",
+          "question": "How do I block someone?",
+          "answer": "Open the conversation menu and choose Block. They can’t call or text your second number after that."
+        }
+      ],
+      "faqSchema": true,
+      "cta": null,
+      "related": [
+        {
+          "id": "01M6KFSST0Q96F1P7JKN9ZPKMF",
+          "slug": "second-number-for-online-selling",
+          "path": "/blog/second-number-for-online-selling/",
+          "title": "Selling online? Use a second number with buyers",
+          "excerpt": "Marketplace buyers need a way to reach you, but they don’t need your personal number. Here’s how a second number keeps selling safe and simple.",
+          "featuredImage": {
+            "url": "/blog/01m6kfsmefphg5sjvnjh5rp9db-7cac44a7.png",
+            "alt": "Selling online? Use a second number with buyers — Wi-Fi Calling & Texting",
+            "title": "Selling online? Use a second number with buyers",
+            "width": null,
+            "height": null
+          },
+          "category": {
+            "name": "Privacy & Safety",
+            "slug": "privacy-safety",
+            "description": "Keep your personal number private and stay safe online."
+          },
+          "author": {
+            "name": "Wi-Fi Calling & Texting Team",
+            "slug": "wifi-calling-team",
+            "role": "Editorial team",
+            "bio": "Guides and tips from the team behind Wi-Fi Calling & Texting: free calls and texts over Wi-Fi from a private second number.",
+            "image": null
+          },
+          "publishedAt": "2026-10-16T09:30:00.000Z",
+          "updatedAt": "2026-10-16T09:30:00.000Z",
+          "readingMinutes": 1
+        },
+        {
+          "id": "01M6KFSSQZGW1C5VEPB660N5M0",
+          "slug": "second-number-for-sign-ups-and-verification-codes",
+          "path": "/blog/second-number-for-sign-ups-and-verification-codes/",
+          "title": "Using a second number for sign-ups and verification codes",
+          "excerpt": "Every app, shop and loyalty card wants your phone number. Here’s how a second number keeps your personal one off marketing lists and data leaks.",
+          "featuredImage": {
+            "url": "/blog/01m6kfshzvabrfwjgpcve8k2pg-c3d67e66.png",
+            "alt": "Using a second number for sign-ups and verification codes — Wi-Fi Calling & Texting",
+            "title": "Using a second number for sign-ups and verification codes",
+            "width": null,
+            "height": null
+          },
+          "category": {
+            "name": "Privacy & Safety",
+            "slug": "privacy-safety",
+            "description": "Keep your personal number private and stay safe online."
+          },
+          "author": {
+            "name": "Wi-Fi Calling & Texting Team",
+            "slug": "wifi-calling-team",
+            "role": "Editorial team",
+            "bio": "Guides and tips from the team behind Wi-Fi Calling & Texting: free calls and texts over Wi-Fi from a private second number.",
+            "image": null
+          },
+          "publishedAt": "2026-10-01T09:30:00.000Z",
+          "updatedAt": "2026-10-01T09:30:00.000Z",
+          "readingMinutes": 2
+        },
+        {
+          "id": "01M6KFSSVYX0RVCM6XMRJNNYJV",
+          "slug": "how-to-block-spam-calls-and-texts",
+          "path": "/blog/how-to-block-spam-calls-and-texts/",
+          "title": "How to block spam calls and texts on your second number",
+          "excerpt": "Spam calls and texts are annoying, but stopping them takes seconds. Here’s how to block a number, review your blocked list and unblock someone.",
+          "featuredImage": {
+            "url": "/blog/01m6kfsmxx8cm13c4b5g4vr2ec-5084c78b.png",
+            "alt": "How to block spam calls and texts on your second number — Wi-Fi Calling & Texting",
+            "title": "How to block spam calls and texts on your second number",
+            "width": null,
+            "height": null
+          },
+          "category": {
+            "name": "How-To Guides",
+            "slug": "how-to-guides",
+            "description": "Step-by-step help with calls, texts and settings in the app."
+          },
+          "author": {
+            "name": "Wi-Fi Calling & Texting Team",
+            "slug": "wifi-calling-team",
+            "role": "Editorial team",
+            "bio": "Guides and tips from the team behind Wi-Fi Calling & Texting: free calls and texts over Wi-Fi from a private second number.",
+            "image": null
+          },
+          "publishedAt": "2026-10-22T09:30:00.000Z",
+          "updatedAt": "2026-10-22T09:30:00.000Z",
+          "readingMinutes": 1
+        }
+      ],
+      "seo": {
+        "title": "Dating Safely with a Second Phone Number",
+        "description": "Share a second number with dating matches instead of your personal one. Stay in control, block anyone instantly and keep your real number private.",
+        "canonicalUrl": null,
+        "focusKeyword": "second number for dating",
+        "ogTitle": "Dating Safely with a Second Phone Number",
+        "ogDescription": "Share a second number with dating matches instead of your personal one. Stay in control, block anyone instantly and keep your real number private.",
+        "ogImage": "/blog/01m6kfsmtfdx50vey3dmvck6n9-b166568a.png",
+        "robots": {
+          "index": true,
+          "follow": true
+        }
+      }
+    },
+    {
+      "id": "01M6KFSST0Q96F1P7JKN9ZPKMF",
+      "slug": "second-number-for-online-selling",
+      "path": "/blog/second-number-for-online-selling/",
+      "title": "Selling online? Use a second number with buyers",
+      "excerpt": "Marketplace buyers need a way to reach you, but they don’t need your personal number. Here’s how a second number keeps selling safe and simple.",
+      "featuredImage": {
+        "url": "/blog/01m6kfsmefphg5sjvnjh5rp9db-7cac44a7.png",
+        "alt": "Selling online? Use a second number with buyers — Wi-Fi Calling & Texting",
+        "title": "Selling online? Use a second number with buyers",
+        "width": null,
+        "height": null
+      },
+      "category": {
+        "name": "Privacy & Safety",
+        "slug": "privacy-safety",
+        "description": "Keep your personal number private and stay safe online."
+      },
+      "author": {
+        "name": "Wi-Fi Calling & Texting Team",
+        "slug": "wifi-calling-team",
+        "role": "Editorial team",
+        "bio": "Guides and tips from the team behind Wi-Fi Calling & Texting: free calls and texts over Wi-Fi from a private second number.",
+        "image": null
+      },
+      "publishedAt": "2026-10-16T09:30:00.000Z",
+      "updatedAt": "2026-10-16T09:30:00.000Z",
+      "readingMinutes": 1,
+      "contentHtml": "<p>Listing a sofa, a bike or old electronics usually means sharing a phone number with strangers. Most buyers are genuine, but your number stays with every one of them long after the sale. A <strong>second number</strong> lets buyers reach you without giving them your personal line.</p>\n<h2>Why sellers use a second number</h2>\n<ul><li><strong>Privacy:</strong> strangers never see your personal number.</li><li><strong>Organisation:</strong> every buyer conversation lives in one place.</li><li><strong>Easy exit:</strong> block time-wasters without changing your real number.</li></ul>\n<h2>Safer selling tips</h2>\n<ol><li>Put your second number in the listing, not your personal one.</li><li>Keep the conversation in the app until you agree on a meeting.</li><li>Meet in a public place for local pickups.</li><li>Never share codes sent to your phone — no genuine buyer needs one.</li></ol>\n<blockquote><p><strong>Tip:</strong> A buyer asking you to read out a code sent to your phone is a common scam. Stop the conversation and block the number.</p></blockquote>\n<h2>Handling lots of buyers</h2>\n<p>If you sell regularly, Pro features help: send one update to many people with <a href=\"/features/broadcast-messages\">broadcast messages</a>, or let callers leave a message with <a href=\"/features/voicemail\">voicemail</a>.</p>\n<h2>The bottom line</h2>\n<p>A second number costs less than the hassle of spam and strangers on your personal line. See <a href=\"/use-cases/online-sellers\">how online sellers use it</a>.</p>",
+      "tags": [
+        {
+          "name": "marketplace",
+          "slug": "marketplace"
+        },
+        {
+          "name": "online selling",
+          "slug": "online-selling"
+        },
+        {
+          "name": "privacy",
+          "slug": "privacy"
+        },
+        {
+          "name": "safety",
+          "slug": "safety"
+        }
+      ],
+      "faqs": [
+        {
+          "id": "01M6KFSST4D61PM90J80NFBD24",
+          "question": "Can buyers text my second number?",
+          "answer": "Yes. Buyers can call or text your second number like any other phone number, and messages arrive in the app."
+        },
+        {
+          "id": "01M6KFSST6GS2R33XJ62JAVV9Q",
+          "question": "How do I stop a buyer contacting me?",
+          "answer": "Open the conversation menu and choose Block. Blocked numbers can’t call or text your second number."
+        },
+        {
+          "id": "01M6KFSST8287AA88H5JCH735F",
+          "question": "Do I need a second phone?",
+          "answer": "No. Your second number runs in the app on the phone you already have."
+        }
+      ],
+      "faqSchema": true,
+      "cta": null,
+      "related": [
+        {
+          "id": "01M6KFSSTZ55H067X2W5RZQJA1",
+          "slug": "second-number-for-dating-apps",
+          "path": "/blog/second-number-for-dating-apps/",
+          "title": "Dating safely with a second phone number",
+          "excerpt": "Moving a chat off the dating app means sharing a number. Give matches a second number instead and keep your personal one until you’re ready.",
+          "featuredImage": {
+            "url": "/blog/01m6kfsmtfdx50vey3dmvck6n9-b166568a.png",
+            "alt": "Dating safely with a second phone number — Wi-Fi Calling & Texting",
+            "title": "Dating safely with a second phone number",
+            "width": null,
+            "height": null
+          },
+          "category": {
+            "name": "Privacy & Safety",
+            "slug": "privacy-safety",
+            "description": "Keep your personal number private and stay safe online."
+          },
+          "author": {
+            "name": "Wi-Fi Calling & Texting Team",
+            "slug": "wifi-calling-team",
+            "role": "Editorial team",
+            "bio": "Guides and tips from the team behind Wi-Fi Calling & Texting: free calls and texts over Wi-Fi from a private second number.",
+            "image": null
+          },
+          "publishedAt": "2026-10-19T09:30:00.000Z",
+          "updatedAt": "2026-10-19T09:30:00.000Z",
+          "readingMinutes": 1
+        },
+        {
+          "id": "01M6KFSSQZGW1C5VEPB660N5M0",
+          "slug": "second-number-for-sign-ups-and-verification-codes",
+          "path": "/blog/second-number-for-sign-ups-and-verification-codes/",
+          "title": "Using a second number for sign-ups and verification codes",
+          "excerpt": "Every app, shop and loyalty card wants your phone number. Here’s how a second number keeps your personal one off marketing lists and data leaks.",
+          "featuredImage": {
+            "url": "/blog/01m6kfshzvabrfwjgpcve8k2pg-c3d67e66.png",
+            "alt": "Using a second number for sign-ups and verification codes — Wi-Fi Calling & Texting",
+            "title": "Using a second number for sign-ups and verification codes",
+            "width": null,
+            "height": null
+          },
+          "category": {
+            "name": "Privacy & Safety",
+            "slug": "privacy-safety",
+            "description": "Keep your personal number private and stay safe online."
+          },
+          "author": {
+            "name": "Wi-Fi Calling & Texting Team",
+            "slug": "wifi-calling-team",
+            "role": "Editorial team",
+            "bio": "Guides and tips from the team behind Wi-Fi Calling & Texting: free calls and texts over Wi-Fi from a private second number.",
+            "image": null
+          },
+          "publishedAt": "2026-10-01T09:30:00.000Z",
+          "updatedAt": "2026-10-01T09:30:00.000Z",
+          "readingMinutes": 2
+        },
+        {
+          "id": "01M6KFSSVYX0RVCM6XMRJNNYJV",
+          "slug": "how-to-block-spam-calls-and-texts",
+          "path": "/blog/how-to-block-spam-calls-and-texts/",
+          "title": "How to block spam calls and texts on your second number",
+          "excerpt": "Spam calls and texts are annoying, but stopping them takes seconds. Here’s how to block a number, review your blocked list and unblock someone.",
+          "featuredImage": {
+            "url": "/blog/01m6kfsmxx8cm13c4b5g4vr2ec-5084c78b.png",
+            "alt": "How to block spam calls and texts on your second number — Wi-Fi Calling & Texting",
+            "title": "How to block spam calls and texts on your second number",
+            "width": null,
+            "height": null
+          },
+          "category": {
+            "name": "How-To Guides",
+            "slug": "how-to-guides",
+            "description": "Step-by-step help with calls, texts and settings in the app."
+          },
+          "author": {
+            "name": "Wi-Fi Calling & Texting Team",
+            "slug": "wifi-calling-team",
+            "role": "Editorial team",
+            "bio": "Guides and tips from the team behind Wi-Fi Calling & Texting: free calls and texts over Wi-Fi from a private second number.",
+            "image": null
+          },
+          "publishedAt": "2026-10-22T09:30:00.000Z",
+          "updatedAt": "2026-10-22T09:30:00.000Z",
+          "readingMinutes": 1
+        }
+      ],
+      "seo": {
+        "title": "Use a Second Number When Selling Online",
+        "description": "Keep your personal number private on marketplaces and classified ads. How a second number helps online sellers stay safe and organised.",
+        "canonicalUrl": null,
+        "focusKeyword": "second number for selling online",
+        "ogTitle": "Use a Second Number When Selling Online",
+        "ogDescription": "Keep your personal number private on marketplaces and classified ads. How a second number helps online sellers stay safe and organised.",
+        "ogImage": "/blog/01m6kfsmefphg5sjvnjh5rp9db-7cac44a7.png",
+        "robots": {
+          "index": true,
+          "follow": true
+        }
+      }
+    },
+    {
+      "id": "01M6KFSSSHB18GFRMY9TJJKGNH",
+      "slug": "how-to-call-landlines-and-mobiles-with-coins",
+      "path": "/blog/how-to-call-landlines-and-mobiles-with-coins/",
+      "title": "How to call any landline or mobile with coins",
+      "excerpt": "Calling someone who isn’t on the app? Coins let you dial regular landlines and mobiles from your second number. Here’s how coins work.",
+      "featuredImage": {
+        "url": "/blog/01m6kfsmc2nfhxm58p7kcmtdrv-a0770d9b.png",
+        "alt": "How to call any landline or mobile with coins — Wi-Fi Calling & Texting",
+        "title": "How to call any landline or mobile with coins",
+        "width": null,
+        "height": null
+      },
+      "category": {
+        "name": "How-To Guides",
+        "slug": "how-to-guides",
+        "description": "Step-by-step help with calls, texts and settings in the app."
+      },
+      "author": {
+        "name": "Wi-Fi Calling & Texting Team",
+        "slug": "wifi-calling-team",
+        "role": "Editorial team",
+        "bio": "Guides and tips from the team behind Wi-Fi Calling & Texting: free calls and texts over Wi-Fi from a private second number.",
+        "image": null
+      },
+      "publishedAt": "2026-10-13T09:30:00.000Z",
+      "updatedAt": "2026-10-13T09:30:00.000Z",
+      "readingMinutes": 1,
+      "contentHtml": "<p>Free app-to-app calls are great, but plenty of people you need to reach — a doctor’s office, a hotel, a relative without a smartphone — only have a regular number. <strong>Coins</strong> let you call them from your second number.</p>\n<h2>What you need</h2>\n<ul><li>An active Lite or Pro subscription</li><li>Your own second number from the app</li><li>Coins in your balance</li></ul>\n<h2>How coins work</h2>\n<p>Coins pay for calls and texts to regular phone numbers. US calls are roughly one coin per minute, and texts to US numbers are about one coin each. Calls and chats with app users never use coins.</p>\n<blockquote><p><strong>Tip:</strong> See the exact cost for every country in Settings → Purchase Coins → Add coins → See per-minute charges.</p></blockquote>\n<h2>Making a call</h2>\n<ol><li>Open the Dial screen and make sure “Phone Calls” is selected.</li><li>Pick the country, then type the number or choose a contact from your phonebook.</li><li>Tap the call button. The call goes out from your second number.</li></ol>\n<h3>Calling abroad</h3>\n<p>Choose the country on the dial pad’s country picker, then dial the number without its leading zero. Our <a href=\"/international-calling\">international calling guides</a> show the format for popular countries.</p>\n<h2>Topping up</h2>\n<p>Check your balance in Settings → Purchase Coins and top up whenever you need to. There’s no subscription for coins — buy them only when you use them.</p>\n<h2>The bottom line</h2>\n<p>Use free app calls for friends on the app, and coins for everyone else. Read more about <a href=\"/features/phone-calls\">calling any phone number</a>.</p>",
+      "tags": [
+        {
+          "name": "coins",
+          "slug": "coins"
+        },
+        {
+          "name": "how-to",
+          "slug": "how-to"
+        },
+        {
+          "name": "international calls",
+          "slug": "international-calls"
+        },
+        {
+          "name": "phone calls",
+          "slug": "phone-calls"
+        }
+      ],
+      "faqs": [
+        {
+          "id": "01M6KFSSSJ10KMPDNW59A0D97C",
+          "question": "How much does a call cost?",
+          "answer": "Calls use coins. US calls are roughly one coin per minute, and the rates list in the app shows the cost for each country."
+        },
+        {
+          "id": "01M6KFSSSKF4CWT71Y91X112H5",
+          "question": "Can I call international numbers?",
+          "answer": "Yes. Choose the country on the dial pad and check its rate in the app first."
+        },
+        {
+          "id": "01M6KFSSSMQAJY7WEZA47HECTW",
+          "question": "Do coins expire with my subscription?",
+          "answer": "Coins are bought separately from your subscription. Check your balance anytime in Settings → Purchase Coins."
+        }
+      ],
+      "faqSchema": true,
+      "cta": null,
+      "related": [
+        {
+          "id": "01M6KFSSWY3TN9QFDEJ2JP3Q94",
+          "slug": "call-and-text-from-your-computer",
+          "path": "/blog/call-and-text-from-your-computer/",
+          "title": "How to call and text from your computer with the web app",
+          "excerpt": "Your second number isn’t stuck on your phone. Sign in on the web to call, text and chat from your computer with the same account.",
+          "featuredImage": {
+            "url": "/blog/01m6kfsqfz6ww830t4p3bqewqw-b374a000.png",
+            "alt": "How to call and text from your computer with the web app — Wi-Fi Calling & Texting",
+            "title": "How to call and text from your computer with the web app",
+            "width": null,
+            "height": null
+          },
+          "category": {
+            "name": "How-To Guides",
+            "slug": "how-to-guides",
+            "description": "Step-by-step help with calls, texts and settings in the app."
+          },
+          "author": {
+            "name": "Wi-Fi Calling & Texting Team",
+            "slug": "wifi-calling-team",
+            "role": "Editorial team",
+            "bio": "Guides and tips from the team behind Wi-Fi Calling & Texting: free calls and texts over Wi-Fi from a private second number.",
+            "image": null
+          },
+          "publishedAt": "2026-10-25T09:30:00.000Z",
+          "updatedAt": "2026-10-25T09:30:00.000Z",
+          "readingMinutes": 1
+        },
+        {
+          "id": "01M6KFSSVYX0RVCM6XMRJNNYJV",
+          "slug": "how-to-block-spam-calls-and-texts",
+          "path": "/blog/how-to-block-spam-calls-and-texts/",
+          "title": "How to block spam calls and texts on your second number",
+          "excerpt": "Spam calls and texts are annoying, but stopping them takes seconds. Here’s how to block a number, review your blocked list and unblock someone.",
+          "featuredImage": {
+            "url": "/blog/01m6kfsmxx8cm13c4b5g4vr2ec-5084c78b.png",
+            "alt": "How to block spam calls and texts on your second number — Wi-Fi Calling & Texting",
+            "title": "How to block spam calls and texts on your second number",
+            "width": null,
+            "height": null
+          },
+          "category": {
+            "name": "How-To Guides",
+            "slug": "how-to-guides",
+            "description": "Step-by-step help with calls, texts and settings in the app."
+          },
+          "author": {
+            "name": "Wi-Fi Calling & Texting Team",
+            "slug": "wifi-calling-team",
+            "role": "Editorial team",
+            "bio": "Guides and tips from the team behind Wi-Fi Calling & Texting: free calls and texts over Wi-Fi from a private second number.",
+            "image": null
+          },
+          "publishedAt": "2026-10-22T09:30:00.000Z",
+          "updatedAt": "2026-10-22T09:30:00.000Z",
+          "readingMinutes": 1
+        },
+        {
+          "id": "01M6KFSSXY5HVS3CA2WCJGT8HK",
+          "slug": "second-number-for-freelancers",
+          "path": "/blog/second-number-for-freelancers/",
+          "title": "A second phone number for freelancers: look established from day one",
+          "excerpt": "Freelancers give their number to every client. A second number keeps that list separate from your personal life and makes you look established.",
+          "featuredImage": {
+            "url": "/blog/01m6kfsqhsb4p2a4xx8py6gr8b-965967a1.png",
+            "alt": "A second phone number for freelancers: look established from day one — Wi-Fi Calling & Texting",
+            "title": "A second phone number for freelancers: look established from day one",
+            "width": null,
+            "height": null
+          },
+          "category": {
+            "name": "Business",
+            "slug": "business",
+            "description": "Use a second number to run your work, side hustle or small business."
+          },
+          "author": {
+            "name": "Wi-Fi Calling & Texting Team",
+            "slug": "wifi-calling-team",
+            "role": "Editorial team",
+            "bio": "Guides and tips from the team behind Wi-Fi Calling & Texting: free calls and texts over Wi-Fi from a private second number.",
+            "image": null
+          },
+          "publishedAt": "2026-10-28T09:30:00.000Z",
+          "updatedAt": "2026-10-28T09:30:00.000Z",
+          "readingMinutes": 1
+        }
+      ],
+      "seo": {
+        "title": "How to Call Landlines and Mobiles with Coins",
+        "description": "Call regular landlines and mobiles in the US and abroad from your second number over Wi-Fi. How coins work, how to check rates and how to top up.",
+        "canonicalUrl": null,
+        "focusKeyword": "call landlines over wifi",
+        "ogTitle": "How to Call Landlines and Mobiles with Coins",
+        "ogDescription": "Call regular landlines and mobiles in the US and abroad from your second number over Wi-Fi. How coins work, how to check rates and how to top up.",
+        "ogImage": "/blog/01m6kfsmc2nfhxm58p7kcmtdrv-a0770d9b.png",
+        "robots": {
+          "index": true,
+          "follow": true
+        }
+      }
+    },
+    {
+      "id": "01M6KFSSS5EN1Z5M4EH7W5HHW9",
+      "slug": "free-app-to-app-calls-explained",
+      "path": "/blog/free-app-to-app-calls-explained/",
+      "title": "Free app-to-app calls: how they work and who you can call",
+      "excerpt": "When your friends use Wi-Fi Calling & Texting too, voice calls, video calls and chats are free. Here’s how app-to-app calling works.",
+      "featuredImage": {
+        "url": "/blog/01m6kfsj32xc8b0dsj3f4ae92c-805964e0.png",
+        "alt": "Free app-to-app calls: how they work and who you can call — Wi-Fi Calling & Texting",
+        "title": "Free app-to-app calls: how they work and who you can call",
+        "width": null,
+        "height": null
+      },
+      "category": {
+        "name": "Wi-Fi Calling",
+        "slug": "wifi-calling",
+        "description": "How internet calling works and how to get the most from it."
+      },
+      "author": {
+        "name": "Wi-Fi Calling & Texting Team",
+        "slug": "wifi-calling-team",
+        "role": "Editorial team",
+        "bio": "Guides and tips from the team behind Wi-Fi Calling & Texting: free calls and texts over Wi-Fi from a private second number.",
+        "image": null
+      },
+      "publishedAt": "2026-10-10T09:30:00.000Z",
+      "updatedAt": "2026-10-10T09:30:00.000Z",
+      "readingMinutes": 1,
+      "contentHtml": "<p>The cheapest call is the one that never touches the phone network. When the person you call also uses Wi-Fi Calling &amp; Texting, the call goes straight from app to app over the internet — and it’s <strong>free</strong>.</p>\n<h2>What’s free between app users</h2>\n<ul><li><strong>Voice calls</strong> — <a href=\"/features/free-app-calls\">free app calls</a> with no coins or minutes.</li><li><strong>Video calls</strong> — <a href=\"/features/video-calls\">face-to-face video</a>, one to one.</li><li><strong>Chats and photos</strong> — <a href=\"/features/group-chat\">one-to-one and group chats</a>.</li></ul>\n<p>All you need is Wi-Fi or mobile data on both ends.</p>\n<h2>Free calls vs calls to regular numbers</h2>\n<table><thead><tr><th></th><th>App-to-app</th><th>Regular phone number</th></tr></thead><tbody><tr><td>Cost</td><td>Free</td><td>Uses coins</td></tr><tr><td>Video</td><td>Yes</td><td>No</td></tr><tr><td>Other person needs the app</td><td>Yes</td><td>No</td></tr></tbody></table>\n<h2>How to find friends on the app</h2>\n<ol><li>Open Contacts → Friends to see contacts who already use the app.</li><li>Tap a friend to call, video call or chat.</li><li>Not there yet? Invite them from the app so you can call each other for free.</li></ol>\n<blockquote><p><strong>Tip:</strong> Contacts access is optional. Allow it only if you want the app to show which of your contacts already use it.</p></blockquote>\n<h2>Group calls</h2>\n<p>With Pro you can bring several friends into one <a href=\"/features/group-calls\">group call</a> — also free, because everyone is on the app.</p>\n<h2>The bottom line</h2>\n<p>Get the people you talk to most onto the app, and most of your calls cost nothing.</p>",
+      "tags": [
+        {
+          "name": "app-to-app",
+          "slug": "app-to-app"
+        },
+        {
+          "name": "free calls",
+          "slug": "free-calls"
+        },
+        {
+          "name": "friends",
+          "slug": "friends"
+        },
+        {
+          "name": "video calls",
+          "slug": "video-calls"
+        }
+      ],
+      "faqs": [
+        {
+          "id": "01M6KFSSS63B0VBG5V6YH7ZJWA",
+          "question": "Are app-to-app calls really free?",
+          "answer": "Yes. Calls between Wi-Fi Calling &amp; Texting users don’t use coins. You only need a Wi-Fi or mobile data connection."
+        },
+        {
+          "id": "01M6KFSSS7TDXFKAJG4EQWCKYT",
+          "question": "Can I video call a regular phone number?",
+          "answer": "No. Video calls are between app users. You can make a regular voice call to any number using coins."
+        },
+        {
+          "id": "01M6KFSSS75BJCFJG0RCYJZTNF",
+          "question": "Do group calls cost anything?",
+          "answer": "Group calls are between app users and don’t use coins. They’re included with the Pro plan."
+        }
+      ],
+      "faqSchema": true,
+      "cta": null,
+      "related": [
+        {
+          "id": "01M6KFSSRRBTRG0129MVV8AZWV",
+          "slug": "wifi-calling-vs-cellular-calls",
+          "path": "/blog/wifi-calling-vs-cellular-calls/",
+          "title": "Wi-Fi calling vs cellular calls: what’s the difference?",
+          "excerpt": "Wi-Fi calls travel over the internet instead of your carrier’s network. Here’s what that means for cost, quality and calling from places with weak signal.",
+          "featuredImage": {
+            "url": "/blog/01m6kfshh7241j15em19xx0abv-3688e40d.png",
+            "alt": "Wi-Fi calling vs cellular calls: what’s the difference? — Wi-Fi Calling & Texting",
+            "title": "Wi-Fi calling vs cellular calls: what’s the difference?",
+            "width": null,
+            "height": null
+          },
+          "category": {
+            "name": "Wi-Fi Calling",
+            "slug": "wifi-calling",
+            "description": "How internet calling works and how to get the most from it."
+          },
+          "author": {
+            "name": "Wi-Fi Calling & Texting Team",
+            "slug": "wifi-calling-team",
+            "role": "Editorial team",
+            "bio": "Guides and tips from the team behind Wi-Fi Calling & Texting: free calls and texts over Wi-Fi from a private second number.",
+            "image": null
+          },
+          "publishedAt": "2026-10-07T09:30:00.000Z",
+          "updatedAt": "2026-10-07T09:30:00.000Z",
+          "readingMinutes": 1
+        },
+        {
+          "id": "01M6KFSSXY5HVS3CA2WCJGT8HK",
+          "slug": "second-number-for-freelancers",
+          "path": "/blog/second-number-for-freelancers/",
+          "title": "A second phone number for freelancers: look established from day one",
+          "excerpt": "Freelancers give their number to every client. A second number keeps that list separate from your personal life and makes you look established.",
+          "featuredImage": {
+            "url": "/blog/01m6kfsqhsb4p2a4xx8py6gr8b-965967a1.png",
+            "alt": "A second phone number for freelancers: look established from day one — Wi-Fi Calling & Texting",
+            "title": "A second phone number for freelancers: look established from day one",
+            "width": null,
+            "height": null
+          },
+          "category": {
+            "name": "Business",
+            "slug": "business",
+            "description": "Use a second number to run your work, side hustle or small business."
+          },
+          "author": {
+            "name": "Wi-Fi Calling & Texting Team",
+            "slug": "wifi-calling-team",
+            "role": "Editorial team",
+            "bio": "Guides and tips from the team behind Wi-Fi Calling & Texting: free calls and texts over Wi-Fi from a private second number.",
+            "image": null
+          },
+          "publishedAt": "2026-10-28T09:30:00.000Z",
+          "updatedAt": "2026-10-28T09:30:00.000Z",
+          "readingMinutes": 1
+        },
+        {
+          "id": "01M6KFSSWY3TN9QFDEJ2JP3Q94",
+          "slug": "call-and-text-from-your-computer",
+          "path": "/blog/call-and-text-from-your-computer/",
+          "title": "How to call and text from your computer with the web app",
+          "excerpt": "Your second number isn’t stuck on your phone. Sign in on the web to call, text and chat from your computer with the same account.",
+          "featuredImage": {
+            "url": "/blog/01m6kfsqfz6ww830t4p3bqewqw-b374a000.png",
+            "alt": "How to call and text from your computer with the web app — Wi-Fi Calling & Texting",
+            "title": "How to call and text from your computer with the web app",
+            "width": null,
+            "height": null
+          },
+          "category": {
+            "name": "How-To Guides",
+            "slug": "how-to-guides",
+            "description": "Step-by-step help with calls, texts and settings in the app."
+          },
+          "author": {
+            "name": "Wi-Fi Calling & Texting Team",
+            "slug": "wifi-calling-team",
+            "role": "Editorial team",
+            "bio": "Guides and tips from the team behind Wi-Fi Calling & Texting: free calls and texts over Wi-Fi from a private second number.",
+            "image": null
+          },
+          "publishedAt": "2026-10-25T09:30:00.000Z",
+          "updatedAt": "2026-10-25T09:30:00.000Z",
+          "readingMinutes": 1
+        }
+      ],
+      "seo": {
+        "title": "Free App-to-App Calls Explained | Wi-Fi Calling & Texting",
+        "description": "Free voice calls, video calls and chats with friends who use Wi-Fi Calling & Texting. How app-to-app calling works and how to invite friends.",
+        "canonicalUrl": null,
+        "focusKeyword": "free app to app calls",
+        "ogTitle": "Free App-to-App Calls Explained | Wi-Fi Calling & Texting",
+        "ogDescription": "Free voice calls, video calls and chats with friends who use Wi-Fi Calling & Texting. How app-to-app calling works and how to invite friends.",
+        "ogImage": "/blog/01m6kfsj32xc8b0dsj3f4ae92c-805964e0.png",
+        "robots": {
+          "index": true,
+          "follow": true
+        }
+      }
+    },
+    {
+      "id": "01M6KFSSRRBTRG0129MVV8AZWV",
+      "slug": "wifi-calling-vs-cellular-calls",
+      "path": "/blog/wifi-calling-vs-cellular-calls/",
+      "title": "Wi-Fi calling vs cellular calls: what’s the difference?",
+      "excerpt": "Wi-Fi calls travel over the internet instead of your carrier’s network. Here’s what that means for cost, quality and calling from places with weak signal.",
+      "featuredImage": {
+        "url": "/blog/01m6kfshh7241j15em19xx0abv-3688e40d.png",
+        "alt": "Wi-Fi calling vs cellular calls: what’s the difference? — Wi-Fi Calling & Texting",
+        "title": "Wi-Fi calling vs cellular calls: what’s the difference?",
+        "width": null,
+        "height": null
+      },
+      "category": {
+        "name": "Wi-Fi Calling",
+        "slug": "wifi-calling",
+        "description": "How internet calling works and how to get the most from it."
+      },
+      "author": {
+        "name": "Wi-Fi Calling & Texting Team",
+        "slug": "wifi-calling-team",
+        "role": "Editorial team",
+        "bio": "Guides and tips from the team behind Wi-Fi Calling & Texting: free calls and texts over Wi-Fi from a private second number.",
+        "image": null
+      },
+      "publishedAt": "2026-10-07T09:30:00.000Z",
+      "updatedAt": "2026-10-07T09:30:00.000Z",
+      "readingMinutes": 1,
+      "contentHtml": "<p>A cellular call goes from your phone to a mobile tower and across your carrier’s network. A <strong>Wi-Fi call</strong> goes over the internet instead — through your home router, an office network or a café hotspot. To the person you’re talking to it sounds like any other call, but it changes where and how you can call.</p>\n<h2>The main differences</h2>\n<table><thead><tr><th></th><th>Cellular call</th><th>Wi-Fi call</th></tr></thead><tbody><tr><td>Needs</td><td>Mobile signal</td><td>Wi-Fi or mobile data</td></tr><tr><td>Works in basements and thick buildings</td><td>Often poor</td><td>Yes, if the Wi-Fi is good</td></tr><tr><td>Works abroad</td><td>Roaming plan</td><td>Any Wi-Fi connection</td></tr><tr><td>Uses your carrier minutes</td><td>Yes</td><td>No</td></tr></tbody></table>\n<h2>When Wi-Fi calling is the better choice</h2>\n<ul><li><strong>Weak signal at home or work.</strong> Thick walls and basements block mobile signal, but your Wi-Fi still reaches.</li><li><strong>Travelling.</strong> Connect to hotel Wi-Fi and keep calling without a roaming plan.</li><li><strong>Calling friends on the same app.</strong> App-to-app calls are free.</li></ul>\n<h3>What affects Wi-Fi call quality</h3>\n<p>Call quality depends on your connection. A stable network matters more than a fast one: crowded public hotspots and weak signal at the edge of your Wi-Fi range cause most problems.</p>\n<blockquote><p><strong>Tip:</strong> If a call starts breaking up, move closer to the router or switch to mobile data — the app works over both.</p></blockquote>\n<h2>Calling over Wi-Fi with a second number</h2>\n<p>Wi-Fi Calling &amp; Texting gives you a second US or Canadian number that works entirely over Wi-Fi or data. Calls to friends who use the app are <a href=\"/features/free-app-calls\">free</a>, and you can <a href=\"/features/phone-calls\">call any regular number</a> using coins.</p>\n<h2>The bottom line</h2>\n<p>Cellular calls are great when signal is strong. Wi-Fi calling fills the gaps: weak indoor coverage, trips abroad and free calls with friends.</p>",
+      "tags": [
+        {
+          "name": "call quality",
+          "slug": "call-quality"
+        },
+        {
+          "name": "coverage",
+          "slug": "coverage"
+        },
+        {
+          "name": "internet calls",
+          "slug": "internet-calls"
+        },
+        {
+          "name": "wifi calling",
+          "slug": "wifi-calling"
+        }
+      ],
+      "faqs": [
+        {
+          "id": "01M6KFSSRS2EWWWNK5TFHDAR7B",
+          "question": "Is Wi-Fi calling free?",
+          "answer": "Calls between Wi-Fi Calling &amp; Texting users are free. Calls to regular phone numbers use coins from your balance."
+        },
+        {
+          "id": "01M6KFSSRSKNZJQ412V6ZVAQD0",
+          "question": "Does Wi-Fi calling use mobile data?",
+          "answer": "Only when you aren’t on Wi-Fi. The app works over Wi-Fi or mobile data, whichever you’re connected to."
+        },
+        {
+          "id": "01M6KFSSRT3WVYZVQZ1G7NQM74",
+          "question": "Does the other person need the app?",
+          "answer": "Not for regular calls — you can call any phone number using coins. For free calls, they need the app too."
+        }
+      ],
+      "faqSchema": true,
+      "cta": null,
+      "related": [
+        {
+          "id": "01M6KFSSS5EN1Z5M4EH7W5HHW9",
+          "slug": "free-app-to-app-calls-explained",
+          "path": "/blog/free-app-to-app-calls-explained/",
+          "title": "Free app-to-app calls: how they work and who you can call",
+          "excerpt": "When your friends use Wi-Fi Calling & Texting too, voice calls, video calls and chats are free. Here’s how app-to-app calling works.",
+          "featuredImage": {
+            "url": "/blog/01m6kfsj32xc8b0dsj3f4ae92c-805964e0.png",
+            "alt": "Free app-to-app calls: how they work and who you can call — Wi-Fi Calling & Texting",
+            "title": "Free app-to-app calls: how they work and who you can call",
+            "width": null,
+            "height": null
+          },
+          "category": {
+            "name": "Wi-Fi Calling",
+            "slug": "wifi-calling",
+            "description": "How internet calling works and how to get the most from it."
+          },
+          "author": {
+            "name": "Wi-Fi Calling & Texting Team",
+            "slug": "wifi-calling-team",
+            "role": "Editorial team",
+            "bio": "Guides and tips from the team behind Wi-Fi Calling & Texting: free calls and texts over Wi-Fi from a private second number.",
+            "image": null
+          },
+          "publishedAt": "2026-10-10T09:30:00.000Z",
+          "updatedAt": "2026-10-10T09:30:00.000Z",
+          "readingMinutes": 1
+        },
+        {
+          "id": "01M6KFSSXY5HVS3CA2WCJGT8HK",
+          "slug": "second-number-for-freelancers",
+          "path": "/blog/second-number-for-freelancers/",
+          "title": "A second phone number for freelancers: look established from day one",
+          "excerpt": "Freelancers give their number to every client. A second number keeps that list separate from your personal life and makes you look established.",
+          "featuredImage": {
+            "url": "/blog/01m6kfsqhsb4p2a4xx8py6gr8b-965967a1.png",
+            "alt": "A second phone number for freelancers: look established from day one — Wi-Fi Calling & Texting",
+            "title": "A second phone number for freelancers: look established from day one",
+            "width": null,
+            "height": null
+          },
+          "category": {
+            "name": "Business",
+            "slug": "business",
+            "description": "Use a second number to run your work, side hustle or small business."
+          },
+          "author": {
+            "name": "Wi-Fi Calling & Texting Team",
+            "slug": "wifi-calling-team",
+            "role": "Editorial team",
+            "bio": "Guides and tips from the team behind Wi-Fi Calling & Texting: free calls and texts over Wi-Fi from a private second number.",
+            "image": null
+          },
+          "publishedAt": "2026-10-28T09:30:00.000Z",
+          "updatedAt": "2026-10-28T09:30:00.000Z",
+          "readingMinutes": 1
+        },
+        {
+          "id": "01M6KFSSWY3TN9QFDEJ2JP3Q94",
+          "slug": "call-and-text-from-your-computer",
+          "path": "/blog/call-and-text-from-your-computer/",
+          "title": "How to call and text from your computer with the web app",
+          "excerpt": "Your second number isn’t stuck on your phone. Sign in on the web to call, text and chat from your computer with the same account.",
+          "featuredImage": {
+            "url": "/blog/01m6kfsqfz6ww830t4p3bqewqw-b374a000.png",
+            "alt": "How to call and text from your computer with the web app — Wi-Fi Calling & Texting",
+            "title": "How to call and text from your computer with the web app",
+            "width": null,
+            "height": null
+          },
+          "category": {
+            "name": "How-To Guides",
+            "slug": "how-to-guides",
+            "description": "Step-by-step help with calls, texts and settings in the app."
+          },
+          "author": {
+            "name": "Wi-Fi Calling & Texting Team",
+            "slug": "wifi-calling-team",
+            "role": "Editorial team",
+            "bio": "Guides and tips from the team behind Wi-Fi Calling & Texting: free calls and texts over Wi-Fi from a private second number.",
+            "image": null
+          },
+          "publishedAt": "2026-10-25T09:30:00.000Z",
+          "updatedAt": "2026-10-25T09:30:00.000Z",
+          "readingMinutes": 1
+        }
+      ],
+      "seo": {
+        "title": "Wi-Fi Calling vs Cellular Calls: The Differences Explained",
+        "description": "How Wi-Fi calling differs from cellular calls: cost, call quality, coverage and when to use each. Plus how to call from a second number over Wi-Fi.",
+        "canonicalUrl": null,
+        "focusKeyword": "wifi calling vs cellular",
+        "ogTitle": "Wi-Fi Calling vs Cellular Calls: The Differences Explained",
+        "ogDescription": "How Wi-Fi calling differs from cellular calls: cost, call quality, coverage and when to use each. Plus how to call from a second number over Wi-Fi.",
+        "ogImage": "/blog/01m6kfshh7241j15em19xx0abv-3688e40d.png",
+        "robots": {
+          "index": true,
+          "follow": true
+        }
+      }
+    },
+    {
+      "id": "01M6KFSSRCXR9NNYNN9K7Y9Z5N",
+      "slug": "separate-work-and-personal-calls",
+      "path": "/blog/separate-work-and-personal-calls/",
+      "title": "How to keep work and personal calls separate on one phone",
+      "excerpt": "Clients calling at dinner? A second number gives work its own line on the phone you already carry, so you can switch off when the day ends.",
+      "featuredImage": {
+        "url": "/blog/01m6kfshfk0xgv4ga8matqq0g7-24d7e6ab.png",
+        "alt": "How to keep work and personal calls separate on one phone — Wi-Fi Calling & Texting",
+        "title": "How to keep work and personal calls separate on one phone",
+        "width": null,
+        "height": null
+      },
+      "category": {
+        "name": "Business",
+        "slug": "business",
+        "description": "Use a second number to run your work, side hustle or small business."
+      },
+      "author": {
+        "name": "Wi-Fi Calling & Texting Team",
+        "slug": "wifi-calling-team",
+        "role": "Editorial team",
+        "bio": "Guides and tips from the team behind Wi-Fi Calling & Texting: free calls and texts over Wi-Fi from a private second number.",
+        "image": null
+      },
+      "publishedAt": "2026-10-04T09:30:00.000Z",
+      "updatedAt": "2026-10-04T09:30:00.000Z",
+      "readingMinutes": 1,
+      "contentHtml": "<p>If your personal number is on your invoices, website and business cards, work never really stops. A customer calls during dinner, a supplier texts on Sunday, and every ring could be work or family. A <strong>second number for work</strong> fixes that without carrying a second phone.</p>\n<h2>One phone, two numbers</h2>\n<p>Wi-Fi Calling &amp; Texting gives you a real US or Canadian number that lives in an app. Calls and texts to that number arrive in the app, over Wi-Fi or mobile data, so you always know whether it’s a work call before you answer.</p>\n<table><thead><tr><th></th><th>Personal number</th><th>Work number</th></tr></thead><tbody><tr><td>Who has it</td><td>Family and friends</td><td>Clients, suppliers, listings</td></tr><tr><td>Where it’s printed</td><td>Nowhere public</td><td>Website, invoices, cards</td></tr><tr><td>After hours</td><td>Always on</td><td>Your choice</td></tr></tbody></table>\n<h2>Why it helps</h2>\n<ul><li><strong>Privacy:</strong> your personal number stays off public listings and invoices.</li><li><strong>Focus:</strong> you can tell work calls from personal ones at a glance.</li><li><strong>Boundaries:</strong> mute the work line when you’re done for the day.</li><li><strong>A number that stays:</strong> keep the same work number even if you change your personal phone plan.</li></ul>\n<h2>Features that help small teams</h2>\n<p>With the Pro plan you can record a <a href=\"/features/voicemail\">voicemail greeting</a> in your own voice, so callers know they’ve reached your business, and send one message to many customers at once with <a href=\"/features/broadcast-messages\">broadcast messages</a> — each person gets a private SMS.</p>\n<blockquote><p><strong>Tip:</strong> Record a short greeting that says your business name and when you’ll call back. Callers are far more likely to leave a message.</p></blockquote>\n<h2>Setting it up</h2>\n<ol><li>Download the app and choose a number in your area.</li><li>Add it to your website, invoices and listings.</li><li>Record a voicemail greeting (Pro).</li><li>Tell regular clients about your new number.</li></ol>\n<p>Ready to give work its own line? See <a href=\"/use-cases/business\">how small businesses use a second number</a>.</p>",
+      "tags": [
+        {
+          "name": "business",
+          "slug": "business"
+        },
+        {
+          "name": "second number",
+          "slug": "second-number"
+        },
+        {
+          "name": "small business",
+          "slug": "small-business"
+        },
+        {
+          "name": "work-life balance",
+          "slug": "work-life-balance"
+        }
+      ],
+      "faqs": [
+        {
+          "id": "01M6KFSSRD4753YVD2FNJT02VH",
+          "question": "Do I need a second phone for a work number?",
+          "answer": "No. Your work number runs in the Wi-Fi Calling &amp; Texting app on the phone you already have."
+        },
+        {
+          "id": "01M6KFSSRDX19S6DQC4J2T7MC4",
+          "question": "Can customers tell it’s a second number?",
+          "answer": "They see a normal US or Canadian phone number when you call or text them."
+        },
+        {
+          "id": "01M6KFSSRE3RMW13BX0ERH9TTP",
+          "question": "Can I have voicemail on my work number?",
+          "answer": "Yes. Voicemail with a custom greeting of up to 60 seconds is included with the Pro plan."
+        }
+      ],
+      "faqSchema": true,
+      "cta": null,
+      "related": [
+        {
+          "id": "01M6KFSSXY5HVS3CA2WCJGT8HK",
+          "slug": "second-number-for-freelancers",
+          "path": "/blog/second-number-for-freelancers/",
+          "title": "A second phone number for freelancers: look established from day one",
+          "excerpt": "Freelancers give their number to every client. A second number keeps that list separate from your personal life and makes you look established.",
+          "featuredImage": {
+            "url": "/blog/01m6kfsqhsb4p2a4xx8py6gr8b-965967a1.png",
+            "alt": "A second phone number for freelancers: look established from day one — Wi-Fi Calling & Texting",
+            "title": "A second phone number for freelancers: look established from day one",
+            "width": null,
+            "height": null
+          },
+          "category": {
+            "name": "Business",
+            "slug": "business",
+            "description": "Use a second number to run your work, side hustle or small business."
+          },
+          "author": {
+            "name": "Wi-Fi Calling & Texting Team",
+            "slug": "wifi-calling-team",
+            "role": "Editorial team",
+            "bio": "Guides and tips from the team behind Wi-Fi Calling & Texting: free calls and texts over Wi-Fi from a private second number.",
+            "image": null
+          },
+          "publishedAt": "2026-10-28T09:30:00.000Z",
+          "updatedAt": "2026-10-28T09:30:00.000Z",
+          "readingMinutes": 1
+        },
+        {
+          "id": "01M6KFSSQZGW1C5VEPB660N5M0",
+          "slug": "second-number-for-sign-ups-and-verification-codes",
+          "path": "/blog/second-number-for-sign-ups-and-verification-codes/",
+          "title": "Using a second number for sign-ups and verification codes",
+          "excerpt": "Every app, shop and loyalty card wants your phone number. Here’s how a second number keeps your personal one off marketing lists and data leaks.",
+          "featuredImage": {
+            "url": "/blog/01m6kfshzvabrfwjgpcve8k2pg-c3d67e66.png",
+            "alt": "Using a second number for sign-ups and verification codes — Wi-Fi Calling & Texting",
+            "title": "Using a second number for sign-ups and verification codes",
+            "width": null,
+            "height": null
+          },
+          "category": {
+            "name": "Privacy & Safety",
+            "slug": "privacy-safety",
+            "description": "Keep your personal number private and stay safe online."
+          },
+          "author": {
+            "name": "Wi-Fi Calling & Texting Team",
+            "slug": "wifi-calling-team",
+            "role": "Editorial team",
+            "bio": "Guides and tips from the team behind Wi-Fi Calling & Texting: free calls and texts over Wi-Fi from a private second number.",
+            "image": null
+          },
+          "publishedAt": "2026-10-01T09:30:00.000Z",
+          "updatedAt": "2026-10-01T09:30:00.000Z",
+          "readingMinutes": 2
+        },
+        {
+          "id": "01M6KFSSWY3TN9QFDEJ2JP3Q94",
+          "slug": "call-and-text-from-your-computer",
+          "path": "/blog/call-and-text-from-your-computer/",
+          "title": "How to call and text from your computer with the web app",
+          "excerpt": "Your second number isn’t stuck on your phone. Sign in on the web to call, text and chat from your computer with the same account.",
+          "featuredImage": {
+            "url": "/blog/01m6kfsqfz6ww830t4p3bqewqw-b374a000.png",
+            "alt": "How to call and text from your computer with the web app — Wi-Fi Calling & Texting",
+            "title": "How to call and text from your computer with the web app",
+            "width": null,
+            "height": null
+          },
+          "category": {
+            "name": "How-To Guides",
+            "slug": "how-to-guides",
+            "description": "Step-by-step help with calls, texts and settings in the app."
+          },
+          "author": {
+            "name": "Wi-Fi Calling & Texting Team",
+            "slug": "wifi-calling-team",
+            "role": "Editorial team",
+            "bio": "Guides and tips from the team behind Wi-Fi Calling & Texting: free calls and texts over Wi-Fi from a private second number.",
+            "image": null
+          },
+          "publishedAt": "2026-10-25T09:30:00.000Z",
+          "updatedAt": "2026-10-25T09:30:00.000Z",
+          "readingMinutes": 1
+        }
+      ],
+      "seo": {
+        "title": "Keep Work and Personal Calls Separate on One Phone",
+        "description": "Get a second number for work on the phone you already own. Answer clients professionally, keep your personal number private and switch off after hours.",
+        "canonicalUrl": null,
+        "focusKeyword": "separate work and personal calls",
+        "ogTitle": "Keep Work and Personal Calls Separate on One Phone",
+        "ogDescription": "Get a second number for work on the phone you already own. Answer clients professionally, keep your personal number private and switch off after hours.",
+        "ogImage": "/blog/01m6kfshfk0xgv4ga8matqq0g7-24d7e6ab.png",
+        "robots": {
+          "index": true,
+          "follow": true
+        }
+      }
+    },
+    {
+      "id": "01M6KFSSQZGW1C5VEPB660N5M0",
+      "slug": "second-number-for-sign-ups-and-verification-codes",
+      "path": "/blog/second-number-for-sign-ups-and-verification-codes/",
+      "title": "Using a second number for sign-ups and verification codes",
+      "excerpt": "Every app, shop and loyalty card wants your phone number. Here’s how a second number keeps your personal one off marketing lists and data leaks.",
+      "featuredImage": {
+        "url": "/blog/01m6kfshzvabrfwjgpcve8k2pg-c3d67e66.png",
+        "alt": "Using a second number for sign-ups and verification codes — Wi-Fi Calling & Texting",
+        "title": "Using a second number for sign-ups and verification codes",
+        "width": null,
+        "height": null
+      },
+      "category": {
+        "name": "Privacy & Safety",
+        "slug": "privacy-safety",
+        "description": "Keep your personal number private and stay safe online."
+      },
+      "author": {
+        "name": "Wi-Fi Calling & Texting Team",
+        "slug": "wifi-calling-team",
+        "role": "Editorial team",
+        "bio": "Guides and tips from the team behind Wi-Fi Calling & Texting: free calls and texts over Wi-Fi from a private second number.",
+        "image": null
+      },
+      "publishedAt": "2026-10-01T09:30:00.000Z",
+      "updatedAt": "2026-10-01T09:30:00.000Z",
+      "readingMinutes": 2,
+      "contentHtml": "<p>Newsletters, delivery apps, free trials, store loyalty cards — almost every sign-up form now asks for a phone number. Each one is another company holding your personal number, and another place it can leak from. A <strong>second phone number</strong> gives those forms a number to use without handing over the one your family and bank rely on.</p>\n<h2>Why your phone number is worth protecting</h2>\n<p>Your phone number follows you for years. It links your accounts together, it’s often used to recover passwords, and once it’s on a marketing list it tends to stay there. When a company you signed up with is breached, your number can end up in spam and scam lists you never agreed to.</p>\n<ul><li><strong>Fewer spam calls and texts</strong> on the number you actually answer.</li><li><strong>Less tracking</strong> across shops and apps that match customers by phone number.</li><li><strong>Easy to walk away:</strong> block senders on your second number without touching your personal line.</li></ul>\n<h2>Where a second number works well</h2>\n<p>Use your second number anywhere you’d rather not give out your real one:</p>\n<ul><li>Online shopping accounts and delivery apps</li><li>Free trials and newsletter sign-ups</li><li>Wi-Fi hotspots, store loyalty cards and raffles</li><li>Classified ads and marketplace listings</li><li>Dating apps and new contacts you haven’t met yet</li></ul>\n<h3>When to keep using your personal number</h3>\n<p>Some services only accept numbers from a mobile carrier, and some send codes from short numbers that internet-based numbers may not receive. For your bank, government services, and the account you use to recover your email, keep your personal number. Those are the accounts where losing a code would hurt most.</p>\n<blockquote><p><strong>Tip:</strong> Before you switch an important account to a new number, make sure you can receive a test code on it.</p></blockquote>\n<h2>How to set it up</h2>\n<ol><li>Download Wi-Fi Calling &amp; Texting and create your account.</li><li>Choose a US or Canadian number by city.</li><li>Use that number the next time a form asks for a phone number.</li><li>If a sender starts spamming you, block them from the conversation menu.</li></ol>\n<p>Texts to your second number arrive in the Messages tab, over Wi-Fi or mobile data. See how <a href=\"/features/texting\">texting from your second number</a> works, or how to <a href=\"/features/block-numbers\">block numbers</a> you don’t want to hear from.</p>\n<h2>The bottom line</h2>\n<p>Give your second number to the companies you don’t fully trust, and keep your personal number for the people and accounts that matter. It takes a couple of minutes to set up and saves a lot of spam later.</p>",
+      "tags": [
+        {
+          "name": "privacy",
+          "slug": "privacy"
+        },
+        {
+          "name": "second number",
+          "slug": "second-number"
+        },
+        {
+          "name": "sign-ups",
+          "slug": "sign-ups"
+        },
+        {
+          "name": "spam",
+          "slug": "spam"
+        },
+        {
+          "name": "verification codes",
+          "slug": "verification-codes"
+        }
+      ],
+      "faqs": [
+        {
+          "id": "01M6KFSSR1Q3ACV6EY68HSV9FZ",
+          "question": "Can I receive verification codes on a second number?",
+          "answer": "Many services send codes to any number, but some only accept numbers from a mobile carrier or send codes that internet-based numbers may not receive. Test it first, and keep your personal number for banking and account recovery."
+        },
+        {
+          "id": "01M6KFSSR1JTJS2AMBYKQTY4VW",
+          "question": "Will companies see my personal number?",
+          "answer": "No. When you sign up with your second number, that’s the only number the company gets."
+        },
+        {
+          "id": "01M6KFSSR2Y8F89NF2AATEWMCX",
+          "question": "Can I stop spam on my second number?",
+          "answer": "Yes. Block any sender from the conversation menu, and they can’t call or text your second number again."
+        }
+      ],
+      "faqSchema": true,
+      "cta": null,
+      "related": [
+        {
+          "id": "01M6KFSSTZ55H067X2W5RZQJA1",
+          "slug": "second-number-for-dating-apps",
+          "path": "/blog/second-number-for-dating-apps/",
+          "title": "Dating safely with a second phone number",
+          "excerpt": "Moving a chat off the dating app means sharing a number. Give matches a second number instead and keep your personal one until you’re ready.",
+          "featuredImage": {
+            "url": "/blog/01m6kfsmtfdx50vey3dmvck6n9-b166568a.png",
+            "alt": "Dating safely with a second phone number — Wi-Fi Calling & Texting",
+            "title": "Dating safely with a second phone number",
+            "width": null,
+            "height": null
+          },
+          "category": {
+            "name": "Privacy & Safety",
+            "slug": "privacy-safety",
+            "description": "Keep your personal number private and stay safe online."
+          },
+          "author": {
+            "name": "Wi-Fi Calling & Texting Team",
+            "slug": "wifi-calling-team",
+            "role": "Editorial team",
+            "bio": "Guides and tips from the team behind Wi-Fi Calling & Texting: free calls and texts over Wi-Fi from a private second number.",
+            "image": null
+          },
+          "publishedAt": "2026-10-19T09:30:00.000Z",
+          "updatedAt": "2026-10-19T09:30:00.000Z",
+          "readingMinutes": 1
+        },
+        {
+          "id": "01M6KFSST0Q96F1P7JKN9ZPKMF",
+          "slug": "second-number-for-online-selling",
+          "path": "/blog/second-number-for-online-selling/",
+          "title": "Selling online? Use a second number with buyers",
+          "excerpt": "Marketplace buyers need a way to reach you, but they don’t need your personal number. Here’s how a second number keeps selling safe and simple.",
+          "featuredImage": {
+            "url": "/blog/01m6kfsmefphg5sjvnjh5rp9db-7cac44a7.png",
+            "alt": "Selling online? Use a second number with buyers — Wi-Fi Calling & Texting",
+            "title": "Selling online? Use a second number with buyers",
+            "width": null,
+            "height": null
+          },
+          "category": {
+            "name": "Privacy & Safety",
+            "slug": "privacy-safety",
+            "description": "Keep your personal number private and stay safe online."
+          },
+          "author": {
+            "name": "Wi-Fi Calling & Texting Team",
+            "slug": "wifi-calling-team",
+            "role": "Editorial team",
+            "bio": "Guides and tips from the team behind Wi-Fi Calling & Texting: free calls and texts over Wi-Fi from a private second number.",
+            "image": null
+          },
+          "publishedAt": "2026-10-16T09:30:00.000Z",
+          "updatedAt": "2026-10-16T09:30:00.000Z",
+          "readingMinutes": 1
+        },
+        {
+          "id": "01M6KFSSVYX0RVCM6XMRJNNYJV",
+          "slug": "how-to-block-spam-calls-and-texts",
+          "path": "/blog/how-to-block-spam-calls-and-texts/",
+          "title": "How to block spam calls and texts on your second number",
+          "excerpt": "Spam calls and texts are annoying, but stopping them takes seconds. Here’s how to block a number, review your blocked list and unblock someone.",
+          "featuredImage": {
+            "url": "/blog/01m6kfsmxx8cm13c4b5g4vr2ec-5084c78b.png",
+            "alt": "How to block spam calls and texts on your second number — Wi-Fi Calling & Texting",
+            "title": "How to block spam calls and texts on your second number",
+            "width": null,
+            "height": null
+          },
+          "category": {
+            "name": "How-To Guides",
+            "slug": "how-to-guides",
+            "description": "Step-by-step help with calls, texts and settings in the app."
+          },
+          "author": {
+            "name": "Wi-Fi Calling & Texting Team",
+            "slug": "wifi-calling-team",
+            "role": "Editorial team",
+            "bio": "Guides and tips from the team behind Wi-Fi Calling & Texting: free calls and texts over Wi-Fi from a private second number.",
+            "image": null
+          },
+          "publishedAt": "2026-10-22T09:30:00.000Z",
+          "updatedAt": "2026-10-22T09:30:00.000Z",
+          "readingMinutes": 1
+        }
+      ],
+      "seo": {
+        "title": "Use a Second Number for Sign-Ups and Verification Codes",
+        "description": "Keep your personal number off marketing lists. Learn when to use a second number for sign-ups and verification codes, and when to keep your real one.",
+        "canonicalUrl": null,
+        "focusKeyword": "second number for sign-ups",
+        "ogTitle": "Use a Second Number for Sign-Ups and Verification Codes",
+        "ogDescription": "Keep your personal number off marketing lists. Learn when to use a second number for sign-ups and verification codes, and when to keep your real one.",
+        "ogImage": "/blog/01m6kfshzvabrfwjgpcve8k2pg-c3d67e66.png",
+        "robots": {
+          "index": true,
+          "follow": true
+        }
+      }
+    }
+  ]
+}

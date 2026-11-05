@@ -35,8 +35,7 @@ export default function PostView({ p, preview }: { p: Post; preview?: string }) 
         <div className="wrap">
           <Crumbs items={[{ href: '/', label: 'Home' }, { href: '/blog', label: 'Blog' }, { label: p.title }]} />
           <div className="x-post-meta light">
-            {p.category && <Link className="tag" href={`/blog?category=${p.category.slug}`}>{p.category.name}</Link>}
-            {p.draft && <span className="tag">Draft</span>}
+            {p.category && <Link className="tag" href={`/blog/category/${p.category.slug}`}>{p.category.name}</Link>}
           </div>
           <h1>{p.title}</h1>
           {p.excerpt && <p>{p.excerpt}</p>}

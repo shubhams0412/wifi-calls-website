@@ -5,13 +5,12 @@ import PostView from '@/components/site/PostView';
 import { allPostSlugs, getPost } from '@/site/blog';
 import { abs, BRAND } from '@/site/config';
 
-// Pages are prebuilt for known articles and refreshed at most once a minute; articles published
-// later in the admin panel are rendered on first visit (dynamicParams defaults to true).
-export const revalidate = 60;
+// Every article is built once at deploy; any other slug is a 404.
+export const dynamicParams = false;
 export async function generateStaticParams() { return (await allPostSlugs()).map(({ slug }) => ({ slug })); }
 
 type Params = Promise<{ slug: string }>;
-const load = cache(getPost); // one CMS request shared by generateMetadata and the page
+const load = cache(getPost); // shared by generateMetadata and the page
 
 export async function generateMetadata({ params }: { params: Params }): Promise<Metadata> {
   const r = await load((await params).slug);

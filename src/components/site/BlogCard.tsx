@@ -15,7 +15,6 @@ export default function BlogCard({ p, headingLevel = 2 }: { p: PostSummary; head
       <span className="x-post-body">
         <span className="x-post-meta">
           {p.category && <span className="tag">{p.category.name}</span>}
-          {p.draft && <span className="tag draft">Draft</span>}
         </span>
         <H>{p.title}</H>
         {p.excerpt && <p>{p.excerpt}</p>}

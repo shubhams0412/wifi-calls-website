@@ -9,8 +9,6 @@ import { GENERAL_FAQ } from '@/site/content/faq';
 import { listPosts } from '@/site/blog';
 import BlogCard from '@/components/site/BlogCard';
 
-export const revalidate = 60; // latest articles from the blog CMS
-
 export default async function HomePage() {
   const latest = (await listPosts({ perPage: 3 })).posts;
   return (
