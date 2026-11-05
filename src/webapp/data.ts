@@ -40,6 +40,7 @@ export interface AppData {
   ratingSeen?: boolean;
   user: User;
   number: string | null;
+  voiceProvider?: 'twilio' | 'vonage';
   coins: number;
   purchases: { coins: number; at: number }[];
   contacts: Contact[];

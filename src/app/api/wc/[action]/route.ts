@@ -50,6 +50,9 @@ const ACTIONS: Record<string, Spec> = {
   deleteBroadcast: { path: 'wsqr_deleteBroadcast', method: 'DELETE', fields: ['broadcast_id'] },
   // calls
   callLogs: { path: 'wsqr_getCallLogs' },
+  // Phone calls (Twilio / Vonage): a voice-SDK token for this user, and the call's end for billing and the call log.
+  callToken: { path: 'wsqr_getCapabilityToken' },
+  endCall: { path: 'wsqr_endCallUpdateStatus', fields: ['call_sid', 'duration'] },
   clearCallLogs: { path: 'wsqr_clearCallLogs' },
   clearCallLog: { path: (p) => `wsqr_clearSingleCallLogCallHistoryId/${encodeURIComponent(p.id ?? '')}`, fields: ['id'] },
   blocklist: { path: 'wsqr_getBlocklist' },

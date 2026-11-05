@@ -6,7 +6,9 @@ import { createElement, type ReactNode } from 'react';
 import { create } from 'zustand';
 import { getData, isBlocked, contactByPhone, isPro } from './store';
 import { placeAppCall, useCall } from './rtc';
+import { placeTwilioCall, usePhoneCall } from './phone';
 import { APP_NAME, digits } from './format';
+import { e164 } from './api';
 
 export type CallKind = 'phone' | 'app' | 'video' | 'group';
 /** `members` are QuickBlox ids (group calls); `qbId` is the person for app/video calls when known. */
@@ -18,12 +20,11 @@ interface Toast { id: number; text: string }
 interface UIStore {
   toasts: Toast[];
   sheets: SheetEntry[];
-  call: CallRequest | null;
   paywallOpen: boolean;
   buyNumberOpen: boolean;
 }
 
-export const useUI = create<UIStore>()(() => ({ toasts: [], sheets: [], call: null, paywallOpen: false, buyNumberOpen: false }));
+export const useUI = create<UIStore>()(() => ({ toasts: [], sheets: [], paywallOpen: false, buyNumberOpen: false }));
 
 let seq = 0;
 
@@ -87,20 +88,19 @@ export const setNavigate = (fn: (href: string) => void) => { navigateImpl = fn; 
 export const go = (path: string) => navigateImpl('/app/' + path.replace(/^\/+/, ''));
 
 /* ---- calls ---- */
-/** Paid phone calls from the browser aren't connected yet (Twilio / Vonage voice SDKs, phase 2.1). */
-export const PHONE_CALLS_ON_WEB = false;
-
-const inCall = () => !!useUI.getState().call || useCall.getState().phase !== 'idle';
+/** True while any call (phone or app) is up. */
+export const inCall = () => usePhoneCall.getState().phase !== 'idle' || useCall.getState().phase !== 'idle';
 
 export function startCall(req: CallRequest) {
   if (inCall()) { toast("You're already on a call."); return; }
   const d = getData();
   if (req.kind === 'phone') {
-    if (!PHONE_CALLS_ON_WEB) {
-      alertDialog('Phone calls are coming to the web soon', 'For now, call phone numbers from the iPhone app. Free app-to-app calls work here.');
+    // Paid calls go through the number's voice provider (phone.ts). Vonage isn't connected on the web yet.
+    if (d.voiceProvider === 'vonage') {
+      alertDialog('Calling from this number is coming to the web soon', 'For now, call phone numbers from the iPhone app. Free app-to-app calls work here.');
       return;
     }
-    useUI.setState({ call: req });
+    placeTwilioCall(req.phone ?? '', req.name ?? '').then((message) => { if (message) toast(message); });
     return;
   }
   // App-to-app calls (voice, video, group) over QuickBlox — see rtc.ts.
@@ -119,7 +119,6 @@ export function startCall(req: CallRequest) {
   placeAppCall({ qbIds, title, video: req.kind === 'video', group: req.kind === 'group' })
     .then((r) => { if (!r.ok && r.message) toast(r.message); });
 }
-export const endCallUI = () => useUI.setState({ call: null });
 
 /** Paid phone call — same gate order as DialpadView: subscription → number → coins. */
 export function placePhoneCall(phone: string, name?: string) {
@@ -129,7 +128,7 @@ export function placePhoneCall(phone: string, name?: string) {
   if (!d.number) { toast('Get a phone number first to make calls.'); openBuyNumber(); return; }
   if (d.coins <= 0) { toast("You're out of coins — top up to keep calling."); go('settings/coins'); return; }
   if (isBlocked(d, phone)) { toast('You have blocked this number.'); return; }
-  startCall({ kind: 'phone', phone, name: name || contactByPhone(d, phone)?.name || '' });
+  startCall({ kind: 'phone', phone: e164(phone), name: name || contactByPhone(d, phone)?.name || '' });
 }
 
 /** Gate for sending SMS (subscription → number → coins). */

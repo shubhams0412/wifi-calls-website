@@ -8,7 +8,7 @@ import { APP_NAME, cx, digits, fmtPhone, fmtTyping } from '../format';
 import { Icon } from '../icons';
 import { openChatWith } from '../chat';
 import { country, friends, useData } from '../store';
-import { openBuyNumber, placePhoneCall, startCall, toast, useDialog, useUI } from '../ui';
+import { inCall, openBuyNumber, placePhoneCall, startCall, toast, useDialog, useUI } from '../ui';
 import { Avatar, Empty } from '../components/ui';
 import { FullPane } from '../components/Shell';
 import { openContactPicker, openCountryPicker } from '../components/pickers';
@@ -75,7 +75,7 @@ export default function DialTab() {
     const blocked = (e: Event) => {
       const tag = ((e.target as HTMLElement)?.tagName || '').toLowerCase();
       const ui = useUI.getState();
-      return tag === 'input' || tag === 'textarea' || ui.sheets.length > 0 || !!ui.call || ui.paywallOpen || ui.buyNumberOpen || !!useDialog.getState().dialog;
+      return tag === 'input' || tag === 'textarea' || ui.sheets.length > 0 || inCall() || ui.paywallOpen || ui.buyNumberOpen || !!useDialog.getState().dialog;
     };
     const onKey = (e: KeyboardEvent) => {
       if (blocked(e) || e.metaKey || e.ctrlKey || e.altKey) return;

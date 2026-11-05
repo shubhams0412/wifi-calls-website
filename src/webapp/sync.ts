@@ -7,6 +7,7 @@ import { e164, setSignedOutHandler, toMs, wc } from './api';
 import type { AppData, CallLog, Message, Recording, SmsThread, Tier, UsageMonth, Voicemail } from './data';
 import { seed } from './data';
 import { startChat, stopChat } from './chat';
+import { stopPhone } from './phone';
 import { firebaseSignOut } from './firebase';
 import { setTrackUrl } from './player';
 import { getData, mutate, useApp } from './store';
@@ -19,7 +20,7 @@ interface UserInfo {
 }
 interface ProfileData {
   user_info?: UserInfo;
-  purchased_phone_number_info?: { phone_number?: string } | null;
+  purchased_phone_number_info?: { phone_number?: string; provider_slug?: string } | null;
   settings?: { font_size?: string; chat_signature?: string; chat_background?: string; is_voicemail_enabled?: Str; is_default?: Str; is_call_record?: Str };
   friend_info?: { quickblox_id?: Str; full_name?: string; phone_number?: string; username?: string }[];
 }
@@ -96,6 +97,8 @@ export function applyProfile(p: ProfileData) {
     d.user.quickbloxId = u.quickblox_id ? String(u.quickblox_id) : undefined;
     const bought = p.purchased_phone_number_info?.phone_number || u.phone_number;
     d.number = bought ? e164(bought) : null;
+    // Which voice provider carries this number's calls (as on iOS, VoiceProviderSelector); Twilio when unknown.
+    d.voiceProvider = /vonage/i.test(p.purchased_phone_number_info?.provider_slug ?? '') ? 'vonage' : 'twilio';
     d.settings.anon = on(u.is_anonymous);
     d.forwarding = { on: on(u.is_forwarding), to: u.forward_to ?? '' };
     const s = p.settings;
@@ -352,6 +355,7 @@ export function stopPolling() { if (timer) clearInterval(timer); timer = null; }
 export function signOutLocal() {
   stopPolling();
   stopChat();
+  stopPhone();
   const launches = getData().launches;
   useApp.setState({ data: { ...seed(), stage: 'auth', launches, ratingSeen: true } });
   firebaseSignOut();
