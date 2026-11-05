@@ -12,14 +12,33 @@ let verifier: RecaptchaVerifier | null = null;
 async function auth() {
   const { initializeApp, getApps } = await import('firebase/app');
   const { getAuth } = await import('firebase/auth');
+  const existing = getApps()[0];
   // Must be a Firebase *Web* app's config: an iOS app's API key fails phone sign-in with auth/invalid-app-credential.
-  const app = getApps()[0] ?? initializeApp({
+  const app = existing ?? initializeApp({
     apiKey: process.env.NEXT_PUBLIC_FIREBASE_API_KEY,
     appId: process.env.NEXT_PUBLIC_FIREBASE_APP_ID,
     authDomain: process.env.NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN,
     projectId: process.env.NEXT_PUBLIC_FIREBASE_PROJECT_ID,
   });
+  if (!existing) await startAppCheck(app);
   return getAuth(app);
+}
+
+/*
+ * The Firebase project enforces App Check on Authentication, so sign-in requests must carry an
+ * App Check token (otherwise: auth/firebase-app-check-token-is-invalid). The web app proves itself
+ * with reCAPTCHA v3; local development uses a debug token registered in the Firebase console.
+ */
+async function startAppCheck(app: import('firebase/app').FirebaseApp) {
+  const siteKey = process.env.NEXT_PUBLIC_FIREBASE_APPCHECK_SITE_KEY;
+  const debugToken = process.env.NEXT_PUBLIC_FIREBASE_APPCHECK_DEBUG_TOKEN;
+  if (!siteKey && !debugToken) return;
+  if (debugToken && process.env.NODE_ENV !== 'production') {
+    (self as unknown as { FIREBASE_APPCHECK_DEBUG_TOKEN?: string }).FIREBASE_APPCHECK_DEBUG_TOKEN = debugToken;
+  }
+  const { initializeAppCheck, ReCaptchaV3Provider } = await import('firebase/app-check');
+  // In debug mode the provider is never asked for a token, so a placeholder key is enough locally.
+  initializeAppCheck(app, { provider: new ReCaptchaV3Provider(siteKey || 'debug-mode'), isTokenAutoRefreshEnabled: true });
 }
 
 const MESSAGES: Record<string, string> = {
@@ -30,6 +49,7 @@ const MESSAGES: Record<string, string> = {
   'auth/code-expired': 'That code has expired. Send a new one.',
   'auth/captcha-check-failed': 'The security check failed. Reload the page and try again.',
   'auth/unauthorized-domain': 'Sign-in isn’t enabled for this website yet.',
+  'auth/firebase-app-check-token-is-invalid': 'This website couldn’t pass the security check. Reload the page and try again.',
   'auth/network-request-failed': 'You’re offline. Check your connection and try again.',
 };
 /** A readable message; unknown errors keep Firebase's code so support can tell what happened. */
