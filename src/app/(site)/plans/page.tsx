@@ -10,15 +10,15 @@ export const metadata: Metadata = {
 
 /** Same list as the in-app paywall ("What's included"): [feature, included in Lite]. */
 const APP_FEATURES: [string, boolean][] = [
-  ['Chat and video calls', true], ['App-to-SMS messaging', true], ['Unlimited app-to-app calls', true], ['Broadcast messages', false],
-  ['Call recording', false], ['Voicemail with custom greeting', false], ['Call forwarding', false], ['Group calls', false], ['Anonymous caller ID', false],
+  ['Chat and video calls', true], ['Texting to any number', true], ['Unlimited app-to-app calls', true], ['Broadcast messages', false],
+  ['Call recording', false], ['Voicemail with custom greeting', false], ['Call forwarding', false], ['Group calls', false], ['Create group chats', false], ['Anonymous caller ID', false],
 ];
 
 const PLAN_FAQ = [
   { q: 'How much does it cost?', a: 'Prices are shown in the app before you subscribe, in your local currency. Both plans are available weekly, monthly or yearly and start with a free trial.' },
-  { q: 'Is there a free trial?', a: 'Yes. New subscribers get a free trial. You can cancel anytime before it ends in Settings → Apple ID → Subscriptions and you won’t be charged.' },
-  { q: 'What are coins?', a: 'Coins pay for calls and texts to regular phone numbers. App-to-app calls and chats are free and never use coins. You can top up anytime in Settings → Purchase Coins.' },
-  { q: 'Can I switch plans later?', a: 'Yes — open Settings → Subscription in the app to switch between Lite and Pro, or manage it from Apple’s Subscriptions settings.' },
+  { q: 'Is there a free trial?', a: 'Yes. New subscribers get a free trial. You can cancel any time before it ends in your iPhone’s Settings → [your name] → Subscriptions and you won’t be charged.' },
+  { q: 'What are coins?', a: 'Coins pay for calls and texts to regular phone numbers. App-to-app calls and chats are free and never use coins. You can top up any time in Settings → Purchase Coins.' },
+  { q: 'Can I switch plans later?', a: 'Yes. Tap any Pro feature in the app to upgrade from Lite, or change plans in your iPhone’s Settings → [your name] → Subscriptions.' },
 ];
 
 export default function PlansPage() {

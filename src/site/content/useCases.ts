@@ -23,7 +23,7 @@ export const USE_CASES: UseCase[] = [
     sections: [
       {
         title: 'Look established from day one',
-        text: 'Choose a number from the area codes on offer when you sign up, so your business line looks local to the people you serve. Calls and texts go out from that number, and your personal number never appears.',
+        text: 'Choose from the US or Canadian numbers on offer, so your business line looks local to the people you serve. Calls and texts go out from that number, and your personal number never appears.',
         bullets: ['Calls and SMS from your business number', 'Pick from the numbers available in the US or Canada', 'Works over Wi-Fi or mobile data — no second SIM'],
       },
       {
@@ -35,7 +35,7 @@ export const USE_CASES: UseCase[] = [
     faqs: [
       { q: 'Can my customers text my business number?', a: 'Yes. Your number receives and sends SMS, and you can reply from the iPhone app. Texts to regular phone numbers use coins from your balance.' },
       { q: 'Will customers see my personal number?', a: 'No. Calls and texts you make in the app go out from your second number, so your personal number stays private.' },
-      { q: 'Which features need Pro?', a: 'Voicemail with a custom greeting, call forwarding, call recording, broadcasts, group calls and anonymous calling are part of the Pro plan. Lite covers the essentials: your number, calls, SMS and free app-to-app chat.' },
+      { q: 'Which features need Pro?', a: 'Voicemail with a custom greeting, call forwarding, call recording, broadcasts, group calls, creating group chats and anonymous calling are part of the Pro plan. Lite covers the essentials: your number, calls, SMS and free app-to-app chat.' },
     ],
   },
   {
@@ -64,7 +64,7 @@ export const USE_CASES: UseCase[] = [
       {
         title: 'Keep a clean record of client conversations',
         text: 'Call history, SMS threads and recordings live together in one app, separate from your personal messages.',
-        bullets: ['SMS threads per client', 'Automatic recording of outgoing calls (Pro)', 'Same account on iPhone and web'],
+        bullets: ['SMS threads per client', 'Automatic recording of outgoing calls (Pro)', 'Everything in one app, separate from your personal phone'],
       },
     ],
     faqs: [
@@ -92,7 +92,7 @@ export const USE_CASES: UseCase[] = [
     features: ['second-phone-number', 'texting', 'block-numbers', 'broadcast-messages', 'phone-calls'],
     sections: [
       {
-        title: 'Handle buyers from your phone or your desk',
+        title: 'Handle buyers from your iPhone',
         text: 'Reply to buyers by SMS — including photos of the item — from the iPhone app. Calls and texts go out from your second number.',
         bullets: ['SMS and picture messages from your second number', 'Your personal number never appears'],
       },
@@ -128,7 +128,7 @@ export const USE_CASES: UseCase[] = [
     sections: [
       {
         title: 'Keep early conversations at a distance',
-        text: 'Text and call matches from your second number while you get to know them. Everything stays in its own app, separate from your personal messages and call log.',
+        text: 'Text and call matches from your second number while you get to know them. Everything stays in this app, separate from your personal messages and call log.',
         bullets: ['Calls and SMS from your second number', 'Separate call history and message threads', 'Works on Wi-Fi or mobile data'],
       },
       {
@@ -175,7 +175,7 @@ export const USE_CASES: UseCase[] = [
     faqs: [
       { q: 'Does it work outside the US and Canada?', a: 'The app works anywhere you have an internet connection. Your number is a US or Canadian number, and you can call other countries using coins.' },
       { q: 'Do I need a local SIM?', a: 'No. Wi-Fi is enough. If you prefer mobile data, any data connection works, including a local data SIM.' },
-      { q: 'How much do international calls cost?', a: 'Calls to regular numbers use coins, and the cost depends on the country. Open Purchase Coins in the app and tap “See per-minute charges” to check before you call.' },
+      { q: 'How much do international calls cost?', a: 'Calls to regular numbers use coins, and the cost depends on the country. Open Settings → Purchase Coins → Add coins and tap “See per-minute charges” to check before you call.' },
     ],
   },
   {
@@ -203,13 +203,13 @@ export const USE_CASES: UseCase[] = [
       },
       {
         title: 'Your contacts stay private too',
-        text: 'If you let the app check which of your contacts already use it, names and numbers are used only to find matches and are not kept, shared or sold. You can say no and still use every other feature.',
+        text: 'If you let the app check which of your contacts already use it, names and numbers are used only to find matches and are never shared or sold. You can say no and still use every other feature.',
         bullets: ['Contact matching is optional', 'Contacts are never sold', 'Change permissions any time in your settings'],
       },
     ],
     faqs: [
       { q: 'Can I receive verification codes on my second number?', a: 'Your number receives SMS, so many services can send codes to it. Some services don’t accept internet-based numbers for verification, so check with the service if a code doesn’t arrive.' },
-      { q: 'Does the app sell my data or contacts?', a: 'No. Contact matching is optional and only used to show which contacts already use the app; the contacts are not kept, shared or sold.' },
+      { q: 'Does the app sell my data or contacts?', a: 'No. Contact matching is optional and only used to show which contacts already use the app; the contacts are never shared or sold.' },
       { q: 'How do I block a number?', a: 'Go to Settings → Call Settings → Blocked numbers, enter the number or pick a contact, and tap Block this number.' },
     ],
   },

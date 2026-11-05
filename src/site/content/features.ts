@@ -47,12 +47,12 @@ export const FEATURES: Feature[] = [
     group: 'numbers',
     name: 'Choose your number',
     icon: 'pin',
-    short: 'Pick a US or Canadian number by city before you claim it',
+    short: 'Pick a US or Canadian number from the list before you claim it',
     title: 'Pick the number that fits you',
-    intro: 'Browse available US and Canadian numbers, see the city each one belongs to, and claim the one you like.',
+    intro: 'Browse available US and Canadian numbers, see the state or province each one belongs to, and claim the one you like.',
     highlights: [
       { icon: 'globe', title: 'USA or Canada', text: 'Switch between the two countries to see the numbers available in each.' },
-      { icon: 'pin', title: 'See the city', text: 'Every number shows its city and region, so you can choose a local-looking number.' },
+      { icon: 'pin', title: 'See the region', text: 'Every number shows its state or province, so you can choose one that suits you.' },
       { icon: 'checkCircle', title: 'Voice and SMS ready', text: 'Numbers in the list support both calls and text messages.' },
     ],
     steps: [
@@ -63,7 +63,7 @@ export const FEATURES: Feature[] = [
     sections: [
       {
         title: 'A local presence where it matters',
-        text: 'If your customers, landlord or clients are in one city, a number from that area feels familiar when it shows up on their phone. Pick the city that suits you from the list of available numbers.',
+        text: 'If your customers, landlord or clients are in one state or province, a number from that region feels familiar when it shows up on their phone. Pick one from the list of available numbers.',
       },
       {
         title: 'Your number, shown everywhere you need it',
@@ -72,13 +72,13 @@ export const FEATURES: Feature[] = [
       },
     ],
     faqs: [
-      { q: 'Can I search for a specific number?', a: 'The app shows a list of numbers available in the country you choose, with the city for each one. Pick any number from that list.' },
-      { q: 'What if I don\'t see a number I like?', a: 'Availability changes, so try the other country or check back a little later for new numbers.' },
+      { q: 'Can I search for a specific number?', a: 'The app shows a list of numbers available in the country you choose, with the state or province for each one. Pick any number from that list.' },
+      { q: 'What if I don\'t see a number I like?', a: 'Availability changes, so check back a little later for new numbers.' },
       { q: 'Do I need a plan to claim a number?', a: 'Yes. An active Lite or Pro subscription is needed to claim a number.' },
     ],
     related: ['second-phone-number', 'phone-calls', 'texting'],
     seoTitle: 'Choose Your Own US or Canada Number | Wi-Fi Calling',
-    seoDescription: 'Browse available US and Canadian phone numbers by city, pick the one you like and start calling and texting from it today.',
+    seoDescription: 'Browse available US and Canadian phone numbers, pick the one you like and start calling and texting from it today.',
   },
 
   /* ---------------- Calls ---------------- */
@@ -246,9 +246,9 @@ export const FEATURES: Feature[] = [
     intro: 'Send SMS and photos to any phone number. Replies come back to your second number, right in the Messages tab.',
     highlights: [
       { icon: 'message', title: 'Real SMS', text: 'Text people on any phone — they don\'t need the app.' },
-      { icon: 'image', title: 'Send photos', text: 'Attach a picture from your library to any conversation.' },
+      { icon: 'image', title: 'Send photos', text: 'Attach a photo from your library or camera to any conversation.' },
       { icon: 'signature', title: 'Message signature', text: 'Add an optional signature such as your name or number to your texts.' },
-      { icon: 'nosign', title: 'Block unwanted texts', text: 'Block a number from the conversation menu with one tap.' },
+      { icon: 'nosign', title: 'Block unwanted texts', text: 'Swipe left on a conversation in Messages and tap Block.' },
     ],
     steps: [
       'Open Messages and choose the SMS tab.',
@@ -279,18 +279,18 @@ export const FEATURES: Feature[] = [
     group: 'messaging',
     name: 'Chat & groups',
     icon: 'messages',
-    short: 'Free one-to-one and group chats with friends on the app',
-    title: 'Free chats and group chats',
-    intro: 'Chat with friends who use Wi-Fi Calling & Texting, one-to-one or in groups. Messages and photos between app users are free.',
+    short: 'Free one-to-one chats with friends on the app, and groups with Pro',
+    title: 'Free chats, and group chats with Pro',
+    intro: 'Chat with friends who use Wi-Fi Calling & Texting, one-to-one or in groups. Messages and photos between app users don\'t use coins; creating a group needs Pro.',
     highlights: [
       { icon: 'messages', title: 'One-to-one chat', text: 'Start a chat with any friend on the app from Messages → Chat.' },
-      { icon: 'group', title: 'Groups', text: 'Create a group with a name and add friends — great for family, teams or trips.' },
+      { icon: 'group', title: 'Groups (Pro)', text: 'Create a group with a name and add friends — great for family, teams or trips.' },
       { icon: 'image', title: 'Share photos', text: 'Send pictures in any chat or group.' },
       { icon: 'palette', title: 'Chat wallpaper', text: 'Pick a background for your chat threads in Chat Settings.' },
     ],
     steps: [
       'Open Messages and switch to the Chat tab.',
-      'Tap the pencil button to pick a friend, or the groups button to create a group.',
+      'Tap the pencil button to pick a friend, or the groups button to create a group (Pro).',
       'Name your group, add members and start chatting.',
     ],
     sections: [
@@ -306,7 +306,7 @@ export const FEATURES: Feature[] = [
     faqs: [
       { q: 'Are chats free?', a: 'Yes. Chats and photos between Wi-Fi Calling & Texting users don\'t use coins.' },
       { q: 'Who can I chat with?', a: 'Friends who use the app. They appear in Contacts → Friends.' },
-      { q: 'Do I need Pro to create a group?', a: 'Creating groups is part of the Pro plan in the app.' },
+      { q: 'Do I need Pro to create a group?', a: 'Yes. Creating groups is included with Pro.' },
     ],
     related: ['group-calls', 'free-app-calls', 'texting'],
     seoTitle: 'Free Chat & Group Chat With Friends | Wi-Fi Calling',
@@ -357,7 +357,7 @@ export const FEATURES: Feature[] = [
     group: 'answering',
     name: 'Voicemail',
     icon: 'mic',
-    short: 'Your own greeting and missed-call messages in the app',
+    short: 'Your own greeting, and messages you can play in the app',
     title: 'Voicemail with your own greeting',
     intro: 'Never miss a message on your second number. Record a greeting in your own voice and play messages right in the app. Included with Pro.',
     pro: true,
@@ -382,7 +382,7 @@ export const FEATURES: Feature[] = [
       },
     ],
     faqs: [
-      { q: 'Do I need Pro for voicemail?', a: 'Yes. Voicemail with a custom greeting is included with the Pro plan.' },
+      { q: 'Do I need Pro for voicemail?', a: 'Yes. Voicemail is included with the Pro plan.' },
       { q: 'How long can my greeting be?', a: 'You can record a greeting of up to 60 seconds.' },
       { q: 'Where do I find my messages?', a: 'Open the Calls tab and switch to Voicemail.' },
     ],
@@ -527,7 +527,7 @@ export const FEATURES: Feature[] = [
     sections: [
       {
         title: 'Block from a conversation',
-        text: 'Getting texts you don\'t want? Open the conversation menu and choose Block. A banner in the thread reminds you the number is blocked, with a quick Unblock button.',
+        text: 'Getting texts you don\'t want? In Messages, swipe left on the conversation and tap Block. A banner in the thread reminds you the number is blocked, with a quick Unblock button.',
       },
       {
         title: 'One list for everything',
@@ -536,7 +536,7 @@ export const FEATURES: Feature[] = [
     ],
     faqs: [
       { q: 'What happens when I block someone?', a: 'They can\'t call or text your second number.' },
-      { q: 'Can I block from a message thread?', a: 'Yes. Open the conversation menu and choose Block.' },
+      { q: 'Can I block from Messages?', a: 'Yes. Swipe left on the conversation in Messages and tap Block. You can also block any number in Settings → Call Settings → Blocked numbers.' },
       { q: 'How do I unblock a number?', a: 'Go to Settings → Call Settings → Blocked numbers and tap Unblock.' },
     ],
     related: ['anonymous-calling', 'texting', 'second-phone-number'],

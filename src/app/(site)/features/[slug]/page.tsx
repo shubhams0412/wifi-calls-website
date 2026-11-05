@@ -27,7 +27,7 @@ export default async function FeaturePage({ params }: { params: Promise<{ slug: 
       <section className="band"><div className="wrap"><Highlights items={f.highlights} /></div></section>
       <section className="band alt">
         <div className="wrap">
-          <SectionHead label="How it works" title={`Using ${f.name.toLowerCase()}`} />
+          <SectionHead label="How it works" title="Step by step" />
           <Steps steps={f.steps} />
         </div>
       </section>

@@ -16,7 +16,7 @@ export const NUMBER_COUNTRIES: NumberCountry[] = [
       'Pick a United States number in the app and start calling and texting from it over Wi-Fi or mobile data — no second SIM, no carrier contract.',
     seoTitle: 'Get a Second US Phone Number on iPhone',
     seoDescription:
-      'Choose a US phone number in the Wi-Fi Calling & Texting app and use it for calls and SMS over Wi-Fi or data. Pick from available area codes, no second SIM.',
+      'Choose a US phone number in the Wi-Fi Calling & Texting app and use it for calls and SMS over Wi-Fi or data. Pick from the numbers available, no second SIM.',
     areaCodes: [
       { code: '212', city: 'New York, NY' },
       { code: '310', city: 'Los Angeles, CA' },
@@ -30,7 +30,7 @@ export const NUMBER_COUNTRIES: NumberCountry[] = [
     sections: [
       {
         title: 'How getting a US number works',
-        text: 'After you subscribe, open “Get a phone number”, choose USA and pick one of the numbers listed. The list shows the numbers available at that moment, each with its city and state, and every number supports both voice and SMS.',
+        text: 'After you subscribe, open “Get a phone number”, choose USA and pick one of the numbers listed. The list shows the numbers available at that moment, and every number supports both voice and SMS.',
         bullets: ['Choose from the numbers available right now', 'Voice and SMS on every number', 'Ready to use as soon as you confirm'],
       },
       {
@@ -40,7 +40,7 @@ export const NUMBER_COUNTRIES: NumberCountry[] = [
       },
     ],
     faqs: [
-      { q: 'Can I choose a specific area code?', a: 'You choose from the US numbers available in the app at the time, and each shows its city and state. The area codes on offer change as numbers are taken, so the examples on this page aren’t guaranteed.' },
+      { q: 'Can I choose a specific area code?', a: 'You choose from the US numbers available in the app at the time. The area codes on offer change as numbers are taken, so the examples on this page aren’t guaranteed.' },
       { q: 'Do I need to live in the US?', a: 'No. The app works anywhere with an internet connection, so you can use a US number while living or traveling elsewhere.' },
       { q: 'Is a subscription required?', a: 'Yes. A Lite or Pro subscription is needed to get a phone number. Calls and texts to regular numbers then use coins from your balance.' },
     ],
@@ -56,7 +56,7 @@ export const NUMBER_COUNTRIES: NumberCountry[] = [
       'Choose a Canadian number in the app and use it for calls and texts over Wi-Fi or mobile data — handy for local contacts, listings and work, wherever you are.',
     seoTitle: 'Get a Second Canadian Phone Number',
     seoDescription:
-      'Pick a Canadian phone number in the Wi-Fi Calling & Texting app and call or text over Wi-Fi or data. Choose numbers in Toronto, Vancouver and more.',
+      'Pick a Canadian phone number in the Wi-Fi Calling & Texting app and call or text over Wi-Fi or data. Pick from the Canadian numbers available in the app.',
     areaCodes: [
       { code: '416', city: 'Toronto, ON' },
       { code: '604', city: 'Vancouver, BC' },
@@ -68,7 +68,7 @@ export const NUMBER_COUNTRIES: NumberCountry[] = [
     sections: [
       {
         title: 'How getting a Canadian number works',
-        text: 'After you subscribe, open “Get a phone number”, switch to CANADA and choose from the numbers listed. Each one shows its city and province and supports both voice and SMS.',
+        text: 'After you subscribe, open “Get a phone number”, switch to Canada and choose from the numbers listed. Every number supports both voice and SMS.',
         bullets: ['Switch the picker to Canada', 'Pick from the numbers available right now', 'Voice and SMS on every number'],
       },
       {
@@ -118,7 +118,7 @@ export const CALL_COUNTRIES: CallCountry[] = [
     seoTitle: 'Call Mexico From the US Over Wi-Fi',
     seoDescription: 'Call Mexico from your iPhone over Wi-Fi or data. Pick +52 in the country picker, check per-minute coin rates in the app, or call app users in Mexico for free.',
     tips: [
-      'Most of Mexico is on Central Time — the same as Chicago for much of the year — so calling is easy across US time zones.',
+      'Most of Mexico is on Central Standard Time all year — the same as Chicago in winter and one hour behind it in summer — so calling is easy across US time zones.',
       DIAL_TIP('Mexico') + ' Mexican numbers have 10 digits after +52.',
       APP_TIP,
     ],
@@ -304,7 +304,7 @@ export const CALL_COUNTRIES: CallCountry[] = [
     ],
     faqs: [
       { q: 'Is calling Canada an international call?', a: 'It uses the same +1 code as the US, so you dial it like a domestic number. Calls to regular numbers use coins; check the Canada rate in the app.' },
-      { q: 'Can I get a Canadian number?', a: 'Yes. When you get a phone number in the app, switch the picker to CANADA and choose from the numbers available.' },
+      { q: 'Can I get a Canadian number?', a: 'Yes. When you get a phone number in the app, switch the picker to Canada and choose from the numbers available.' },
       { q: 'Can I text Canadian numbers?', a: 'Yes. SMS to regular numbers uses coins at the rate shown in the app.' },
     ],
   },

@@ -24,7 +24,7 @@ export const GENERAL_FAQ: Faq[] = [
   },
   {
     q: 'What’s the difference between Lite and Pro?',
-    a: 'Lite covers the essentials: chat and video calls, app-to-SMS messaging and unlimited app-to-app calls. Pro adds broadcast messages, call recording, voicemail with a custom greeting, call forwarding, group calls and anonymous caller ID. Both plans start with a free trial.',
+    a: 'Lite covers the essentials: chat and video calls, texting to any number and unlimited app-to-app calls. Pro adds broadcast messages, call recording, voicemail with a custom greeting, call forwarding, group calls, creating group chats and anonymous caller ID. Both plans start with a free trial.',
   },
   {
     q: 'How do I cancel my subscription?',
@@ -36,7 +36,7 @@ export const GENERAL_FAQ: Faq[] = [
   },
   {
     q: 'What happens to my contacts?',
-    a: 'Sharing contacts is optional. If you allow it, names and numbers are used only to show which of your contacts already use the app, then deleted. They are never kept, shared or sold.',
+    a: 'Sharing contacts is optional. If you allow it, names and numbers are sent to our servers only to show which of your contacts already use the app. They are never shared or sold.',
   },
   {
     q: 'Can I hide my number when I call?',

@@ -13,6 +13,9 @@ const nextConfig: NextConfig = {
       { source: '/download', destination: '/', permanent: false },
       { source: '/features/web-app', destination: '/features', permanent: false },
       { source: '/blog/call-and-text-from-your-computer', destination: '/blog', permanent: false },
+      // The iPhone app links to these (Remote Config terms/privacy URLs).
+      { source: '/terms.html', destination: '/terms', permanent: true },
+      { source: '/privacy.html', destination: '/privacy', permanent: true },
     ];
   },
 };

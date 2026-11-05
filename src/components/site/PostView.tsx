@@ -23,7 +23,8 @@ export default function PostView({ p, preview }: { p: Post; preview?: string }) 
     '@context': 'https://schema.org', '@type': 'BlogPosting',
     headline: p.title, description: p.excerpt, image: p.image?.url,
     datePublished: p.publishedAt, dateModified: p.updatedAt,
-    author: p.author ? { '@type': 'Person', name: p.author.name, jobTitle: p.author.role ?? undefined } : { '@type': 'Organization', name: BRAND },
+    // A named person is a Person; "… Team" bylines are the organisation itself.
+    author: p.author && !/\bteam\b/i.test(p.author.name) ? { '@type': 'Person', name: p.author.name, jobTitle: p.author.role ?? undefined } : { '@type': 'Organization', name: p.author?.name || BRAND },
     publisher: { '@type': 'Organization', name: BRAND },
     mainEntityOfPage: abs(`/blog/${p.slug}`),
   };

@@ -1,6 +1,6 @@
 import type { Metadata } from 'next';
 
-export const metadata: Metadata = { title: 'Terms of Use — Wi-Fi Calling and Texting', description: 'The terms that govern your access to and use of Wi-Fi Calling and Texting.' };
+export const metadata: Metadata = { title: 'Terms of Use', description: 'The terms that govern your access to and use of Wi-Fi Calling & Texting.' };
 
 export default function TermsPage() {
   return (
@@ -13,7 +13,7 @@ export default function TermsPage() {
     </nav>
     <span className="label">Terms of Use</span>
     <h1>The agreement for using the service.</h1>
-    <p>The terms that govern your access to and use of Wi-Fi Calling and Texting.</p>
+    <p>The terms that govern your access to and use of Wi-Fi Calling &amp; Texting.</p>
   </div>
 </section>
 
@@ -22,8 +22,8 @@ export default function TermsPage() {
   <div className="wrap">
     <div className="prose">
       <p className="lead-note">
-        These Terms of Use govern your access to and use of Wi-Fi Calling and Texting (the “Service”),
-        provided by Wi-Fi Calling and Texting. By creating an account or using the Service, you agree to these Terms.
+        These Terms of Use govern your access to and use of Wi-Fi Calling &amp; Texting (the “Service”),
+        provided by Wi-Fi Calling &amp; Texting. By creating an account or using the Service, you agree to these Terms.
       </p>
 
       <h3>1. Eligibility</h3>

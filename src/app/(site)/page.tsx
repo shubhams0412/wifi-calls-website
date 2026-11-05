@@ -17,10 +17,10 @@ export default async function HomePage() {
 <section className="hero">
   <HeroSignal />
   <div className="wrap hero-inner">
-    <span className="appicon" role="img" aria-label="Wi-Fi Calling and Texting app icon"></span>
+    <span className="appicon" role="img" aria-label="Wi-Fi Calling & Texting app icon"></span>
     <h1>Free calls and texts, over any Wi-Fi.</h1>
     <p className="lede">
-      Wi-Fi Calling and Texting gives you a private phone number and free app-to-app
+      Wi-Fi Calling &amp; Texting gives you a private phone number and free app-to-app
       calling and messaging on any Wi-Fi or data connection — no extra SIM, no carrier plan.
     </p>
     <div className="trust">
@@ -52,7 +52,7 @@ export default async function HomePage() {
       <div className="fcard">
         <span className="ic" aria-hidden="true"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect x="5" y="2" width="14" height="20" rx="2.5"/><path d="M11 18h2"/></svg></span>
         <h3>Your private number</h3>
-        <p>Get a dedicated virtual phone number to share and keep your personal line private. Reachable without a second SIM.</p>
+        <p>Get a dedicated US or Canadian number to share and keep your personal line private. Reachable without a second SIM.</p>
       </div>
       <div className="fcard">
         <span className="ic" aria-hidden="true"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M21 11.5a8.4 8.4 0 0 1-9 8.4 8.9 8.9 0 0 1-4-.9L3 20l1-4a8.4 8.4 0 0 1-1-4A8.4 8.4 0 0 1 11.5 3h.5a8.4 8.4 0 0 1 9 8v.5z"/></svg></span>
@@ -83,12 +83,12 @@ export default async function HomePage() {
       <div className="step">
         <div className="num">1</div>
         <h3>Create your account</h3>
-        <p>Sign up for Wi-Fi Calling and Texting with your phone number in seconds.</p>
+        <p>Sign up for Wi-Fi Calling &amp; Texting with your phone number in seconds.</p>
       </div>
       <div className="step">
         <div className="num">2</div>
         <h3>Get your number</h3>
-        <p>Pick up a private virtual phone number that's yours to call and text from.</p>
+        <p>Pick a private US or Canadian number that's yours to call and text from.</p>
       </div>
       <div className="step">
         <div className="num">3</div>
@@ -129,7 +129,7 @@ export default async function HomePage() {
 {/* ===================== PLANS ===================== */}
 <section className="band" id="plans">
   <div className="wrap">
-    <SectionHead label="Plans" title="Start free, upgrade when you need more" sub="Lite covers the essentials. Pro adds call recording, voicemail, forwarding, broadcasts, group calls and anonymous calling." />
+    <SectionHead label="Plans" title="Two plans, upgrade when you need more" sub="Lite covers the essentials. Pro adds call recording, voicemail, forwarding, broadcasts, group calls, group chats and anonymous calling." />
     <div className="home-plans">
       <Link className="btn btn-primary" href="/plans">Compare Lite and Pro</Link>
     </div>

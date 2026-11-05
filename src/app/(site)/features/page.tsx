@@ -15,14 +15,14 @@ export default function FeaturesPage() {
     <>
       <PageHero crumbs={[{ href: '/', label: 'Home' }, { label: 'Features' }]} eyebrow="Features" icon="sparkles"
         title="Everything you need in a second phone number"
-        intro="A private number, free calls and chat between app users, texting to any number and the call tools you'd expect — on iPhone and the web." />
+        intro="A private number, free calls and chat between app users, texting to any number and the call tools you'd expect — all on your iPhone." />
       {groups.map((g, i) => {
         const items = FEATURES.filter((f) => f.group === g);
         if (!items.length) return null;
         return (
           <section className={'band' + (i % 2 ? ' alt' : '')} key={g}>
             <div className="wrap">
-              <SectionHead label={FEATURE_GROUPS[g]} title={FEATURE_GROUPS[g]} />
+              <SectionHead title={FEATURE_GROUPS[g]} />
               <LinkCards items={items.map((f) => ({ href: `/features/${f.slug}`, icon: f.icon, title: f.name, text: f.short, badge: f.pro ? 'Pro' : undefined }))} />
             </div>
           </section>

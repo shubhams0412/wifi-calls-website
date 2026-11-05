@@ -1,6 +1,6 @@
 import type { Metadata } from 'next';
 
-export const metadata: Metadata = { title: 'Privacy Policy — Wi-Fi Calling and Texting', description: 'How Wi-Fi Calling and Texting collects, uses, and protects your personal information.' };
+export const metadata: Metadata = { title: 'Privacy Policy', description: 'How Wi-Fi Calling & Texting collects, uses, and protects your personal information.' };
 
 export default function PrivacyPage() {
   return (
@@ -22,11 +22,11 @@ export default function PrivacyPage() {
   <div className="wrap">
     <div className="prose">
       <p className="lead-note">
-        At Wi-Fi Calling and Texting, we believe your privacy is important. We are committed to
+        At Wi-Fi Calling &amp; Texting, we believe your privacy is important. We are committed to
         protecting your personal information and collecting only the data necessary to provide our
         services. This Privacy Policy explains what information we collect, why we collect it, how we
         use it, and the choices you have regarding your data. It applies to all products and services
-        provided through Wi-Fi Calling and Texting.
+        provided through Wi-Fi Calling &amp; Texting.
       </p>
 
       <h3>Information Collection</h3>
@@ -54,7 +54,7 @@ export default function PrivacyPage() {
       <p>We may collect approximate location derived from your IP address to improve service quality, detect fraudulent activity, comply with legal requirements, and enhance network performance. We do not continuously track your precise GPS location unless you explicitly grant permission for a feature requiring it.</p>
 
       <h4>Contacts</h4>
-      <p>With your explicit permission, the app may access your device contacts to help identify friends or other registered users. We do not store your contacts on our servers. Contact information is processed locally whenever possible, used only to identify registered users, never sold, and never shared for advertising. You can revoke this permission at any time through your device settings.</p>
+      <p>With your explicit permission, the app may access your device contacts to help identify friends or other registered users. To do this, the app sends your contacts’ names and phone numbers to our servers, where they are matched against registered users. This information is used only to find and show your friends on the app, is never sold, and is never shared for advertising. You can revoke this permission at any time through your device settings.</p>
 
       <h4>Phone, SMS, Microphone &amp; Camera Permissions</h4>
       <ul>
@@ -102,7 +102,7 @@ export default function PrivacyPage() {
       <p>Depending on your location, you may have the right to access, correct, or delete your personal information; restrict processing; withdraw consent; object to certain processing; and request a copy of your information where applicable. To exercise these rights, contact us using the details on our <a href="/#contact">Contact</a> page.</p>
 
       <h3>Children's Privacy</h3>
-      <p>Wi-Fi Calling and Texting is not intended for children under the age required by applicable law. We do not knowingly collect personal information from children; if we become aware such information has been collected, we will promptly delete it.</p>
+      <p>Wi-Fi Calling &amp; Texting is not intended for children under the age required by applicable law. We do not knowingly collect personal information from children; if we become aware such information has been collected, we will promptly delete it.</p>
 
       <h3>Third-Party Services</h3>
       <p>Our app may integrate third-party services such as payment providers, analytics providers, cloud hosting, crash reporting, and communication infrastructure providers. These services operate under their own privacy policies.</p>

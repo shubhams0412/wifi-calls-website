@@ -19,15 +19,15 @@ export default async function CallCountryPage({ params }: { params: Promise<{ sl
   const others = CALL_COUNTRIES.filter((o) => o.slug !== c.slug).slice(0, 6);
   return (
     <>
-      <PageHero crumbs={[{ href: '/', label: 'Home' }, { href: '/international-calling', label: 'International calling' }, { label: c.name }]}
+      <PageHero crumbs={[{ href: '/', label: 'Home' }, { href: '/international-calling', label: 'International calling' }, { label: c.name.replace(/^the /, '') }]}
         eyebrow={<><span aria-hidden="true">{c.flag}</span> Country code {c.dial}</>} title={c.title} intro={c.intro}>
       </PageHero>
       <section className="band"><div className="wrap">
         <div className="x-dial">
-          <div><span className="label">Number format</span><b className="mono">{c.example}</b><p>Country code {c.dial}, then the local number without the leading 0.</p></div>
+          <div><span className="label">Number format</span><b className="mono">{c.example}</b><p>{c.dial === '+1' ? 'Country code +1, then the 3-digit area code and 7-digit number.' : `Country code ${c.dial}, then the local number without the leading 0.`}</p></div>
         </div>
         <SectionHead label="How to call" title={`Calling ${c.name} from the app`} />
-        <Steps steps={[`Open Dial and tap the country button, then choose ${c.name} (${c.dial}).`, 'Type the number without the leading 0 — or pick a saved contact.', 'Tap call. If they also have the app, use App Calls instead — it’s free.']} />
+        <Steps steps={[`Open Dial and tap the country button, then choose ${c.name} (${c.dial}).`, c.dial === '+1' ? 'Type the 10-digit number — or pick a saved contact.' : 'Type the number without the leading 0 — or pick a saved contact.', 'Tap call. If they also have the app, use App Calls instead — it’s free.']} />
       </div></section>
       <section className="band alt"><div className="wrap">
         <SectionHead label="Tips" title={`Good to know when calling ${c.name}`} />
